@@ -1,0 +1,673 @@
+[
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "cron",
+      "source": "/etc/crontab",
+      "entry": "SHELL=/bin/sh"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "cron",
+      "source": "/etc/crontab",
+      "entry": "17 *\t* * *\troot\tcd / && run-parts --report /etc/cron.hourly"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "cron",
+      "source": "/etc/crontab",
+      "entry": "25 6\t* * *\troot\ttest -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.daily; }"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "cron",
+      "source": "/etc/crontab",
+      "entry": "47 6\t* * 7\troot\ttest -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.weekly; }"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "cron",
+      "source": "/etc/crontab",
+      "entry": "52 6\t1 * *\troot\ttest -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.monthly; }"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "cron",
+      "source": "/etc/cron.d/e2scrub_all",
+      "entry": "30 3 * * 0 root test -e /run/systemd/system || SERVICE_MODE=1 /usr/libexec/e2fsprogs/e2scrub_all_cron"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "cron",
+      "source": "/etc/cron.d/e2scrub_all",
+      "entry": "10 3 * * * root test -e /run/systemd/system || SERVICE_MODE=1 /sbin/e2scrub_all -A -r"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "apparmor.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "apport.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "audit-rules.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "auditd.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "blk-availability.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "chrony.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "cloud-config.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "cloud-final.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "cloud-init-local.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "cloud-init-main.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "cloud-init-network.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "console-setup.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "cron.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "dmesg.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "e2scrub_reap.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "finalrd.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "getty@.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "gpu-manager.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "grub-initrd-fallback.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "grub2-common.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "kdump-tools.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "keyboard-setup.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "lvm2-monitor.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "ModemManager.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "multipathd.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "netplan-configure.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "networkd-dispatcher.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "open-iscsi.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "open-vm-tools.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "pollinate.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "rsyslog.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "secureboot-db.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "setvtrgb.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "snapd.apparmor.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "snapd.autoimport.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "snapd.core-fixup.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "snapd.recovery-chooser-trigger.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "snapd.seeded.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "snapd.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "snapd.system-shutdown.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "sshd-keygen.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "sysstat.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "systemd-networkd-wait-online.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "systemd-networkd.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "systemd-pstore.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "systemd-resolved.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "thermald.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "ua-reboot-cmds.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "ubuntu-advantage.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "udisks2.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "ufw.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "unattended-upgrades.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "vgauth.service",
+      "state": "enabled"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "systemd_service",
+      "unit": "53",
+      "state": "unit"
+    }
+  }
+]

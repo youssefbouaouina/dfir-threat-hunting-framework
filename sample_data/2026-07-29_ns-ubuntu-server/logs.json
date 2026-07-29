@@ -1,0 +1,2613 @@
+[
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785206422384739"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785206422421033"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785206422421180"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785207022384279"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785207022420357"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785207022420847"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785207622393341"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785207622484514"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785207622486504"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting fwupd-refresh.service - Refresh fwupd metadata and update motd...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785207742393516"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "fwupd-refresh.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785207742571408"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished fwupd-refresh.service - Refresh fwupd metadata and update motd.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785207742572073"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)",
+      "unit": "cron.service",
+      "pid": "2269",
+      "priority": "6",
+      "timestamp_us": "1785208201038776"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "(root) CMD (test -e /run/systemd/system || SERVICE_MODE=1 /sbin/e2scrub_all -A -r)",
+      "unit": null,
+      "pid": "2271",
+      "priority": "6",
+      "timestamp_us": "1785208201069594"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "pam_unix(cron:session): session closed for user root",
+      "unit": "cron.service",
+      "pid": "2269",
+      "priority": "6",
+      "timestamp_us": "1785208201070503"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785208222394431"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785208222487179"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785208222488465"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)",
+      "unit": "cron.service",
+      "pid": "2279",
+      "priority": "6",
+      "timestamp_us": "1785208621069010"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "(root) CMD (cd / && run-parts --report /etc/cron.hourly)",
+      "unit": null,
+      "pid": "2281",
+      "priority": "6",
+      "timestamp_us": "1785208621102192"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "pam_unix(cron:session): session closed for user root",
+      "unit": "cron.service",
+      "pid": "2279",
+      "priority": "6",
+      "timestamp_us": "1785208621102660"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785208822392001"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785208822477790"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785208822479386"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785209422393688"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785209422497719"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785209422499453"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785210022391824"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785210022473146"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785210022474593"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Clock change detected. Flushing caches.",
+      "unit": "systemd-resolved.service",
+      "pid": "1002",
+      "priority": "6",
+      "timestamp_us": "1785214063405768"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting fwupd-refresh.service - Refresh fwupd metadata and update motd...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214063440873"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214063573033"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214064191699"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214064192798"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "fwupd-refresh.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214064193361"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished fwupd-refresh.service - Refresh fwupd metadata and update motd.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214064193766"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "e1000: ens37 NIC Link is Down",
+      "unit": null,
+      "pid": null,
+      "priority": "6",
+      "timestamp_us": "1785214065691063"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "ens37: Lost carrier",
+      "unit": "systemd-networkd.service",
+      "pid": "1260",
+      "priority": "6",
+      "timestamp_us": "1785214065691255"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "ens37: DHCP lease lost",
+      "unit": "systemd-networkd.service",
+      "pid": "1260",
+      "priority": "6",
+      "timestamp_us": "1785214065700221"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "e1000: ens37 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: None",
+      "unit": null,
+      "pid": null,
+      "priority": "6",
+      "timestamp_us": "1785214069752083"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "ens37: Gained carrier",
+      "unit": "systemd-networkd.service",
+      "pid": "1260",
+      "priority": "6",
+      "timestamp_us": "1785214069767439"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "ens37: DHCPv4 address 192.168.102.129/24, gateway 192.168.102.2 acquired from 192.168.102.254",
+      "unit": "systemd-networkd.service",
+      "pid": "1260",
+      "priority": "6",
+      "timestamp_us": "1785214069828747"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Forward time jump detected!",
+      "unit": "chrony.service",
+      "pid": "1528",
+      "priority": "4",
+      "timestamp_us": "1785214069845681"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Can't synchronise: no selectable sources (0 unreachable sources)",
+      "unit": "chrony.service",
+      "pid": "1528",
+      "priority": "4",
+      "timestamp_us": "1785214069847155"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Selected source 185.125.190.122 (1.ntp.ubuntu.com)",
+      "unit": "chrony.service",
+      "pid": "1528",
+      "priority": "6",
+      "timestamp_us": "1785214200131197"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "System clock wrong by 1.683868 seconds",
+      "unit": "chrony.service",
+      "pid": "1528",
+      "priority": "4",
+      "timestamp_us": "1785214200132597"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214222396765"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214222561724"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214222562158"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "watchdog: BUG: soft lockup - CPU#0 stuck for 32s! [swapper/0:0]",
+      "unit": null,
+      "pid": null,
+      "priority": "0",
+      "timestamp_us": "1785214433615076"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Modules linked in: intel_rapl_msr intel_rapl_common intel_uncore_frequency_common intel_pmc_core pmt_telemetry pmt_discovery pmt_class intel_pmc_ssram_telemetry intel_vsec rapl vmw_balloon snd_ens1371 snd_ac97_codec gameport snd_rawmidi snd_seq_device ac97_bus snd_pcm snd_timer snd soundcore qrtr cfg80211 binfmt_misc i2c_piix4 i2c_smbus joydev input_leds mac_hid sch_fq_codel vmwgfx drm_ttm_helper efi_pstore ttm dm_multipath nfnetlink vmw_vsock_vmci_transport vsock vmw_vmci hid_generic ghash_clmulni_intel psmouse usbhid hid ahci e1000 libahci mptspi scsi_transport_spi mptscsih mptbase pata_acpi serio_raw dm_mirror dm_region_hash dm_log msr dmi_sysfs autofs4 aesni_intel",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433649947"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "get tty for session '1' failed with [61]:No data available  [v8.2512.0]",
+      "unit": "rsyslog.service",
+      "pid": "1532",
+      "priority": "3",
+      "timestamp_us": "1785214433650240"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "rsyslogd: get tty for session '1' failed with [61]:No data available  [v8.2512.0]",
+      "unit": "rsyslog.service",
+      "pid": "1532",
+      "priority": "6",
+      "timestamp_us": "1785214433651885"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "rsyslogd: get tty for session '2' failed with [61]:No data available  [v8.2512.0]",
+      "unit": "rsyslog.service",
+      "pid": "1532",
+      "priority": "6",
+      "timestamp_us": "1785214433651885"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.0.0-28-generic #28-Ubuntu PREEMPT(lazy) ",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433652430"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "get tty for session '2' failed with [61]:No data available  [v8.2512.0]",
+      "unit": "rsyslog.service",
+      "pid": "1532",
+      "priority": "3",
+      "timestamp_us": "1785214433652535"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433652857"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "RIP: 0010:_raw_spin_unlock_irq+0x15/0x50",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433652916"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Code: 00 00 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 44 00 00 55 48 89 e5 c6 07 00 0f 1f 00 fb 0f 1f 44 00 00 <65> ff 0d e4 64 ce 01 74 10 5d 31 c0 31 d2 31 c9 31 f6 31 ff e9 c2",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433652966"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "RSP: 0018:ffffd4c6c0003db8 EFLAGS: 00000246",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653016"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "RAX: 0000000000000000 RBX: ffff8cf777e9f580 RCX: 0000000000000000",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653081"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff8cf777e9f580",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653134"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "RBP: ffffd4c6c0003db8 R08: 0000000000000000 R09: 0000000000000000",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653182"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653293"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "R13: 00000757ce424a00 R14: 00000757ce424a00 R15: 0000000100769d8c",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653370"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "FS:  0000000000000000(0000) GS:ffff8cf7e8dff000(0000) knlGS:0000000000000000",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653426"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653480"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "CR2: 00007e3538e00010 CR3: 0000000110882002 CR4: 00000000003706f0",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653532"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Call Trace:",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653639"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " <IRQ>",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653716"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " timer_expire_remote+0x5a/0x90",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653772"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " tmigr_handle_remote_cpu+0x10e/0x270",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653826"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " tmigr_handle_remote_up+0x115/0x160",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653880"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " tmigr_handle_remote+0xd5/0x140",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653932"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " run_timer_softirq+0xeb/0x100",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433653979"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " handle_softirqs+0xe1/0x360",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654019"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " __irq_exit_rcu+0x100/0x120",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654057"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " irq_exit_rcu+0xe/0x20",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654092"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " sysvec_apic_timer_interrupt+0x9f/0xd0",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654137"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " </IRQ>",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654164"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " <TASK>",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654200"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " ? tick_program_event+0x3e/0xa0",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654236"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " asm_sysvec_apic_timer_interrupt+0x1b/0x20",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654273"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "RIP: 0010:pv_native_safe_halt+0xb/0x10",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654309"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Code: 20 d0 e9 98 4c 01 00 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 66 90 0f 00 2d a9 db 0e 00 fb f4 <c3> cc cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654338"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "RSP: 0018:ffffffff8e603de8 EFLAGS: 00000246",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654381"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654415"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654456"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "RBP: ffffffff8e603df0 R08: 0000000000000000 R09: 0000000000000000",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654490"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff8e6134c0",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654521"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "R13: 0000000000000000 R14: ffffffff8f02f480 R15: 0000000000000000",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654559"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " ? default_idle+0x9/0x30",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654778"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " arch_cpu_idle+0x9/0x10",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654825"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " default_idle_call+0x2f/0x130",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654859"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " cpuidle_idle_call+0x114/0x1f0",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654894"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " do_idle+0x94/0xf0",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654925"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " cpu_startup_entry+0x29/0x30",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433654967"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " rest_init+0xef/0xf0",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433655000"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " start_kernel+0x4b4/0x4c0",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433655030"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " x86_64_start_reservations+0x24/0x30",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433655055"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " x86_64_start_kernel+0x134/0x140",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433655088"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " common_startup_64+0x13e/0x141",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433655123"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " </TASK>",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785214433655153"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214809526065"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214809632939"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785214809633516"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785215409522510"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785215409642543"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785215409643343"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)",
+      "unit": "cron.service",
+      "pid": "2348",
+      "priority": "6",
+      "timestamp_us": "1785215821954953"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "(root) CMD (cd / && run-parts --report /etc/cron.hourly)",
+      "unit": "cron.service",
+      "pid": "2350",
+      "priority": "6",
+      "timestamp_us": "1785215821961044"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "pam_unix(cron:session): session closed for user root",
+      "unit": "cron.service",
+      "pid": "2348",
+      "priority": "6",
+      "timestamp_us": "1785215821973371"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785216009521568"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785216009667358"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785216009667682"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785216609528198"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785216609662401"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785216609663236"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785217209518900"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785217209658398"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785217209659447"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting fwupd-refresh.service - Refresh fwupd metadata and update motd...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785217749528304"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "fwupd-refresh.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785217749734003"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished fwupd-refresh.service - Refresh fwupd metadata and update motd.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785217749734177"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Forward time jump detected!",
+      "unit": "chrony.service",
+      "pid": "1528",
+      "priority": "4",
+      "timestamp_us": "1785300089592567"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Can't synchronise: no selectable sources (0 unreachable sources)",
+      "unit": "chrony.service",
+      "pid": "1528",
+      "priority": "4",
+      "timestamp_us": "1785300089594978"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting apt-daily.service - Daily apt download activities...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300089702490"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "e1000: ens37 NIC Link is Down",
+      "unit": null,
+      "pid": null,
+      "priority": "6",
+      "timestamp_us": "1785300089703570"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Clock change detected. Flushing caches.",
+      "unit": "systemd-resolved.service",
+      "pid": "1002",
+      "priority": "6",
+      "timestamp_us": "1785300089705369"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "ens37: Lost carrier",
+      "unit": "systemd-networkd.service",
+      "pid": "1260",
+      "priority": "6",
+      "timestamp_us": "1785300089729630"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "ens37: DHCP lease lost",
+      "unit": "systemd-networkd.service",
+      "pid": "1260",
+      "priority": "6",
+      "timestamp_us": "1785300089876197"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting dpkg-db-backup.service - Daily dpkg database backup service...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300089876349"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting fwupd-refresh.service - Refresh fwupd metadata and update motd...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300089920487"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting motd-news.service - Message of the Day...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300090038650"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300090266130"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-rotate.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300090266576"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-summary.service - Generate a daily summary of process accounting...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300090482317"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting logrotate.service - Rotate log files...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300090803187"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "hrtimer: interrupt took 15848129 ns",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785300090989488"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300091578289"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300091605049"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-rotate.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300092174478"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-rotate.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300092231961"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "logrotate.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300092710860"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished logrotate.service - Rotate log files.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300092711105"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-summary.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300092735988"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-summary.service - Generate a daily summary of process accounting.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300092741896"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Updating lvfs",
+      "unit": "fwupd-refresh.service",
+      "pid": "2386",
+      "priority": "6",
+      "timestamp_us": "1785300093048910"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "fwupd-refresh.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300093075488"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished fwupd-refresh.service - Refresh fwupd metadata and update motd.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300093077707"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "dpkg-db-backup.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300095197424"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished dpkg-db-backup.service - Daily dpkg database backup service.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300095198271"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting apt-news.service - Update APT News...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300095727567"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting esm-cache.service - Update the local ESM caches...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300095751819"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "[\"2026-07-29T04:41:37.797\", \"WARNING\", \"ubuntupro.apt\", \"fail\", 985, \"Failed to fetch ESM Apt Cache item: https://esm.ubuntu.com/apps/ubuntu/dists/resolute-apps-security/InRelease\", {}]",
+      "unit": "esm-cache.service",
+      "pid": "2544",
+      "priority": "6",
+      "timestamp_us": "1785300097799048"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "[\"2026-07-29T04:41:37.800\", \"WARNING\", \"ubuntupro.apt\", \"fail\", 985, \"Failed to fetch ESM Apt Cache item: https://esm.ubuntu.com/apps/ubuntu/dists/resolute-apps-updates/InRelease\", {}]",
+      "unit": "esm-cache.service",
+      "pid": "2544",
+      "priority": "6",
+      "timestamp_us": "1785300097801414"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "e1000: ens37 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: None",
+      "unit": null,
+      "pid": null,
+      "priority": "6",
+      "timestamp_us": "1785300097802912"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "ens37: Gained carrier",
+      "unit": "systemd-networkd.service",
+      "pid": "1260",
+      "priority": "6",
+      "timestamp_us": "1785300097803006"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "ens37: DHCPv4 address 192.168.102.129/24, gateway 192.168.102.2 acquired from 192.168.102.254",
+      "unit": "systemd-networkd.service",
+      "pid": "1260",
+      "priority": "6",
+      "timestamp_us": "1785300097848922"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "apt-news.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300099981780"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished apt-news.service - Update APT News.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300099982395"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": " * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s",
+      "unit": "motd-news.service",
+      "pid": "2574",
+      "priority": "6",
+      "timestamp_us": "1785300100803089"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "   just raised the bar for easy, resilient and secure K8s cluster deployment.",
+      "unit": "motd-news.service",
+      "pid": "2574",
+      "priority": "6",
+      "timestamp_us": "1785300100803089"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "   https://ubuntu.com/engage/secure-kubernetes-at-the-edge",
+      "unit": "motd-news.service",
+      "pid": "2574",
+      "priority": "6",
+      "timestamp_us": "1785300100803089"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "motd-news.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300100816887"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished motd-news.service - Message of the Day.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300100834504"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "motd-news.service: Consumed 1.805s CPU time over 10.796s wall clock time, 36.1M memory peak.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300100834745"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "[system] Activating via systemd: service name='org.freedesktop.PackageKit' unit='packagekit.service' requested by ':1.25' (uid=0 pid=2607 comm=\"/usr/bin/gdbus call --system --dest org.freedeskto\" label=\"unconfined\")",
+      "unit": "dbus.service",
+      "pid": "1418",
+      "priority": "6",
+      "timestamp_us": "1785300103552675"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting packagekit.service - PackageKit Daemon...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300103589772"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "esm-cache.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300103653485"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished esm-cache.service - Update the local ESM caches.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300103654233"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "daemon start",
+      "unit": "packagekit.service",
+      "pid": "2611",
+      "priority": "7",
+      "timestamp_us": "1785300103804422"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "[system] Successfully activated service 'org.freedesktop.PackageKit'",
+      "unit": "dbus.service",
+      "pid": "1418",
+      "priority": "6",
+      "timestamp_us": "1785300104889338"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Started packagekit.service - PackageKit Daemon.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300104890287"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "workqueue: e1000_watchdog [e1000] hogged CPU for >10000us 4 times, consider switching to WQ_UNBOUND",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785300110112203"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "apt-daily.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300127624634"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished apt-daily.service - Daily apt download activities.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300127625232"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "apt-daily.service: Consumed 15.538s CPU time over 38.005s wall clock time, 438.2M memory peak.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300127625576"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting apt-daily-upgrade.service - Daily apt upgrade and clean activities...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300127630192"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "apt-daily-upgrade.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300130832803"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished apt-daily-upgrade.service - Daily apt upgrade and clean activities.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300130833430"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "apt-daily-upgrade.service: Consumed 2.955s CPU time over 3.203s wall clock time, 51.3M memory peak.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300130834357"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "workqueue: e1000_watchdog [e1000] hogged CPU for >10000us 5 times, consider switching to WQ_UNBOUND",
+      "unit": null,
+      "pid": null,
+      "priority": "4",
+      "timestamp_us": "1785300241224584"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "daemon quit",
+      "unit": "packagekit.service",
+      "pid": "2611",
+      "priority": "7",
+      "timestamp_us": "1785300409739569"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "packagekit.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300409772592"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Selected source 185.125.190.122 (1.ntp.ubuntu.com)",
+      "unit": "chrony.service",
+      "pid": "1528",
+      "priority": "6",
+      "timestamp_us": "1785300477995364"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "System clock wrong by 2.238379 seconds",
+      "unit": "chrony.service",
+      "pid": "1528",
+      "priority": "4",
+      "timestamp_us": "1785300477996121"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Accepted password for youssef from 192.168.50.1 port 65053 ssh2",
+      "unit": "ssh.service",
+      "pid": "2901",
+      "priority": "6",
+      "timestamp_us": "1785300561937169"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "pam_unix(sshd:session): session opened for user youssef(uid=1000) by youssef(uid=0)",
+      "unit": "ssh.service",
+      "pid": "2901",
+      "priority": "6",
+      "timestamp_us": "1785300561940047"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "New session '7' of user 'youssef' with class 'user' and type 'tty'.",
+      "unit": "systemd-logind.service",
+      "pid": "1445",
+      "priority": "6",
+      "timestamp_us": "1785300561943054"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Started session-7.scope - Session 7 of User youssef.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300561965751"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300603034082"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300603147217"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785300603147321"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Starting sysstat-collect.service - system activity accounting tool...",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785301206130393"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "sysstat-collect.service: Deactivated successfully.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785301206181112"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "Finished sysstat-collect.service - system activity accounting tool.",
+      "unit": "init.scope",
+      "pid": "1",
+      "priority": "6",
+      "timestamp_us": "1785301206181328"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "pam_unix(sudo:session): session opened for user root(uid=0) by youssef(uid=1000)",
+      "unit": "session-7.scope",
+      "pid": "3343",
+      "priority": "6",
+      "timestamp_us": "1785301540525802"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "log_event",
+    "data": {
+      "message": "youssef : TTY=/dev/pts/1 ; PWD=/home/youssef/collector ; USER=root ; COMMAND=/home/youssef/collector/venv/bin/python collector_agent.py",
+      "unit": "session-7.scope",
+      "pid": "3343",
+      "priority": "6",
+      "timestamp_us": "1785301540527076"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:42Z",
+    "artifact_type": "log_event",
+    "data": {
+      "source": "auditd",
+      "key": "exec_tracking",
+      "raw": "_fver=0 cap_frootid=0\ntype=CWD msg=audit(1785301541.816:3289): cwd=\"/home/youssef/collector\"\ntype=SYSCALL msg=audit(1785301541.816:3289): arch=c000003e syscall=59 success=no exit=-2 a0=7e050e65dad0 a1=7e050e6652c0 a2=7ffe08e02e40 a3=8 items=1 ppid=3347 pid=3350 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts2 ses=7 comm=\"python\" exe=\"/usr/bin/python3.14\" subj=unconfined key=\"exec_tracking\"\n----\ntime->Wed Jul 29 05:05:41 2026\ntype=PROCTITLE msg=audit(1785301541.816:3290): proctitle=76656E762F62696E2F707974686F6E00636F6C6C6563746F725F6167656E742E7079\ntype=PATH msg=audit(1785301541.816:3290): item=1 name=\"/lib64/ld-linux-x86-64.so.2\" inode=1195 dev=fc:00 mode=0100755 ouid=0 ogid=0 rdev=00:00 nametype=NORMAL cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0\ntype=PATH msg=audit(1785301541.816:3290): item=0 name=\"/usr/bin/journalctl\" inode=684 dev=fc:00 mode=0100755 ouid=0 ogid=0 rdev=00:00 nametype=NORMAL cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0\ntype=CWD msg=audit(1785301541.816:3290): cwd=\"/home/youssef/collector\"\ntype=EXECVE msg=audit(1785301541.816:3290): argc=5 a0=\"journalctl\" a1=\"-o\" a2=\"json\" a3=\"-n\" a4=\"200\"\ntype=SYSCALL msg=audit(1785301541.816:3290): arch=c000003e syscall=59 success=yes exit=0 a0=7e050e65d890 a1=7e050e6652c0 a2=7ffe08e02e40 a3=8 items=2 ppid=3347 pid=3350 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts2 ses=7 comm=\"journalctl\" exe=\"/usr/bin/journalctl\" subj=unconfined key=\"exec_tracking\"\n----\ntime->Wed Jul 29 05:05:41 2026\ntype=PROCTITLE msg=audit(1785301541.834:3291): proctitle=76656E762F62696E2F707974686F6E00636F6C6C6563746F725F6167656E742E7079\ntype=PATH msg=audit(1785301541.834:3291): item=0 name=\"/usr/local/sbin/ausearch\" nametype=UNKNOWN cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0\ntype=CWD msg=audit(1785301541.834:3291): cwd=\"/home/youssef/collector\"\ntype=SYSCALL msg=audit(1785301541.834:3291): arch=c000003e syscall=59 success=no exit=-2 a0=7e050e5dbe50 a1=7e050e667930 a2=7ffe08e02e40 a3=8 items=1 ppid=3347 pid=3351 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts2 ses=7 comm=\"python\" exe=\"/usr/bin/python3.14\" subj=unconfined key=\"exec_tracking\"\n----\ntime->Wed Jul 29 05:05:41 2026\ntype=PROCTITLE msg=audit(1785301541.834:3292): proctitle=76656E762F62696E2F707974686F6E00636F6C6C6563746F725F6167656E742E7079\ntype=PATH msg=audit(1785301541.834:3292): item=0 name=\"/usr/local/bin/ausearch\" nametype=UNKNOWN cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0\ntype=CWD msg=audit(1785301541.834:3292): cwd=\"/home/youssef/collector\"\ntype=SYSCALL msg=audit(1785301541.834:3292): arch=c000003e syscall=59 success=no exit=-2 a0=7e050e65d810 a1=7e050e667930 a2=7ffe08e02e40 a3=8 items=1 ppid=3347 pid=3351 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts2 ses=7 comm=\"python\" exe=\"/usr/bin/python3.14\" subj=unconfined key=\"exec_tracking\"\n----\ntime->Wed Jul 29 05:05:41 2026\ntype=PROCTITLE msg=audit(1785301541.834:3293): proctitle=76656E762F62696E2F707974686F6E00636F6C6C6563746F725F6167656E742E7079\ntype=PATH msg=audit(1785301541.834:3293): item=1 name=\"/lib64/ld-linux-x86-64.so.2\" inode=1195 dev=fc:00 mode=0100755 ouid=0 ogid=0 rdev=00:00 nametype=NORMAL cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0\ntype=PATH msg=audit(1785301541.834:3293): item=0 name=\"/usr/sbin/ausearch\" inode=2026 dev=fc:00 mode=0100755 ouid=0 ogid=0 rdev=00:00 nametype=NORMAL cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0\ntype=CWD msg=audit(1785301541.834:3293): cwd=\"/home/youssef/collector\"\ntype=EXECVE msg=audit(1785301541.834:3293): argc=5 a0=\"ausearch\" a1=\"-k\" a2=\"exec_tracking\" a3=\"-ts\" a4=\"recent\"\ntype=SYSCALL msg=audit(1785301541.834:3293): arch=c000003e syscall=59 success=yes exit=0 a0=7e050e65d910 a1=7e050e667930 a2=7ffe08e02e40 a3=8 items=2 ppid=3347 pid=3351 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts2 ses=7 comm=\"ausearch\" exe=\"/usr/sbin/ausearch\" subj=unconfined key=\"exec_tracking\"\n"
+    }
+  }
+]
