@@ -1,0 +1,2788 @@
+[
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\OneDrive Reporting Task-S-1-5-21-480871066-3070460881-805627656-1000",
+      "status": "Ready",
+      "next_run_time": "7/30/2026 2:52:38 AM",
+      "task_to_run": "%localappdata%\\Microsoft\\OneDrive\\OneDriveStandaloneUpdater.exe /reporting",
+      "run_as_user": "SidikRoyale",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\OneDrive Standalone Update Task-S-1-5-21-480871066-3070460881-805627656-1000",
+      "status": "Ready",
+      "next_run_time": "7/30/2026 4:48:32 AM",
+      "task_to_run": "%localappdata%\\Microsoft\\OneDrive\\OneDriveStandaloneUpdater.exe ",
+      "run_as_user": "SidikRoyale",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\OneDrive Startup Task-S-1-5-21-480871066-3070460881-805627656-1000",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "C:\\Users\\SidikRoyale\\AppData\\Local\\Microsoft\\OneDrive\\26.123.0628.0001\\OneDriveLauncher.exe /startInstances",
+      "run_as_user": "SidikRoyale",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\.NET Framework\\.NET Framework NGEN v4.0.30319",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\.NET Framework\\.NET Framework NGEN v4.0.30319 64",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\.NET Framework\\.NET Framework NGEN v4.0.30319 64 Critical",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\.NET Framework\\.NET Framework NGEN v4.0.30319 Critical",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Active Directory Rights Management Services Client\\AD RMS Rights Policy Template Management (Automated)",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Everyone",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Active Directory Rights Management Services Client\\AD RMS Rights Policy Template Management (Automated)",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Everyone",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Active Directory Rights Management Services Client\\AD RMS Rights Policy Template Management (Manual)",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Everyone",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\AppID\\PolicyConverter",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\appidpolicyconverter.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\AppID\\VerifiedPublisherCertStoreCheck",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\appidcertstorecheck.exe ",
+      "run_as_user": "LOCAL SERVICE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Application Experience\\Microsoft Compatibility Appraiser",
+      "status": "Ready",
+      "next_run_time": "7/30/2026 3:03:26 AM",
+      "task_to_run": "%windir%\\system32\\compattelrunner.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Application Experience\\Microsoft Compatibility Appraiser",
+      "status": "Ready",
+      "next_run_time": "7/30/2026 3:31:37 AM",
+      "task_to_run": "%windir%\\system32\\compattelrunner.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Application Experience\\Microsoft Compatibility Appraiser",
+      "status": "Ready",
+      "next_run_time": "7/30/2026 3:14:56 AM",
+      "task_to_run": "%windir%\\system32\\compattelrunner.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Application Experience\\PcaPatchDbTask",
+      "status": "Ready",
+      "next_run_time": "7/29/2026 3:03:03 PM",
+      "task_to_run": "%windir%\\system32\\rundll32.exe %windir%\\system32\\PcaSvc.dll,PcaPatchSdbTask",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Application Experience\\ProgramDataUpdater",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\compattelrunner.exe -maintenance",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Application Experience\\StartupAppTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\rundll32.exe Startupscan.dll,SusRunTask",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\ApplicationData\\appuriverifierdaily",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\AppHostRegistrationVerifier.exe ",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\ApplicationData\\appuriverifierinstall",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\AppHostRegistrationVerifier.exe ",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\ApplicationData\\CleanupTemporaryState",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\rundll32.exe Windows.Storage.ApplicationData.dll,CleanupTemporaryState",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\ApplicationData\\DsSvcCleanup",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\dstokenclean.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\AppxDeploymentClient\\Pre-staged app cleanup",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\rundll32.exe %windir%\\system32\\AppxDeploymentClient.dll,AppxPreStageCleanupRunTask",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Autochk\\Proxy",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\rundll32.exe /d acproxy.dll,PerformAutochkOperations",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\BitLocker\\BitLocker Encrypt All Drives",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\BitLocker\\BitLocker MDM policy Refresh",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Bluetooth\\UninstallDeviceTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "BthUdTask.exe $(Arg0)",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\BrokerInfrastructure\\BgTaskRegistrationMaintenanceTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\CertificateServicesClient\\UserTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\CertificateServicesClient\\UserTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\CertificateServicesClient\\UserTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\CertificateServicesClient\\UserTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\CertificateServicesClient\\UserTask-Roam",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\CertificateServicesClient\\UserTask-Roam",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Chkdsk\\ProactiveScan",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Chkdsk\\SyspartRepair",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\bcdboot.exe %windir% /sysrepair",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\CloudExperienceHost\\CreateObjectTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Customer Experience Improvement Program\\Consolidator",
+      "status": "Ready",
+      "next_run_time": "7/29/2026 12:00:00 PM",
+      "task_to_run": "%SystemRoot%\\System32\\wsqmcons.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Customer Experience Improvement Program\\UsbCeip",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Data Integrity Scan\\Data Integrity Check And Scan",
+      "status": "Ready",
+      "next_run_time": "7/29/2026 11:58:45 PM",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Data Integrity Scan\\Data Integrity Check And Scan",
+      "status": "Ready",
+      "next_run_time": "7/29/2026 11:31:07 PM",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Data Integrity Scan\\Data Integrity Scan",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Data Integrity Scan\\Data Integrity Scan for Crash Recovery",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Defrag\\ScheduledDefrag",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\defrag.exe -c -h -o -$",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Device Information\\Device",
+      "status": "Ready",
+      "next_run_time": "7/30/2026 4:58:09 AM",
+      "task_to_run": "%windir%\\system32\\devicecensus.exe SystemCxt",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Device Information\\Device",
+      "status": "Ready",
+      "next_run_time": "7/30/2026 3:14:25 AM",
+      "task_to_run": "%windir%\\system32\\devicecensus.exe SystemCxt",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Device Information\\Device User",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\devicecensus.exe UserCxt",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Diagnosis\\RecommendedTroubleshootingScanner",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Diagnosis\\RecommendedTroubleshootingScanner",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Diagnosis\\Scheduled",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\DirectX\\DirectXDatabaseUpdater",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\directxdatabaseupdater.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\DirectX\\DirectXDatabaseUpdater",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\directxdatabaseupdater.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\DirectX\\DXGIAdapterCache",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\dxgiadaptercache.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\DirectX\\DXGIAdapterCache",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\dxgiadaptercache.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\DiskCleanup\\SilentCleanup",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\cleanmgr.exe /autoclean /d %systemdrive%",
+      "run_as_user": "Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\DiskDiagnostic\\Microsoft-Windows-DiskDiagnosticDataCollector",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\rundll32.exe dfdts.dll,DfdGetDefaultPolicyAndSMART",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\DiskDiagnostic\\Microsoft-Windows-DiskDiagnosticResolver",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\DFDWiz.exe ",
+      "run_as_user": "Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\DiskFootprint\\Diagnostics",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\disksnapshot.exe -z",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\DiskFootprint\\StorageSense",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\DUSM\\dusmtask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\System32\\dusmtask.exe ",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\EDP\\EDP App Launch Task",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\EDP\\EDP Auth Task",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\EDP\\EDP Inaccessible Credentials Task",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\EDP\\StorageCardEncryption Task",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\ExploitGuard\\ExploitGuard MDM policy Refresh",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\ExploitGuard\\ExploitGuard MDM policy Refresh",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\ExploitGuard\\ExploitGuard MDM policy Refresh",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Feedback\\Siuf\\DmClient",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\dmclient.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Feedback\\Siuf\\DmClientOnScenarioDownload",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\dmclient.exe utcwnf",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\File Classification Infrastructure\\Property Definition Sync",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\FileHistory\\File History (maintenance mode)",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "LOCAL SERVICE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Flighting\\FeatureConfig\\ReconcileFeatures",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Flighting\\FeatureConfig\\ReconcileFeatures",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Flighting\\FeatureConfig\\ReconcileFeatures",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Flighting\\FeatureConfig\\ReconcileFeatures",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Flighting\\FeatureConfig\\ReconcileFeatures",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Flighting\\FeatureConfig\\UsageDataFlushing",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Flighting\\FeatureConfig\\UsageDataFlushing",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Flighting\\FeatureConfig\\UsageDataFlushing",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Flighting\\FeatureConfig\\UsageDataReporting",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Flighting\\OneSettings\\RefreshCache",
+      "status": "Ready",
+      "next_run_time": "7/29/2026 10:57:16 AM",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Flighting\\OneSettings\\RefreshCache",
+      "status": "Ready",
+      "next_run_time": "7/29/2026 10:11:41 AM",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Input\\LocalUserSyncDataAvailable",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Input\\MouseSyncDataAvailable",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Input\\PenSyncDataAvailable",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Input\\TouchpadSyncDataAvailable",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\InstallService\\ScanForUpdates",
+      "status": "Ready",
+      "next_run_time": "7/30/2026 7:43:18 AM",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\InstallService\\ScanForUpdates",
+      "status": "Ready",
+      "next_run_time": "7/30/2026 2:19:56 PM",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\InstallService\\ScanForUpdates",
+      "status": "Ready",
+      "next_run_time": "7/30/2026 11:00:01 PM",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\InstallService\\ScanForUpdatesAsUser",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\InstallService\\WakeUpAndContinueUpdates",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\InstallService\\WakeUpAndScanForUpdates",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\International\\Synchronize Language Settings",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\International\\Synchronize Language Settings",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\LanguageComponentsInstaller\\Installation",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\LanguageComponentsInstaller\\Installation",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\LanguageComponentsInstaller\\ReconcileLanguageResources",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Location\\Notifications",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\System32\\LocationNotificationWindows.exe ",
+      "run_as_user": "Authenticated Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Location\\WindowsActionDialog",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\System32\\WindowsActionDialog.exe ",
+      "run_as_user": "Authenticated Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Maintenance\\WinSAT",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Administrators",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Management\\Provisioning\\Cellular",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\ProvTool.exe /turn 7 /source CellStateChangeTask",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Management\\Provisioning\\Logon",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\ProvTool.exe /turn 5 /source LogonIdleTask",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Management\\Provisioning\\Retry",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\ProvTool.exe /turn 5 /source ProvRetryTask",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Management\\Provisioning\\RunOnReboot",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\ProvTool.exe /turn 5 /source ContinueSessionTask",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Maps\\MapsToastTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Maps\\MapsUpdateTask",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "NETWORK SERVICE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\MemoryDiagnostic\\ProcessMemoryDiagnosticEvents",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Administrators",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\MemoryDiagnostic\\ProcessMemoryDiagnosticEvents",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Administrators",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\MemoryDiagnostic\\ProcessMemoryDiagnosticEvents",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Administrators",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\MemoryDiagnostic\\ProcessMemoryDiagnosticEvents",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Administrators",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\MemoryDiagnostic\\RunFullMemoryDiagnostic",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Administrators",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Mobile Broadband Accounts\\MNO Metadata Parser",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\System32\\MbaeParserTask.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\MUI\\LPRemove",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\lpremove.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Multimedia\\SystemSoundsService",
+      "status": "Running",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\NetTrace\\GatherNetworkInfo",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\gatherNetworkInfo.vbs ",
+      "run_as_user": "Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\NlaSvc\\WiFiTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\System32\\WiFiTask.exe nla",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Offline Files\\Background Synchronization",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Authenticated Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Offline Files\\Logon Synchronization",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Authenticated Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Plug and Play\\Device Install Group Policy",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Plug and Play\\Device Install Reboot Required",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Plug and Play\\Device Install Reboot Required",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Plug and Play\\Sysprep Generalize Drivers",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\System32\\drvinst.exe 6",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Power Efficiency Diagnostics\\AnalyzeSystem",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Printing\\EduPrintProv",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\eduprintprov.exe ",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\RecoveryEnvironment\\VerifyWinRE",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Administrators",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Registry\\RegIdleBackup",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Servicing\\StartComponentCleanup",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\SettingSync\\BackgroundUploadTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\SettingSync\\NetworkStateChangeTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\SettingSync\\NetworkStateChangeTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\SharedPC\\Account Cleanup",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\System32\\rundll32.exe %windir%\\System32\\Windows.SharedPC.AccountManager.dll,StartMaintenance",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Shell\\CreateObjectTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Shell\\FamilySafetyMonitor",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\System32\\wpcmon.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Shell\\FamilySafetyRefreshTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Shell\\IndexerAutomaticMaintenance",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "LOCAL SERVICE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\SoftwareProtectionPlatform\\SvcRestartTaskLogon",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\SpacePort\\SpaceAgentTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\SpaceAgent.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\SpacePort\\SpaceAgentTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\SpaceAgent.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\SpacePort\\SpaceManagerTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\spaceman.exe /Work",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\SpacePort\\SpaceManagerTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\spaceman.exe /Work",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\StateRepository\\MaintenanceTasks",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\rundll32.exe %windir%\\system32\\Windows.StateRepositoryClient.dll,StateRepositoryDoMaintenanceTasks",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Storage Tiers Management\\Storage Tiers Management Initialization",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Storage Tiers Management\\Storage Tiers Optimization",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\defrag.exe -c -h -g -# -m 8 -i 13500",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Subscription\\EnableLicenseAcquisition",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\system32\\ClipRenew.exe -e",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Subscription\\EnableLicenseAcquisition",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\system32\\ClipRenew.exe -e",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Subscription\\EnableLicenseAcquisition",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\system32\\ClipRenew.exe -e",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Subscription\\LicenseAcquisition",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\system32\\ClipRenew.exe ",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Subscription\\LicenseAcquisition",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\system32\\ClipRenew.exe ",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Subscription\\LicenseAcquisition",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\system32\\ClipRenew.exe ",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Sysmain\\HybridDriveCachePrepopulate",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Sysmain\\HybridDriveCacheRebalance",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Sysmain\\ResPriStaticDbSync",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Sysmain\\WsSwapAssessmentTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\rundll32.exe sysmain.dll,PfSvWsSwapAssessmentTask",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\SystemRestore\\SR",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\srtasks.exe ExecuteScheduledSPPCreation",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Task Manager\\Interactive",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\TextServicesFramework\\MsCtfMonitor",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Time Synchronization\\ForceSynchronizeTime",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "LOCAL SERVICE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Time Synchronization\\SynchronizeTime",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\sc.exe start w32time task_started",
+      "run_as_user": "LOCAL SERVICE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Time Zone\\SynchronizeTimeZone",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\tzsync.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\UNP\\RunUpdateNotificationMgr",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\System32\\UNP\\UpdateNotificationMgr.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\UNP\\RunUpdateNotificationMgr",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\System32\\UNP\\UpdateNotificationMgr.exe ",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\UPnP\\UPnPHostConfig",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "sc.exe config upnphost start= auto",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\USB\\Usb-Notifications",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\USB\\Usb-Notifications",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\USB\\Usb-Notifications",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\USB\\Usb-Notifications",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WCM\\WiFiTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\System32\\WiFiTask.exe ",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WDI\\ResolutionHost",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cache Maintenance",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "C:\\ProgramData\\Microsoft\\Windows Defender\\platform\\4.18.26060.3008-0\\MpCmdRun.exe -IdleTask -TaskName WdCacheMaintenance",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cleanup",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "C:\\ProgramData\\Microsoft\\Windows Defender\\platform\\4.18.26060.3008-0\\MpCmdRun.exe -IdleTask -TaskName WdCleanup",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Windows Defender\\Windows Defender Scheduled Scan",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "C:\\ProgramData\\Microsoft\\Windows Defender\\platform\\4.18.26060.3008-0\\MpCmdRun.exe Scan -ScheduleJob -ScanTrigger 55 -IdleScheduledJob",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Windows Defender\\Windows Defender Verification",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "C:\\ProgramData\\Microsoft\\Windows Defender\\platform\\4.18.26060.3008-0\\MpCmdRun.exe -IdleTask -TaskName WdVerification",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Windows Error Reporting\\QueueReporting",
+      "status": "Ready",
+      "next_run_time": "7/29/2026 9:28:27 AM",
+      "task_to_run": "%windir%\\system32\\wermgr.exe -upload",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Windows Error Reporting\\QueueReporting",
+      "status": "Ready",
+      "next_run_time": "7/29/2026 9:06:16 AM",
+      "task_to_run": "%windir%\\system32\\wermgr.exe -upload",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Windows Error Reporting\\QueueReporting",
+      "status": "Ready",
+      "next_run_time": "7/29/2026 9:10:22 AM",
+      "task_to_run": "%windir%\\system32\\wermgr.exe -upload",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Windows Error Reporting\\QueueReporting",
+      "status": "Ready",
+      "next_run_time": "7/29/2026 9:11:20 AM",
+      "task_to_run": "%windir%\\system32\\wermgr.exe -upload",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Windows Error Reporting\\QueueReporting",
+      "status": "Ready",
+      "next_run_time": "7/29/2026 9:02:36 AM",
+      "task_to_run": "%windir%\\system32\\wermgr.exe -upload",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Windows Filtering Platform\\BfeOnServiceStartTypeChange",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\system32\\rundll32.exe bfe.dll,BfeOnServiceStartTypeChange",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Windows Media Sharing\\UpdateLibrary",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%ProgramFiles%\\Windows Media Player\\wmpnscfg.exe\" \"",
+      "run_as_user": "Authenticated Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WindowsColorSystem\\Calibration Loader",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WindowsColorSystem\\Calibration Loader",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WindowsUpdate\\Scheduled Start",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "C:\\Windows\\system32\\sc.exe start wuauserv",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WindowsUpdate\\Scheduled Start",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "C:\\Windows\\system32\\sc.exe start wuauserv",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WindowsUpdate\\Scheduled Start",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "C:\\Windows\\system32\\sc.exe start wuauserv",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WindowsUpdate\\Scheduled Start",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "C:\\Windows\\system32\\sc.exe start wuauserv",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Wininet\\CacheTask",
+      "status": "Running",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "Users",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WlanSvc\\CDSSync",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Work Folders\\Work Folders Logon Synchronization",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Work Folders\\Work Folders Maintenance Work",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Workplace Join\\Automatic-Device-Join",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\System32\\dsregcmd.exe $(Arg0) $(Arg1) $(Arg2)",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Workplace Join\\Automatic-Device-Join",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\System32\\dsregcmd.exe $(Arg0) $(Arg1) $(Arg2)",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Workplace Join\\Device-Sync",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Workplace Join\\Recovery-Check",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\System32\\dsregcmd.exe /checkrecovery",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\Workplace Join\\Recovery-Check",
+      "status": "Disabled",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\System32\\dsregcmd.exe /checkrecovery",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WwanSvc\\NotificationTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%SystemRoot%\\System32\\WiFiTask.exe wwan",
+      "run_as_user": "INTERACTIVE",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WwanSvc\\OobeDiscovery",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WwanSvc\\OobeDiscovery",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\Windows\\WwanSvc\\OobeDiscovery",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "COM handler",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:54Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "task_name": "\\Microsoft\\XblGameSave\\XblGameSaveTask",
+      "status": "Ready",
+      "next_run_time": "N/A",
+      "task_to_run": "%windir%\\System32\\XblGameSaveTask.exe standby",
+      "run_as_user": "SYSTEM",
+      "schedule": "Scheduling data is not available in this format."
+    }
+  }
+]

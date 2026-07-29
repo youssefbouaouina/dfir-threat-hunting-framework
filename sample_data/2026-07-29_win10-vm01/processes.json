@@ -1,0 +1,2027 @@
+[
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 0,
+      "ppid": 0,
+      "name": "System Idle Process",
+      "exe": null,
+      "cmdline": "",
+      "username": "NT AUTHORITY\\SYSTEM",
+      "create_time": 0.0
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4,
+      "ppid": 0,
+      "name": "System",
+      "exe": "",
+      "cmdline": "",
+      "username": "NT AUTHORITY\\SYSTEM",
+      "create_time": 0.0
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 92,
+      "ppid": 4,
+      "name": "Registry",
+      "exe": "Registry",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202529.6856203
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 312,
+      "ppid": 4,
+      "name": "smss.exe",
+      "exe": "C:\\Windows\\System32\\smss.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202535.809069
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 344,
+      "ppid": 644,
+      "name": "msdtc.exe",
+      "exe": "C:\\Windows\\System32\\msdtc.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202607.3778515
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 392,
+      "ppid": 784,
+      "name": "SkypeBackgroundHost.exe",
+      "exe": "C:\\Program Files\\WindowsApps\\Microsoft.SkypeApp_14.53.77.0_x64__kzf8qxf38zg5c\\SkypeBackgroundHost.exe",
+      "cmdline": "C:\\Program Files\\WindowsApps\\Microsoft.SkypeApp_14.53.77.0_x64__kzf8qxf38zg5c\\SkypeBackgroundHost.exe -ServerName:SkypeBackgroundHost",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202695.93581
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 428,
+      "ppid": 420,
+      "name": "csrss.exe",
+      "exe": "C:\\Windows\\System32\\csrss.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202542.394498
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 508,
+      "ppid": 500,
+      "name": "csrss.exe",
+      "exe": "C:\\Windows\\System32\\csrss.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202543.6087115
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 528,
+      "ppid": 420,
+      "name": "wininit.exe",
+      "exe": "C:\\Windows\\System32\\wininit.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202543.6593409
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 564,
+      "ppid": 500,
+      "name": "winlogon.exe",
+      "exe": "C:\\Windows\\System32\\winlogon.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202543.7301319
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 604,
+      "ppid": 8316,
+      "name": "python.exe",
+      "exe": "C:\\Users\\SidikRoyale\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+      "cmdline": "python collector_agent.py",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785303886.8901975
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 644,
+      "ppid": 528,
+      "name": "services.exe",
+      "exe": "C:\\Windows\\System32\\services.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202544.5214393
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 664,
+      "ppid": 528,
+      "name": "lsass.exe",
+      "exe": "C:\\Windows\\System32\\lsass.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202544.9496
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 784,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202547.0537093
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 812,
+      "ppid": 528,
+      "name": "fontdrvhost.exe",
+      "exe": "C:\\Windows\\System32\\fontdrvhost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202547.3290012
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 820,
+      "ppid": 564,
+      "name": "fontdrvhost.exe",
+      "exe": "C:\\Windows\\System32\\fontdrvhost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202547.3290477
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 828,
+      "ppid": 8672,
+      "name": "cmd.exe",
+      "exe": "C:\\Windows\\System32\\cmd.exe",
+      "cmdline": "C:\\Windows\\system32\\cmd.exe",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785303470.146862
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 912,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202548.7593424
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 960,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202551.0234978
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 964,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202548.9035525
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1016,
+      "ppid": 564,
+      "name": "dwm.exe",
+      "exe": "C:\\Windows\\System32\\dwm.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202549.4894388
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1088,
+      "ppid": 1932,
+      "name": "audiodg.exe",
+      "exe": "C:\\Windows\\System32\\audiodg.exe",
+      "cmdline": "C:\\Windows\\system32\\AUDIODG.EXE 0x454",
+      "username": null,
+      "create_time": 1785303640.9438572
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1156,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202551.7695427
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1164,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202551.769598
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1172,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202551.7823548
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1192,
+      "ppid": 784,
+      "name": "RuntimeBroker.exe",
+      "exe": "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "cmdline": "C:\\Windows\\System32\\RuntimeBroker.exe -Embedding",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202749.2443175
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1224,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202551.8511848
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1232,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202551.939127
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1240,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202629.1486444
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1284,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202552.2112408
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1332,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202691.6188512
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1344,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202552.8599129
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1380,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202553.5695443
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1424,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202553.773105
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1480,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202555.0019884
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1488,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202555.002134
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1496,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202555.003226
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1560,
+      "ppid": 4,
+      "name": "MemCompression",
+      "exe": "MemCompression",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202555.3478615
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1604,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202555.3794966
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1620,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202559.6923864
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1624,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202555.4235868
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1632,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202555.4237204
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1692,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202555.6805177
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1808,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202556.8744988
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1840,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202559.4482453
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1932,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202558.2235458
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1952,
+      "ppid": 644,
+      "name": "MsMpEng.exe",
+      "exe": "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\4.18.26060.3008-0\\MsMpEng.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785203486.4159644
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 1992,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202559.029974
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2000,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202559.0300777
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2008,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202559.0320427
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2028,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202559.2807634
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2056,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202559.6923926
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2092,
+      "ppid": 784,
+      "name": "TextInputHost.exe",
+      "exe": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\InputApp\\TextInputHost.exe",
+      "cmdline": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\InputApp\\TextInputHost.exe -ServerName:InputApp.AppX9jnwykgrccxc8by3hsrsh07r423xzvav.mca",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785218064.363904
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2164,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202768.5074055
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2260,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202614.6167397
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2264,
+      "ppid": 644,
+      "name": "spoolsv.exe",
+      "exe": "C:\\Windows\\System32\\spoolsv.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202561.2722433
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2320,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202562.1198072
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2452,
+      "ppid": 3344,
+      "name": "SearchProtocolHost.exe",
+      "exe": "C:\\Windows\\System32\\SearchProtocolHost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785303795.7118561
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2480,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202563.6968374
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2508,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202563.8837652
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2540,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785203073.8495784
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2592,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202564.5831516
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2600,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202564.5831664
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2616,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202564.5856092
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2672,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202564.600351
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2704,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202564.6050992
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2720,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202630.399338
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2748,
+      "ppid": 784,
+      "name": "RuntimeBroker.exe",
+      "exe": "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "cmdline": "C:\\Windows\\System32\\RuntimeBroker.exe -Embedding",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785218058.0936213
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2756,
+      "ppid": 644,
+      "name": "Sysmon64.exe",
+      "exe": "C:\\Windows\\Sysmon64.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202564.7754736
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2772,
+      "ppid": 644,
+      "name": "VGAuthService.exe",
+      "exe": "C:\\Program Files\\VMware\\VMware Tools\\VMware VGAuth\\VGAuthService.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202564.9085765
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2780,
+      "ppid": 644,
+      "name": "vmtoolsd.exe",
+      "exe": "C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202564.9200287
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2788,
+      "ppid": 644,
+      "name": "vm3dservice.exe",
+      "exe": "C:\\Program Files\\VMware\\VMware Tools\\vm3dservice.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202565.0190475
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2920,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202566.4423015
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2960,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202567.196807
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2968,
+      "ppid": 784,
+      "name": "StartMenuExperienceHost.exe",
+      "exe": "C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe",
+      "cmdline": "C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe -ServerName:App.AppXywbrabmsek0gm3tkwpr5kwzbs55tkqay.mca",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785218064.2566056
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2980,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202567.2789907
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 2996,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202567.360248
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 3088,
+      "ppid": 784,
+      "name": "SystemSettings.exe",
+      "exe": "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe",
+      "cmdline": "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe -ServerName:microsoft.windows.immersivecontrolpanel",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785203547.4818437
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 3216,
+      "ppid": 1068,
+      "name": "OneDrive.exe",
+      "exe": "C:\\Users\\SidikRoyale\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe",
+      "cmdline": "C:\\Users\\SidikRoyale\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe /background",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202713.8911088
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 3236,
+      "ppid": 2788,
+      "name": "vm3dservice.exe",
+      "exe": "C:\\Program Files\\VMware\\VMware Tools\\vm3dservice.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202572.2556336
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 3304,
+      "ppid": 784,
+      "name": "RuntimeBroker.exe",
+      "exe": "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "cmdline": "C:\\Windows\\System32\\RuntimeBroker.exe -Embedding",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785204445.382141
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 3308,
+      "ppid": 784,
+      "name": "WmiPrvSE.exe",
+      "exe": "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202602.677137
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 3344,
+      "ppid": 644,
+      "name": "SearchIndexer.exe",
+      "exe": "C:\\Windows\\System32\\SearchIndexer.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202687.4782372
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 3352,
+      "ppid": 784,
+      "name": "dllhost.exe",
+      "exe": "C:\\Windows\\System32\\dllhost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785203503.8596392
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 3372,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202576.391014
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 3540,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202983.7098463
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 3760,
+      "ppid": 784,
+      "name": "unsecapp.exe",
+      "exe": "C:\\Windows\\System32\\wbem\\unsecapp.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202596.9506643
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 3912,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202616.8983905
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4068,
+      "ppid": 644,
+      "name": "dllhost.exe",
+      "exe": "C:\\Windows\\System32\\dllhost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202602.1293252
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4116,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202635.9198053
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4332,
+      "ppid": 1344,
+      "name": "sihost.exe",
+      "exe": "C:\\Windows\\System32\\sihost.exe",
+      "cmdline": "sihost.exe",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202637.1012065
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4356,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "C:\\Windows\\system32\\svchost.exe -k UnistackSvcGroup -s CDPUserSvc",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202637.6056955
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4376,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202770.757111
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4388,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "C:\\Windows\\system32\\svchost.exe -k UnistackSvcGroup -s WpnUserService",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202637.6228435
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4400,
+      "ppid": 784,
+      "name": "ApplicationFrameHost.exe",
+      "exe": "C:\\Windows\\System32\\ApplicationFrameHost.exe",
+      "cmdline": "C:\\Windows\\system32\\ApplicationFrameHost.exe -Embedding",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785203547.5396132
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4424,
+      "ppid": 1232,
+      "name": "taskhostw.exe",
+      "exe": "C:\\Windows\\System32\\taskhostw.exe",
+      "cmdline": "taskhostw.exe {222A245B-E637-4AE9-A93F-A59CA119A75E}",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202637.6469533
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4588,
+      "ppid": 1232,
+      "name": "MicrosoftEdgeUpdate.exe",
+      "exe": "C:\\Program Files (x86)\\Microsoft\\EdgeUpdate\\MicrosoftEdgeUpdate.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202638.852
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4608,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202638.9390793
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4644,
+      "ppid": 4608,
+      "name": "ctfmon.exe",
+      "exe": "C:\\Windows\\System32\\ctfmon.exe",
+      "cmdline": "ctfmon.exe",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202639.529806
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4736,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202641.4431176
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4796,
+      "ppid": 784,
+      "name": "ShellExperienceHost.exe",
+      "exe": "C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe",
+      "cmdline": "C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe -ServerName:App.AppXtk181tbxbce2qsex02s8tw7hfxa9xb3t.mca",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785218071.569841
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4896,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202644.6677444
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 4936,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202645.4005113
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5320,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "C:\\Windows\\system32\\svchost.exe -k ClipboardSvcGroup -p -s cbdhsvc",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202661.9636
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5392,
+      "ppid": 828,
+      "name": "conhost.exe",
+      "exe": "C:\\Windows\\System32\\conhost.exe",
+      "cmdline": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785303470.385738
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5420,
+      "ppid": 784,
+      "name": "SearchApp.exe",
+      "exe": "C:\\Windows\\SystemApps\\Microsoft.Windows.Search_cw5n1h2txyewy\\SearchApp.exe",
+      "cmdline": "C:\\Windows\\SystemApps\\Microsoft.Windows.Search_cw5n1h2txyewy\\SearchApp.exe -ServerName:CortanaUI.AppX8z9r6jm96hw4bsbneegw0kyxx296wr9t.mca",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785218046.052306
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5480,
+      "ppid": 1068,
+      "name": "vmtoolsd.exe",
+      "exe": "C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe",
+      "cmdline": "C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe -n vmusr",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202712.4900281
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5504,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785303751.4958887
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5576,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202773.6031168
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5768,
+      "ppid": 644,
+      "name": "NisSrv.exe",
+      "exe": "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\4.18.26060.3008-0\\NisSrv.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785203499.890628
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5776,
+      "ppid": 3344,
+      "name": "SearchFilterHost.exe",
+      "exe": "C:\\Windows\\System32\\SearchFilterHost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785303795.7300184
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5884,
+      "ppid": 784,
+      "name": "SkypeApp.exe",
+      "exe": "C:\\Program Files\\WindowsApps\\Microsoft.SkypeApp_14.53.77.0_x64__kzf8qxf38zg5c\\SkypeApp.exe",
+      "cmdline": "C:\\Program Files\\WindowsApps\\Microsoft.SkypeApp_14.53.77.0_x64__kzf8qxf38zg5c\\SkypeApp.exe -ServerName:App.AppXffn3yxqvgawq9fpmnhy90fr3y01d1t5b.mca",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202695.7548645
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5948,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "C:\\Windows\\system32\\svchost.exe -k UnistackSvcGroup",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202757.64754
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5972,
+      "ppid": 644,
+      "name": "SecurityHealthService.exe",
+      "exe": "C:\\Windows\\System32\\SecurityHealthService.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202710.6679635
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 5996,
+      "ppid": 1068,
+      "name": "SecurityHealthSystray.exe",
+      "exe": "C:\\Windows\\System32\\SecurityHealthSystray.exe",
+      "cmdline": "C:\\Windows\\System32\\SecurityHealthSystray.exe",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785202710.22958
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 6080,
+      "ppid": 5116,
+      "name": "msedge.exe",
+      "exe": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "cmdline": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe --flag-switches-begin --flag-switches-end --no-startup-window",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785303032.9709313
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 6328,
+      "ppid": 784,
+      "name": "Microsoft.Photos.exe",
+      "exe": "C:\\Program Files\\WindowsApps\\Microsoft.Windows.Photos_2019.19071.12548.0_x64__8wekyb3d8bbwe\\Microsoft.Photos.exe",
+      "cmdline": "C:\\Program Files\\WindowsApps\\Microsoft.Windows.Photos_2019.19071.12548.0_x64__8wekyb3d8bbwe\\Microsoft.Photos.exe -ServerName:App.AppXzst44mncqdg84v7sv6p7yznqwssy6f7f.mca",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785204440.4524975
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 6424,
+      "ppid": 644,
+      "name": "MpDefenderCoreService.exe",
+      "exe": "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\4.18.26060.3008-0\\MpDefenderCoreService.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785203499.669173
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 6444,
+      "ppid": 6080,
+      "name": "msedge.exe",
+      "exe": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "cmdline": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe --type=utility --utility-sub-type=storage.mojom.StorageService --lang=en-US --service-sandbox-type=service --startup-read-main-dll --metrics-shmem-handle=2564,i,14917281392248661289,4182438021627252669,524288 --field-trial-handle=1996,i,15539785521886902362,13850812766959319925,262144 --variations-seed-version --pseudonymization-salt-handle=2000,i,10279129115099420378,10784236630029690274,4 --trace-process-track-uuid=3190708990060038890 --mojo-platform-channel-handle=2572 /prefetch:8",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785303040.355388
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 6536,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785203073.7219272
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 6640,
+      "ppid": 784,
+      "name": "MoUsoCoreWorker.exe",
+      "exe": "C:\\Windows\\System32\\MoUsoCoreWorker.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785302211.9516296
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 6668,
+      "ppid": 644,
+      "name": "SgrmBroker.exe",
+      "exe": "C:\\Windows\\System32\\SgrmBroker.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785202770.096131
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 6684,
+      "ppid": 784,
+      "name": "RuntimeBroker.exe",
+      "exe": "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "cmdline": "C:\\Windows\\System32\\RuntimeBroker.exe -Embedding",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785303174.9937532
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 6704,
+      "ppid": 784,
+      "name": "RuntimeBroker.exe",
+      "exe": "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "cmdline": "C:\\Windows\\System32\\RuntimeBroker.exe -Embedding",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785218067.1787207
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 7012,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785203197.4307027
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 7644,
+      "ppid": 6080,
+      "name": "msedge.exe",
+      "exe": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "cmdline": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=none --startup-read-main-dll --metrics-shmem-handle=1936,i,4073995111275141009,4373245696510347319,524288 --field-trial-handle=1996,i,15539785521886902362,13850812766959319925,262144 --variations-seed-version --pseudonymization-salt-handle=2000,i,10279129115099420378,10784236630029690274,4 --trace-process-track-uuid=3190708989122997041 --mojo-platform-channel-handle=2420 /prefetch:3",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785303039.9299977
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 8208,
+      "ppid": 784,
+      "name": "dllhost.exe",
+      "exe": "C:\\Windows\\System32\\dllhost.exe",
+      "cmdline": "C:\\Windows\\system32\\DllHost.exe /Processid:{973D20D7-562D-44B9-B70B-5A0F49CCDF3F}",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785217939.450766
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 8316,
+      "ppid": 828,
+      "name": "python.exe",
+      "exe": "C:\\Users\\SidikRoyale\\dfir\\collector\\venv\\Scripts\\python.exe",
+      "cmdline": "python collector_agent.py",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785303886.8798428
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 8440,
+      "ppid": 6080,
+      "name": "msedge.exe",
+      "exe": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "cmdline": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe --type=crashpad-handler --user-data-dir=C:\\Users\\SidikRoyale\\AppData\\Local\\Microsoft\\Edge\\User Data /prefetch:4 --monitor-self-annotation=ptype=crashpad-handler --database=C:\\Users\\SidikRoyale\\AppData\\Local\\Microsoft\\Edge\\User Data\\Crashpad --annotation=IsOfficialBuild=1 --annotation=channel= --annotation=chromium-version=150.0.7871.187 --annotation=exe=C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe --annotation=plat=Win64 --annotation=prod=Edge --annotation=ver=150.0.4078.99 --initial-client-data=0x238,0x23c,0x240,0x234,0x248,0x7ffb146cdcf0,0x7ffb146cdcfc,0x7ffb146cdd08",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785303037.4164605
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 8516,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785303703.119535
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 8540,
+      "ppid": 644,
+      "name": "elevation_service.exe",
+      "exe": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\150.0.4078.99\\elevation_service.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785303039.396731
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 8672,
+      "ppid": 564,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\explorer.exe",
+      "cmdline": "explorer.exe",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785218033.8465989
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 8988,
+      "ppid": 644,
+      "name": "svchost.exe",
+      "exe": "C:\\Windows\\System32\\svchost.exe",
+      "cmdline": "",
+      "username": null,
+      "create_time": 1785303751.2194898
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 9140,
+      "ppid": 784,
+      "name": "RuntimeBroker.exe",
+      "exe": "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "cmdline": "C:\\Windows\\System32\\RuntimeBroker.exe -Embedding",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785218073.9931743
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "process",
+    "data": {
+      "pid": 9204,
+      "ppid": 6080,
+      "name": "msedge.exe",
+      "exe": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "cmdline": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe --type=gpu-process --gpu-preferences=UAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAOAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAABgAAAAAAAAAGAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA= --startup-read-main-dll --metrics-shmem-handle=1772,i,16206775368202608824,15161526035841071303,262144 --field-trial-handle=1996,i,15539785521886902362,13850812766959319925,262144 --variations-seed-version --pseudonymization-salt-handle=2000,i,10279129115099420378,10784236630029690274,4 --trace-process-track-uuid=3190708988185955192 --mojo-platform-channel-handle=1948 /prefetch:2",
+      "username": "DESKTOP-A5E108P\\SidikRoyale",
+      "create_time": 1785303039.9202137
+    }
+  }
+]
