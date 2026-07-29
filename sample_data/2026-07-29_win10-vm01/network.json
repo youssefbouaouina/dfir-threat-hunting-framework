@@ -1,0 +1,872 @@
+[
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "127.0.0.1:1900",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "0.0.0.0:53821",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 8988
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "0.0.0.0:49668",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 2264
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "192.168.50.128:53818",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": "fe80::305f:ceb3:8281:c995:53816",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "0.0.0.0:135",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 912
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "0.0.0.0:64936",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 2008
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": "::1:1900",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.50.128:139",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 4
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "0.0.0.0:5355",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 2008
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.102.128:55002",
+      "remote_address": "23.196.98.217:80",
+      "status": "TIME_WAIT",
+      "pid": 0
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "0.0.0.0:49666",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 1164
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "127.0.0.1:53308",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 2996
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": "fe80::dcf0:716:536f:6279:53815",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "1",
+      "local_address": ":::49667",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 1232
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.102.128:55010",
+      "remote_address": "13.107.3.254:443",
+      "status": "ESTABLISHED",
+      "pid": 5420
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "192.168.102.128:53819",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "0.0.0.0:3702",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 8988
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "0.0.0.0:5353",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 2008
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.102.128:55007",
+      "remote_address": "13.107.246.77:443",
+      "status": "ESTABLISHED",
+      "pid": 5420
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.102.128:139",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 4
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.102.128:54904",
+      "remote_address": "98.66.133.184:443",
+      "status": "ESTABLISHED",
+      "pid": 2704
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.102.128:55009",
+      "remote_address": "204.79.197.222:443",
+      "status": "ESTABLISHED",
+      "pid": 5420
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "0.0.0.0:5040",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 4936
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "0.0.0.0:50122",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 2008
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": ":::64936",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 2008
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "0.0.0.0:445",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 4
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": ":::50122",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 2008
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "0.0.0.0:49667",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 1232
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.102.128:55008",
+      "remote_address": "204.79.197.222:443",
+      "status": "ESTABLISHED",
+      "pid": 5420
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": ":::5355",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 2008
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "1",
+      "local_address": ":::445",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 4
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "1",
+      "local_address": ":::49664",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 664
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "0.0.0.0:49665",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 528
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": "fe80::305f:ceb3:8281:c995:1900",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": "::1:53817",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "127.0.0.1:53820",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "192.168.50.128:138",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.102.128:55000",
+      "remote_address": "20.184.175.4:443",
+      "status": "ESTABLISHED",
+      "pid": 6424
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "1",
+      "local_address": ":::49668",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 2264
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "0.0.0.0:5050",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4936
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.102.128:55005",
+      "remote_address": "48.209.109.54:443",
+      "status": "ESTABLISHED",
+      "pid": 1952
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "0.0.0.0:49669",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 644
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "1",
+      "local_address": ":::135",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 912
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": "fe80::dcf0:716:536f:6279:1900",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "1",
+      "local_address": ":::49669",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 644
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "1",
+      "local_address": ":::49665",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 528
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "0.0.0.0:49664",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 664
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "192.168.102.128:1900",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "192.168.102.128:137",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "192.168.50.128:1900",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4116
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": ":::5353",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 2008
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": ":::53822",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 8988
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "2",
+      "local_address": ":::3702",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 8988
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "192.168.102.128:138",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "2",
+      "local_address": "192.168.50.128:137",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 4
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.102.128:54997",
+      "remote_address": "52.123.242.50:443",
+      "status": "TIME_WAIT",
+      "pid": 0
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": -1,
+      "family": "23",
+      "type": "1",
+      "local_address": ":::49666",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 1164
+    }
+  }
+]

@@ -1,0 +1,2916 @@
+[
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "registry_run_key",
+      "hive": "HKLM",
+      "key_path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+      "value_name": "SecurityHealth",
+      "value_data": "%windir%\\system32\\SecurityHealthSystray.exe"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "registry_run_key",
+      "hive": "HKLM",
+      "key_path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+      "value_name": "VMware User Process",
+      "value_data": "\"C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe\" -n vmusr"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "registry_run_key",
+      "hive": "HKLM",
+      "key_path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
+      "value_name": "msedge_cleanup_{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}",
+      "value_data": "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\150.0.4078.105\\Installer\\setup.exe\" --msedgewebview --delete-old-versions --system-level --verbose-logging --on-logon"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "registry_run_key",
+      "hive": "HKCU",
+      "key_path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+      "value_name": "OneDrive",
+      "value_data": "\"C:\\Users\\SidikRoyale\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe\" /background"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "registry_run_key",
+      "hive": "HKCU",
+      "key_path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+      "value_name": "MicrosoftEdgeAutoLaunch_66860CF83333242B94CE24FD38E34A13",
+      "value_data": "\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --no-startup-window --win-session-start"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "AJRouter",
+      "display_name": "AllJoyn Router Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "ALG",
+      "display_name": "Application Layer Gateway Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "AppIDSvc",
+      "display_name": "Application Identity"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Appinfo",
+      "display_name": "Application Information"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "AppMgmt",
+      "display_name": "Application Management"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "AppReadiness",
+      "display_name": "App Readiness"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "AppVClient",
+      "display_name": "Microsoft App-V Client"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "AppXSvc",
+      "display_name": "AppX Deployment Service (AppXSVC)"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "AssignedAccessManagerSvc",
+      "display_name": "AssignedAccessManager Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "AudioEndpointBuilder",
+      "display_name": "Windows Audio Endpoint Builder"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Audiosrv",
+      "display_name": "Windows Audio"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "autotimesvc",
+      "display_name": "Cellular Time"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "AxInstSV",
+      "display_name": "ActiveX Installer (AxInstSV)"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "BDESVC",
+      "display_name": "BitLocker Drive Encryption Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "BFE",
+      "display_name": "Base Filtering Engine"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "BITS",
+      "display_name": "Background Intelligent Transfer Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "BrokerInfrastructure",
+      "display_name": "Background Tasks Infrastructure Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "BTAGService",
+      "display_name": "Bluetooth Audio Gateway Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "BthAvctpSvc",
+      "display_name": "AVCTP service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "bthserv",
+      "display_name": "Bluetooth Support Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "camsvc",
+      "display_name": "Capability Access Manager Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "CDPSvc",
+      "display_name": "Connected Devices Platform Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "CertPropSvc",
+      "display_name": "Certificate Propagation"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "ClipSVC",
+      "display_name": "Client License Service (ClipSVC)"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "COMSysApp",
+      "display_name": "COM+ System Application"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "CoreMessagingRegistrar",
+      "display_name": "CoreMessaging"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "CryptSvc",
+      "display_name": "Cryptographic Services"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "CscService",
+      "display_name": "Offline Files"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DcomLaunch",
+      "display_name": "DCOM Server Process Launcher"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "defragsvc",
+      "display_name": "Optimize drives"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DeviceAssociationService",
+      "display_name": "Device Association Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DeviceInstall",
+      "display_name": "Device Install Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DevQueryBroker",
+      "display_name": "DevQuery Background Discovery Broker"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Dhcp",
+      "display_name": "DHCP Client"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "diagnosticshub.standardcollector.service",
+      "display_name": "Microsoft (R) Diagnostics Hub Standard Collector Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "diagsvc",
+      "display_name": "Diagnostic Execution Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DiagTrack",
+      "display_name": "Connected User Experiences and Telemetry"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DialogBlockingService",
+      "display_name": "DialogBlockingService"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DispBrokerDesktopSvc",
+      "display_name": "Display Policy Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DisplayEnhancementService",
+      "display_name": "Display Enhancement Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DmEnrollmentSvc",
+      "display_name": "Device Management Enrollment Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "dmwappushservice",
+      "display_name": "Device Management Wireless Application Protocol (WAP) Push message Routing Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Dnscache",
+      "display_name": "DNS Client"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DoSvc",
+      "display_name": "Delivery Optimization"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "dot3svc",
+      "display_name": "Wired AutoConfig"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DPS",
+      "display_name": "Diagnostic Policy Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DsmSvc",
+      "display_name": "Device Setup Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DsSvc",
+      "display_name": "Data Sharing Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DusmSvc",
+      "display_name": "Data Usage"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Eaphost",
+      "display_name": "Extensible Authentication Protocol"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "edgeupdate",
+      "display_name": "Microsoft Edge Update Service (edgeupdate)"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "edgeupdatem",
+      "display_name": "Microsoft Edge Update Service (edgeupdatem)"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "EFS",
+      "display_name": "Encrypting File System (EFS)"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "embeddedmode",
+      "display_name": "Embedded Mode"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "EntAppSvc",
+      "display_name": "Enterprise App Management Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "EventLog",
+      "display_name": "Windows Event Log"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "EventSystem",
+      "display_name": "COM+ Event System"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Fax",
+      "display_name": "Fax"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "fdPHost",
+      "display_name": "Function Discovery Provider Host"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "FDResPub",
+      "display_name": "Function Discovery Resource Publication"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "fhsvc",
+      "display_name": "File History Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "FontCache",
+      "display_name": "Windows Font Cache Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "FrameServer",
+      "display_name": "Windows Camera Frame Server"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "gpsvc",
+      "display_name": "Group Policy Client"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "GraphicsPerfSvc",
+      "display_name": "GraphicsPerfSvc"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "hidserv",
+      "display_name": "Human Interface Device Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "HvHost",
+      "display_name": "HV Host Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "icssvc",
+      "display_name": "Windows Mobile Hotspot Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "IKEEXT",
+      "display_name": "IKE and AuthIP IPsec Keying Modules"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "InstallService",
+      "display_name": "Microsoft Store Install Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "iphlpsvc",
+      "display_name": "IP Helper"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "IpxlatCfgSvc",
+      "display_name": "IP Translation Configuration Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "KeyIso",
+      "display_name": "CNG Key Isolation"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "KtmRm",
+      "display_name": "KtmRm for Distributed Transaction Coordinator"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "LanmanServer",
+      "display_name": "Server"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "LanmanWorkstation",
+      "display_name": "Workstation"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "lfsvc",
+      "display_name": "Geolocation Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "LicenseManager",
+      "display_name": "Windows License Manager Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "lltdsvc",
+      "display_name": "Link-Layer Topology Discovery Mapper"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "lmhosts",
+      "display_name": "TCP/IP NetBIOS Helper"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "LSM",
+      "display_name": "Local Session Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "LxpSvc",
+      "display_name": "Language Experience Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "MapsBroker",
+      "display_name": "Downloaded Maps Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "MicrosoftEdgeElevationService",
+      "display_name": "Microsoft Edge Elevation Service (MicrosoftEdgeElevationService)"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "MixedRealityOpenXRSvc",
+      "display_name": "Windows Mixed Reality OpenXR Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "mpssvc",
+      "display_name": "Windows Defender Firewall"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "MSDTC",
+      "display_name": "Distributed Transaction Coordinator"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "MSiSCSI",
+      "display_name": "Microsoft iSCSI Initiator Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "msiserver",
+      "display_name": "Windows Installer"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "MsKeyboardFilter",
+      "display_name": "Microsoft Keyboard Filter"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "NaturalAuthentication",
+      "display_name": "Natural Authentication"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "NcaSvc",
+      "display_name": "Network Connectivity Assistant"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "NcbService",
+      "display_name": "Network Connection Broker"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "NcdAutoSetup",
+      "display_name": "Network Connected Devices Auto-Setup"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Netlogon",
+      "display_name": "Netlogon"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Netman",
+      "display_name": "Network Connections"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "netprofm",
+      "display_name": "Network List Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "NetSetupSvc",
+      "display_name": "Network Setup Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "NetTcpPortSharing",
+      "display_name": "Net.Tcp Port Sharing Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "NgcCtnrSvc",
+      "display_name": "Microsoft Passport Container"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "NgcSvc",
+      "display_name": "Microsoft Passport"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "NlaSvc",
+      "display_name": "Network Location Awareness"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "nsi",
+      "display_name": "Network Store Interface Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "p2pimsvc",
+      "display_name": "Peer Networking Identity Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "p2psvc",
+      "display_name": "Peer Networking Grouping"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PcaSvc",
+      "display_name": "Program Compatibility Assistant Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PeerDistSvc",
+      "display_name": "BranchCache"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "perceptionsimulation",
+      "display_name": "Windows Perception Simulation Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PerfHost",
+      "display_name": "Performance Counter DLL Host"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PhoneSvc",
+      "display_name": "Phone Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "pla",
+      "display_name": "Performance Logs & Alerts"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PlugPlay",
+      "display_name": "Plug and Play"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PNRPAutoReg",
+      "display_name": "PNRP Machine Name Publication Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PNRPsvc",
+      "display_name": "Peer Name Resolution Protocol"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PolicyAgent",
+      "display_name": "IPsec Policy Agent"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Power",
+      "display_name": "Power"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PrintNotify",
+      "display_name": "Printer Extensions and Notifications"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "ProfSvc",
+      "display_name": "User Profile Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PushToInstall",
+      "display_name": "Windows PushToInstall Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "QWAVE",
+      "display_name": "Quality Windows Audio Video Experience"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "RasAuto",
+      "display_name": "Remote Access Auto Connection Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "RasMan",
+      "display_name": "Remote Access Connection Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "RemoteAccess",
+      "display_name": "Routing and Remote Access"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "RemoteRegistry",
+      "display_name": "Remote Registry"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "RetailDemo",
+      "display_name": "Retail Demo Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "RmSvc",
+      "display_name": "Radio Management Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "RpcEptMapper",
+      "display_name": "RPC Endpoint Mapper"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "RpcLocator",
+      "display_name": "Remote Procedure Call (RPC) Locator"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "RpcSs",
+      "display_name": "Remote Procedure Call (RPC)"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SamSs",
+      "display_name": "Security Accounts Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SCardSvr",
+      "display_name": "Smart Card"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "ScDeviceEnum",
+      "display_name": "Smart Card Device Enumeration Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Schedule",
+      "display_name": "Task Scheduler"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SCPolicySvc",
+      "display_name": "Smart Card Removal Policy"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SDRSVC",
+      "display_name": "Windows Backup"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "seclogon",
+      "display_name": "Secondary Logon"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SecurityHealthService",
+      "display_name": "Windows Security Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SEMgrSvc",
+      "display_name": "Payments and NFC/SE Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SENS",
+      "display_name": "System Event Notification Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Sense",
+      "display_name": "Windows Defender Advanced Threat Protection Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SensorDataService",
+      "display_name": "Sensor Data Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SensorService",
+      "display_name": "Sensor Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SensrSvc",
+      "display_name": "Sensor Monitoring Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SessionEnv",
+      "display_name": "Remote Desktop Configuration"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SgrmBroker",
+      "display_name": "System Guard Runtime Monitor Broker"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SharedAccess",
+      "display_name": "Internet Connection Sharing (ICS)"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SharedRealitySvc",
+      "display_name": "Spatial Data Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "ShellHWDetection",
+      "display_name": "Shell Hardware Detection"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "shpamsvc",
+      "display_name": "Shared PC Account Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "smphost",
+      "display_name": "Microsoft Storage Spaces SMP"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SmsRouter",
+      "display_name": "Microsoft Windows SMS Router Service."
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SNMPTRAP",
+      "display_name": "SNMP Trap"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "spectrum",
+      "display_name": "Windows Perception Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Spooler",
+      "display_name": "Print Spooler"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "sppsvc",
+      "display_name": "Software Protection"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SSDPSRV",
+      "display_name": "SSDP Discovery"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "ssh-agent",
+      "display_name": "OpenSSH Authentication Agent"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SstpSvc",
+      "display_name": "Secure Socket Tunneling Protocol Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "StateRepository",
+      "display_name": "State Repository Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "stisvc",
+      "display_name": "Windows Image Acquisition (WIA)"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "StorSvc",
+      "display_name": "Storage Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "svsvc",
+      "display_name": "Spot Verifier"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "swprv",
+      "display_name": "Microsoft Software Shadow Copy Provider"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SysMain",
+      "display_name": "SysMain"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Sysmon64",
+      "display_name": "Sysmon64"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "SystemEventsBroker",
+      "display_name": "System Events Broker"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "TabletInputService",
+      "display_name": "Touch Keyboard and Handwriting Panel Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "TapiSrv",
+      "display_name": "Telephony"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "TermService",
+      "display_name": "Remote Desktop Services"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Themes",
+      "display_name": "Themes"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "TieringEngineService",
+      "display_name": "Storage Tiers Management"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "TimeBrokerSvc",
+      "display_name": "Time Broker"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "TokenBroker",
+      "display_name": "Web Account Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "TrkWks",
+      "display_name": "Distributed Link Tracking Client"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "TroubleshootingSvc",
+      "display_name": "Recommended Troubleshooting Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "TrustedInstaller",
+      "display_name": "Windows Modules Installer"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "tzautoupdate",
+      "display_name": "Auto Time Zone Updater"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "UevAgentService",
+      "display_name": "User Experience Virtualization Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "UmRdpService",
+      "display_name": "Remote Desktop Services UserMode Port Redirector"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "upnphost",
+      "display_name": "UPnP Device Host"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "UserManager",
+      "display_name": "User Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "UsoSvc",
+      "display_name": "Update Orchestrator Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "VacSvc",
+      "display_name": "Volumetric Audio Compositor Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "VaultSvc",
+      "display_name": "Credential Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "vds",
+      "display_name": "Virtual Disk"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "VGAuthService",
+      "display_name": "VMware Alias Manager and Ticket Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "VM3DService",
+      "display_name": "VMware SVGA Helper Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "vmicguestinterface",
+      "display_name": "Hyper-V Guest Service Interface"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "vmicheartbeat",
+      "display_name": "Hyper-V Heartbeat Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "vmickvpexchange",
+      "display_name": "Hyper-V Data Exchange Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "vmicrdv",
+      "display_name": "Hyper-V Remote Desktop Virtualization Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "vmicshutdown",
+      "display_name": "Hyper-V Guest Shutdown Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "vmictimesync",
+      "display_name": "Hyper-V Time Synchronization Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "vmicvmsession",
+      "display_name": "Hyper-V PowerShell Direct Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "vmicvss",
+      "display_name": "Hyper-V Volume Shadow Copy Requestor"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "VMTools",
+      "display_name": "VMware Tools"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "vmvss",
+      "display_name": "VMware Snapshot Provider"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "VSS",
+      "display_name": "Volume Shadow Copy"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "W32Time",
+      "display_name": "Windows Time"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WaaSMedicSvc",
+      "display_name": "Windows Update Medic Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WalletService",
+      "display_name": "WalletService"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WarpJITSvc",
+      "display_name": "WarpJITSvc"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "wbengine",
+      "display_name": "Block Level Backup Engine Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WbioSrvc",
+      "display_name": "Windows Biometric Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Wcmsvc",
+      "display_name": "Windows Connection Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "wcncsvc",
+      "display_name": "Windows Connect Now - Config Registrar"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WdiServiceHost",
+      "display_name": "Diagnostic Service Host"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WdiSystemHost",
+      "display_name": "Diagnostic System Host"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WdNisSvc",
+      "display_name": "Microsoft Defender Antivirus Network Inspection Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WebClient",
+      "display_name": "WebClient"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Wecsvc",
+      "display_name": "Windows Event Collector"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WEPHOSTSVC",
+      "display_name": "Windows Encryption Provider Host Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "wercplsupport",
+      "display_name": "Problem Reports Control Panel Support"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WerSvc",
+      "display_name": "Windows Error Reporting Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WFDSConMgrSvc",
+      "display_name": "Wi-Fi Direct Services Connection Manager Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WiaRpc",
+      "display_name": "Still Image Acquisition Events"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WinDefend",
+      "display_name": "Microsoft Defender Antivirus Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WinHttpAutoProxySvc",
+      "display_name": "WinHTTP Web Proxy Auto-Discovery Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "Winmgmt",
+      "display_name": "Windows Management Instrumentation"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WinRM",
+      "display_name": "Windows Remote Management (WS-Management)"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "wisvc",
+      "display_name": "Windows Insider Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WlanSvc",
+      "display_name": "WLAN AutoConfig"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "wlidsvc",
+      "display_name": "Microsoft Account Sign-in Assistant"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "wlpasvc",
+      "display_name": "Local Profile Assistant Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WManSvc",
+      "display_name": "Windows Management Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "wmiApSrv",
+      "display_name": "WMI Performance Adapter"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WMPNetworkSvc",
+      "display_name": "Windows Media Player Network Sharing Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "workfolderssvc",
+      "display_name": "Work Folders"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WpcMonSvc",
+      "display_name": "Parental Controls"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WPDBusEnum",
+      "display_name": "Portable Device Enumerator Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WpnService",
+      "display_name": "Windows Push Notifications System Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "wscsvc",
+      "display_name": "Security Center"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WSearch",
+      "display_name": "Windows Search"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "wuauserv",
+      "display_name": "Windows Update"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WwanSvc",
+      "display_name": "WWAN AutoConfig"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "XblAuthManager",
+      "display_name": "Xbox Live Auth Manager"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "XblGameSave",
+      "display_name": "Xbox Live Game Save"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "XboxGipSvc",
+      "display_name": "Xbox Accessory Management Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "XboxNetApiSvc",
+      "display_name": "Xbox Live Networking Service"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "AarSvc_6b7a6",
+      "display_name": "Agent Activation Runtime_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "BcastDVRUserService_6b7a6",
+      "display_name": "GameDVR and Broadcast User Service_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "BluetoothUserService_6b7a6",
+      "display_name": "Bluetooth User Support Service_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "CaptureService_6b7a6",
+      "display_name": "CaptureService_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "cbdhsvc_6b7a6",
+      "display_name": "Clipboard User Service_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "CDPUserSvc_6b7a6",
+      "display_name": "Connected Devices Platform User Service_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "ConsentUxUserSvc_6b7a6",
+      "display_name": "ConsentUX_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "CredentialEnrollmentManagerUserSvc_6b7a6",
+      "display_name": "CredentialEnrollmentManagerUserSvc_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DeviceAssociationBrokerSvc_6b7a6",
+      "display_name": "DeviceAssociationBroker_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DevicePickerUserSvc_6b7a6",
+      "display_name": "DevicePicker_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "DevicesFlowUserSvc_6b7a6",
+      "display_name": "DevicesFlow_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "MessagingService_6b7a6",
+      "display_name": "MessagingService_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "OneSyncSvc_6b7a6",
+      "display_name": "Sync Host_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PimIndexMaintenanceSvc_6b7a6",
+      "display_name": "Contact Data_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "PrintWorkflowUserSvc_6b7a6",
+      "display_name": "PrintWorkflow_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "UdkUserSvc_6b7a6",
+      "display_name": "Udk User Service_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "UnistoreSvc_6b7a6",
+      "display_name": "User Data Storage_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "UserDataSvc_6b7a6",
+      "display_name": "User Data Access_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "WpnUserService_6b7a6",
+      "display_name": "Windows Push Notifications User Service_6b7a6"
+    }
+  },
+  {
+    "host": "DESKTOP-A5E108P",
+    "os": "windows",
+    "collected_at": "2026-07-29T05:44:47Z",
+    "artifact_type": "persistence",
+    "data": {
+      "type": "service",
+      "name": "MDCoreSvc",
+      "display_name": "Microsoft Defender Core Service"
+    }
+  }
+]
