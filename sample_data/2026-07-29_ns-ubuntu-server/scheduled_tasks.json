@@ -1,0 +1,192 @@
+[
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Wed 2026-07-29 05:10:00 UTC 4min 18s Wed 2026-07-29 05:00:06 UTC     5min ago sysstat-collect.timer          sysstat-collect.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Wed 2026-07-29 05:21:25 UTC    15min Wed 2026-07-29 04:41:29 UTC    24min ago fwupd-refresh.timer            fwupd-refresh.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Wed 2026-07-29 06:19:25 UTC 1h 13min Wed 2026-07-29 04:41:29 UTC    24min ago apt-daily-upgrade.timer        apt-daily-upgrade.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Wed 2026-07-29 10:00:33 UTC 4h 54min Wed 2026-07-29 04:41:29 UTC    24min ago apt-daily.timer                apt-daily.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Wed 2026-07-29 11:59:48 UTC       6h Tue 2026-07-28 01:00:16 UTC            - man-db.timer                   man-db.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Wed 2026-07-29 22:35:53 UTC      17h Wed 2026-07-29 04:41:29 UTC    24min ago motd-news.timer                motd-news.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Thu 2026-07-30 00:00:00 UTC      18h Wed 2026-07-29 04:41:29 UTC    24min ago dpkg-db-backup.timer           dpkg-db-backup.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Thu 2026-07-30 00:00:00 UTC      18h Wed 2026-07-29 04:41:29 UTC    24min ago sysstat-rotate.timer           sysstat-rotate.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Thu 2026-07-30 00:07:00 UTC      19h Wed 2026-07-29 04:41:29 UTC    24min ago sysstat-summary.timer          sysstat-summary.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Thu 2026-07-30 00:35:12 UTC      19h Wed 2026-07-29 04:41:29 UTC    24min ago logrotate.timer                logrotate.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Thu 2026-07-30 01:36:16 UTC      20h Tue 2026-07-28 01:44:51 UTC 3h 29min ago update-notifier-download.timer update-notifier-download.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Thu 2026-07-30 01:46:02 UTC      20h Tue 2026-07-28 01:54:38 UTC 3h 19min ago systemd-tmpfiles-clean.timer   systemd-tmpfiles-clean.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Sun 2026-08-02 03:10:25 UTC   3 days Sun 2026-07-26 16:31:16 UTC            - xfs_scrub_all.timer            xfs_scrub_all.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Sun 2026-08-02 03:10:58 UTC   3 days Sun 2026-07-26 16:32:00 UTC            - e2scrub_all.timer              e2scrub_all.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Sun 2026-08-02 13:41:44 UTC   4 days Sun 2026-07-26 02:00:11 UTC            - update-notifier-motd.timer     update-notifier-motd.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "Mon 2026-08-03 01:14:55 UTC   4 days Tue 2026-07-28 01:06:12 UTC            - fstrim.timer                   fstrim.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "-                                  - -                                      - apport-autoreport.timer        apport-autoreport.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "-                                  - -                                      - snapd.snap-repair.timer        snapd.snap-repair.service"
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:41Z",
+    "artifact_type": "scheduled_task",
+    "data": {
+      "type": "systemd_timer",
+      "raw": "-                                  - -                                      - ua-timer.timer                 ua-timer.service"
+    }
+  }
+]

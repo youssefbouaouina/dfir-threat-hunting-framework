@@ -1,0 +1,167 @@
+[
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": 17,
+      "family": "2",
+      "type": "1",
+      "local_address": "127.0.0.53:53",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 1002
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": 5,
+      "family": "10",
+      "type": "2",
+      "local_address": "::1:323",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 1528
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": 9,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.50.129:22",
+      "remote_address": "192.168.50.1:60328",
+      "status": "ESTABLISHED",
+      "pid": 1919
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": 3,
+      "family": "2",
+      "type": "1",
+      "local_address": "0.0.0.0:22",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 1796
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": 30,
+      "family": "2",
+      "type": "2",
+      "local_address": "192.168.102.129:68",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 1260
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": 19,
+      "family": "2",
+      "type": "1",
+      "local_address": "127.0.0.54:53",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 1002
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": 18,
+      "family": "2",
+      "type": "2",
+      "local_address": "127.0.0.54:53",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 1002
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": 4,
+      "family": "10",
+      "type": "1",
+      "local_address": ":::22",
+      "remote_address": null,
+      "status": "LISTEN",
+      "pid": 1796
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": 4,
+      "family": "2",
+      "type": "2",
+      "local_address": "127.0.0.1:323",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 1528
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": 16,
+      "family": "2",
+      "type": "2",
+      "local_address": "127.0.0.53:53",
+      "remote_address": null,
+      "status": "NONE",
+      "pid": 1002
+    }
+  },
+  {
+    "host": "ns-ubuntu-server",
+    "os": "linux",
+    "collected_at": "2026-07-29T05:05:40Z",
+    "artifact_type": "network",
+    "data": {
+      "fd": 9,
+      "family": "2",
+      "type": "1",
+      "local_address": "192.168.50.129:22",
+      "remote_address": "192.168.50.1:65053",
+      "status": "ESTABLISHED",
+      "pid": 3001
+    }
+  }
+]
