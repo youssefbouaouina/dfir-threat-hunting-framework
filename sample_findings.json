@@ -1,0 +1,182 @@
+{
+  "scan_id": "b3f1a2c4-6e21-4a90-9f3a-1234567890ab",
+  "host": {
+    "hostname": "WIN10-ENDPOINT-04",
+    "os": "windows",
+    "os_version": "10.0.19045",
+    "ip_addresses": ["192.168.1.42"]
+  },
+  "scan_start": "2026-07-22T14:03:00Z",
+  "scan_end": "2026-07-22T14:04:12Z",
+  "collector_version": "0.3.0",
+  "findings": [
+    {
+      "finding_id": "f-0001",
+      "source": "yara",
+      "severity": "high",
+      "artifact_type": "process",
+      "artifact": {
+        "pid": 4521,
+        "parent_pid": 812,
+        "name": "update_svc.exe",
+        "path": "C:\\Users\\Public\\update_svc.exe",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b85",
+        "cmdline": "update_svc.exe -silent"
+      },
+      "rule_id": "SUSP_Process_Masquerading_As_Update",
+      "rule_description": "Process name mimics a legitimate updater but runs from a public user directory instead of Program Files",
+      "matched_pattern": "path_public_dir_executable",
+      "raw_log_ref": null,
+      "timestamp": "2026-07-22T14:03:47Z",
+      "confidence": 0.82,
+      "attack_mapping": null,
+      "tags": ["persistence-suspect", "masquerading"]
+    },
+    {
+      "finding_id": "f-0002",
+      "source": "sigma",
+      "severity": "critical",
+      "artifact_type": "registry_key",
+      "artifact": {
+        "hive": "HKCU",
+        "key_path": "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+        "value_name": "OneDriveSyncHelper",
+        "value_data": "C:\\Users\\Public\\update_svc.exe -silent"
+      },
+      "rule_id": "SIGMA_Registry_Run_Key_Suspicious_Path",
+      "rule_description": "A new autostart Run key was created pointing to an executable in a non-standard, world-writable directory",
+      "matched_pattern": "run_key_points_to_public_dir",
+      "raw_log_ref": "EventID=13 (Sysmon)",
+      "timestamp": "2026-07-22T14:03:48Z",
+      "confidence": 0.9,
+      "attack_mapping": null,
+      "tags": ["persistence", "registry"]
+    },
+    {
+      "finding_id": "f-0003",
+      "source": "ioc_match",
+      "severity": "critical",
+      "artifact_type": "network_connection",
+      "artifact": {
+        "local_addr": "192.168.1.42",
+        "local_port": 51422,
+        "remote_addr": "185.220.101.7",
+        "remote_port": 443,
+        "pid": 4521,
+        "protocol": "tcp"
+      },
+      "rule_id": "IOC_Known_C2_IP_Range",
+      "rule_description": "Outbound connection to an IP address listed in a known command-and-control IOC feed",
+      "matched_pattern": "185.220.101.0/24",
+      "raw_log_ref": null,
+      "timestamp": "2026-07-22T14:03:50Z",
+      "confidence": 0.95,
+      "attack_mapping": null,
+      "tags": ["c2", "network"]
+    },
+    {
+      "finding_id": "f-0004",
+      "source": "sigma",
+      "severity": "medium",
+      "artifact_type": "scheduled_task",
+      "artifact": {
+        "name": "SystemHealthCheck",
+        "path": "\\Microsoft\\Windows\\SystemHealthCheck",
+        "trigger": "At log on of any user",
+        "run_as": "SYSTEM"
+      },
+      "rule_id": "SIGMA_Scheduled_Task_Runs_As_System_Nonstandard_Name",
+      "rule_description": "A scheduled task with a generic name was created to run as SYSTEM at every logon",
+      "matched_pattern": "task_name_generic_runas_system",
+      "raw_log_ref": "EventID=4698 (Security)",
+      "timestamp": "2026-07-22T14:03:52Z",
+      "confidence": 0.7,
+      "attack_mapping": null,
+      "tags": ["persistence", "privilege-escalation-suspect"]
+    },
+    {
+      "finding_id": "f-0005",
+      "source": "sigma",
+      "severity": "medium",
+      "artifact_type": "log_event",
+      "artifact": {
+        "event_id": 4688,
+        "channel": "Security",
+        "user": "WIN10-ENDPOINT-04\\jsmith",
+        "message_summary": "New process created: powershell.exe -EncodedCommand <base64 blob>"
+      },
+      "rule_id": "SIGMA_Powershell_EncodedCommand",
+      "rule_description": "PowerShell was launched with an obfuscated/encoded command, a common technique to hide malicious script content",
+      "matched_pattern": "encodedcommand_flag_present",
+      "raw_log_ref": "EventID=4688 (Security)",
+      "timestamp": "2026-07-22T14:03:55Z",
+      "confidence": 0.65,
+      "attack_mapping": null,
+      "tags": ["execution", "obfuscation"]
+    },
+    {
+      "finding_id": "f-0006",
+      "source": "yara",
+      "severity": "low",
+      "artifact_type": "file",
+      "artifact": {
+        "path": "C:\\Users\\jsmith\\Downloads\\invoice_2026.xlsm",
+        "sha256": "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f9",
+        "size_bytes": 48213,
+        "signed": false
+      },
+      "rule_id": "SUSP_Macro_AutoOpen_Shell_Exec",
+      "rule_description": "Office document contains an AutoOpen macro that calls Shell() to execute an external command",
+      "matched_pattern": "vba_autoopen_shell_call",
+      "raw_log_ref": null,
+      "timestamp": "2026-07-22T13:58:10Z",
+      "confidence": 0.6,
+      "attack_mapping": null,
+      "tags": ["initial-access-suspect", "macro"]
+    },
+    {
+      "finding_id": "f-0007",
+      "source": "sigma",
+      "severity": "low",
+      "artifact_type": "network_connection",
+      "artifact": {
+        "local_addr": "192.168.1.42",
+        "local_port": 51500,
+        "remote_addr": "8.8.8.8",
+        "remote_port": 53,
+        "pid": 4521,
+        "protocol": "udp"
+      },
+      "rule_id": "SIGMA_DNS_Query_Volume_Anomaly",
+      "rule_description": "Unusually high volume of DNS queries from a single process in a short window, possibly indicating DNS tunneling",
+      "matched_pattern": "dns_query_rate_threshold_exceeded",
+      "raw_log_ref": "EventID=22 (Sysmon)",
+      "timestamp": "2026-07-22T14:03:58Z",
+      "confidence": 0.4,
+      "attack_mapping": null,
+      "tags": ["exfiltration-suspect", "dns"]
+    },
+    {
+      "finding_id": "f-0008",
+      "source": "ioc_match",
+      "severity": "high",
+      "artifact_type": "process",
+      "artifact": {
+        "pid": 4899,
+        "parent_pid": 4521,
+        "name": "mimikatz.exe",
+        "path": "C:\\Windows\\Temp\\mm.exe",
+        "sha256": "5f4dcc3b5aa765d61d8327deb882cf99a1b2c3d4e5f60718293a4b5c6d7e8f9",
+        "cmdline": "mm.exe sekurlsa::logonpasswords"
+      },
+      "rule_id": "IOC_Known_Malware_Hash_Mimikatz",
+      "rule_description": "File hash matches a known build of the Mimikatz credential-dumping tool",
+      "matched_pattern": "sha256_exact_match",
+      "raw_log_ref": null,
+      "timestamp": "2026-07-22T14:04:02Z",
+      "confidence": 0.98,
+      "attack_mapping": null,
+      "tags": ["credential-access", "known-tool"]
+    }
+  ]
+}
