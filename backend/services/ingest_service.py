@@ -1,0 +1,48 @@
+"""Ingest business logic — persists artifact batches and refreshes host state.
+
+Kept out of the route handler so /ingest stays thin and the logic is
+unit-testable without the HTTP layer. Raises ValueError on an empty batch;
+the route maps that to HTTP 400.
+"""
+import json
+from collections import Counter
+
+import models
+import schemas
+
+
+def ingest_artifacts(db, artifacts: list) -> schemas.IngestResponse:
+    """Stores a batch of artifacts, upserting the reporting host in one commit."""
+    if not artifacts:
+        raise ValueError("Empty artifact list")
+
+    hostname = artifacts[0].host
+    os_name = artifacts[0].os
+
+    host_row = db.query(models.Host).filter(models.Host.hostname == hostname).first()
+    if host_row is None:
+        host_row = models.Host(hostname=hostname, os=os_name)
+        db.add(host_row)
+    else:
+        host_row.os = os_name  # keep it current in case the OS field ever changes
+
+    type_counter = Counter()
+    for artifact in artifacts:
+        db.add(
+            models.Artifact(
+                host=artifact.host,
+                os=artifact.os,
+                artifact_type=artifact.artifact_type,
+                collected_at=artifact.collected_at,
+                data=json.dumps(artifact.data),
+            )
+        )
+        type_counter[artifact.artifact_type] += 1
+
+    db.commit()
+
+    return schemas.IngestResponse(
+        ingested=len(artifacts),
+        host=hostname,
+        artifact_types=list(type_counter.keys()),
+    )

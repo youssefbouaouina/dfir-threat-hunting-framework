@@ -23,7 +23,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 
 from database import SessionLocal
-from detection_routes import run_detection_job
+from services.detection_service import run_detection_job
 
 logger = logging.getLogger("dfir.scheduler")
 
