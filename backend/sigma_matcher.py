@@ -24,19 +24,50 @@ Supported condition operators:
     field_contains: [s1, s2]  -> field (as string, case-insensitive)
                                   must contain at least one of the substrings
 """
+import logging
 import os
 
 import yaml
 
+logger = logging.getLogger(__name__)
+
+REQUIRED_RULE_KEYS = ("id", "title", "artifact_type", "condition")
+
 
 def load_rules(rules_dir: str) -> list:
+    """Loads every rule file, validating structure and deduplicating by id.
+
+    Deterministic order (sorted filenames). Invalid rules — unparseable YAML,
+    non-mapping documents, or missing required keys — are skipped with a
+    warning instead of crashing a detection run. Duplicate rule ids keep the
+    first occurrence (the numbered ruleNNN files sort before the legacy
+    copies, so they win), preventing double detections from the same id.
+    """
     rules = []
-    for fname in os.listdir(rules_dir):
-        if fname.endswith((".yml", ".yaml")):
-            with open(os.path.join(rules_dir, fname), "r", encoding="utf-8") as f:
+    seen_ids = set()
+    for fname in sorted(os.listdir(rules_dir)):
+        if not fname.endswith((".yml", ".yaml")):
+            continue
+        path = os.path.join(rules_dir, fname)
+        try:
+            with open(path, "r", encoding="utf-8") as f:
                 rule = yaml.safe_load(f)
-                if rule:
-                    rules.append(rule)
+        except (OSError, yaml.YAMLError) as exc:
+            logger.warning("Skipping rule file %s: %s", path, exc)
+            continue
+        if not isinstance(rule, dict):
+            logger.warning("Skipping rule file %s: not a mapping", path)
+            continue
+        missing = [key for key in REQUIRED_RULE_KEYS if not rule.get(key)]
+        if missing:
+            logger.warning("Skipping rule file %s: missing required keys %s", path, missing)
+            continue
+        rule_id = rule["id"]
+        if rule_id in seen_ids:
+            logger.warning("Skipping duplicate rule id %s in %s", rule_id, path)
+            continue
+        seen_ids.add(rule_id)
+        rules.append(rule)
     return rules
 
 

@@ -7,4 +7,4 @@ description: >
   Flags PowerShell invocations using -EncodedCommand/-enc, a common way
   attackers obfuscate commands to evade simple string-based detection.
 condition:
-  cmdline_contains: ["-enc", "-EncodedCommand", "-e "]
+  cmdline_contains: ["-EncodedCommand", "-enc"]
