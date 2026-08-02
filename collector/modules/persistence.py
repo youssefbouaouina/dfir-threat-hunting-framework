@@ -59,6 +59,18 @@ def _collect_windows_persistence() -> list:
             continue
 
     # Installed services (requires pywin32)
+    # EnumServicesStatus's status field is a tuple:
+    # (ServiceType, CurrentState, ControlsAccepted, Win32ExitCode,
+    #  ServiceSpecificExitCode, CheckPoint, WaitHint)
+    STATE_MAP = {
+        1: "STOPPED",
+        2: "START_PENDING",
+        3: "STOP_PENDING",
+        4: "RUNNING",
+        5: "CONTINUE_PENDING",
+        6: "PAUSE_PENDING",
+        7: "PAUSED",
+    }
     try:
         import win32service
 
@@ -66,11 +78,13 @@ def _collect_windows_persistence() -> list:
             None, None, win32service.SC_MANAGER_ENUMERATE_SERVICE
         )
         services = win32service.EnumServicesStatus(sc_handle)
-        for (short_name, display_name, _status) in services:
+        for (short_name, display_name, status) in services:
+            current_state = status[1] if status else None
             data = {
                 "type": "service",
                 "name": short_name,
                 "display_name": display_name,
+                "status": STATE_MAP.get(current_state, "UNKNOWN"),
             }
             records.append(wrap_artifact("persistence", data))
     except ImportError:

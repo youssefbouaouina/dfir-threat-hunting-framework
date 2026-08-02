@@ -1,0 +1,12 @@
+title: System/account discovery command execution
+id: rule-008
+artifact_type: process
+technique_id: T1082
+severity: low
+description: >
+  whoami, systeminfo, and net user/group are frequently run by
+  attackers early in an intrusion to orient themselves. Low severity
+  alone (also run by admins) — meaningful mainly in combination with
+  other detections on the same host.
+condition:
+  cmdline_contains: ["whoami", "systeminfo", "net user", "net group", "net localgroup"]

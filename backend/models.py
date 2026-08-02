@@ -36,3 +36,19 @@ class Artifact(Base):
     data = Column(Text, nullable=False)              # JSON-encoded artifact-specific fields
     ingested_at = Column(DateTime(timezone=True), server_default=func.now())
     processed = Column(Integer, default=0)            # 0 = not yet analyzed, 1 = analyzed
+
+
+class Detection(Base):
+    __tablename__ = "detections"
+
+    id = Column(Integer, primary_key=True, index=True)
+    host = Column(String, index=True, nullable=False)
+    rule_id = Column(String, index=True, nullable=False)
+    rule_title = Column(String, nullable=False)
+    technique_id = Column(String, index=True, nullable=True)
+    technique_name = Column(String, nullable=True)
+    tactic = Column(String, nullable=True)
+    artifact_type = Column(String, nullable=False)
+    severity = Column(String, nullable=True)
+    matched_data = Column(Text, nullable=False)         # JSON-encoded artifact data that triggered this
+    detected_at = Column(DateTime(timezone=True), server_default=func.now())

@@ -1,0 +1,10 @@
+title: Suspicious PowerShell EncodedCommand
+id: rule-001
+artifact_type: process
+technique_id: T1059.001
+severity: high
+description: >
+  Flags PowerShell invocations using -EncodedCommand/-enc, a common way
+  attackers obfuscate commands to evade simple string-based detection.
+condition:
+  cmdline_contains: ["-enc", "-EncodedCommand", "-e "]

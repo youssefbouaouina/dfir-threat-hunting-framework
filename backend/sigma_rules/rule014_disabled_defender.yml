@@ -1,0 +1,12 @@
+title: Security tooling service in a stopped/disabled state
+id: rule-014
+artifact_type: persistence
+technique_id: T1562.001
+severity: medium
+description: >
+  A defensive service (Defender, EDR, firewall) that's present but
+  reported as stopped can indicate deliberate tampering to weaken
+  host defenses ahead of further activity.
+condition:
+  display_name_contains: ["Defender", "Antivirus", "Firewall"]
+  status: STOPPED

@@ -15,7 +15,9 @@ Endpoints:
     GET  /hosts                 — list all hosts that have reported in
 """
 import json
+import logging
 from collections import Counter
+from contextlib import asynccontextmanager
 from typing import List, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Query
@@ -24,12 +26,47 @@ from sqlalchemy.orm import Session
 import models
 import schemas
 from database import Base, engine, get_db
+from detection_routes import router as detection_router
+from scheduler import start_scheduler, stop_scheduler, get_status
+from security import (
+    TOKEN_TTL_SECONDS,
+    authenticate_login,
+    issue_token,
+    rate_limit,
+    require_admin,
+    require_agent,
+)
+
+logging.basicConfig(level=logging.INFO)
 
 # Creates dfir.db and all tables on first run if they don't exist yet.
 # Safe to call every startup — it's a no-op if tables already exist.
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="DFIR Ingest API", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    start_scheduler()
+    yield
+    stop_scheduler()
+
+
+app = FastAPI(title="DFIR Ingest & Detection API", version="0.3.0", lifespan=lifespan)
+app.include_router(detection_router)
+
+
+@app.get("/scheduler/status", dependencies=[Depends(require_admin)])
+def scheduler_status():
+    return get_status()
+
+
+@app.post("/auth/login", response_model=schemas.LoginResponse)
+def login(body: schemas.LoginRequest):
+    """Exchanges the admin API key for a short-lived bearer token (analyst access)."""
+    if not authenticate_login(body.api_key):
+        raise HTTPException(status_code=401, detail="Invalid admin API key")
+    token = issue_token("admin")
+    return schemas.LoginResponse(token=token, expires_in=TOKEN_TTL_SECONDS)
 
 
 @app.get("/health")
@@ -37,7 +74,11 @@ def health():
     return {"status": "ok"}
 
 
-@app.post("/ingest", response_model=schemas.IngestResponse)
+@app.post(
+    "/ingest",
+    response_model=schemas.IngestResponse,
+    dependencies=[Depends(rate_limit), Depends(require_agent)],
+)
 def ingest_artifacts(artifacts: List[schemas.ArtifactIn], db: Session = Depends(get_db)):
     if not artifacts:
         raise HTTPException(status_code=400, detail="Empty artifact list")
@@ -73,7 +114,7 @@ def ingest_artifacts(artifacts: List[schemas.ArtifactIn], db: Session = Depends(
     )
 
 
-@app.get("/artifacts", response_model=List[schemas.ArtifactOut])
+@app.get("/artifacts", response_model=List[schemas.ArtifactOut], dependencies=[Depends(require_admin)])
 def list_artifacts(
     host: Optional[str] = None,
     artifact_type: Optional[str] = None,
@@ -102,7 +143,7 @@ def list_artifacts(
     ]
 
 
-@app.get("/hosts")
+@app.get("/hosts", dependencies=[Depends(require_admin)])
 def list_hosts(db: Session = Depends(get_db)):
     hosts = db.query(models.Host).all()
     return [

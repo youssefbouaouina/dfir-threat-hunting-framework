@@ -1,0 +1,10 @@
+title: Reverse shell one-liner pattern
+id: rule-015
+artifact_type: process
+technique_id: T1059.004
+severity: critical
+description: >
+  Classic bash/nc/python reverse shell one-liner fragments — /dev/tcp
+  redirection or "nc -e" — are almost exclusively used maliciously.
+condition:
+  cmdline_contains: ["/dev/tcp/", "nc -e", "bash -i >&"]

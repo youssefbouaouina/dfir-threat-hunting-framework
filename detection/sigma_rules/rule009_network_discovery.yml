@@ -1,0 +1,10 @@
+title: Network configuration discovery
+id: rule-009
+artifact_type: process
+technique_id: T1016
+severity: low
+description: >
+  ipconfig /all, ifconfig -a, and arp -a are common reconnaissance
+  commands used to map the local network after initial access.
+condition:
+  cmdline_contains: ["ipconfig /all", "ifconfig -a", "arp -a", "ip a"]

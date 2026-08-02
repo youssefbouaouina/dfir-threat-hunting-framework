@@ -36,3 +36,13 @@ class IngestResponse(BaseModel):
     ingested: int
     host: str
     artifact_types: List[str]
+
+
+class LoginRequest(BaseModel):
+    api_key: str
+
+
+class LoginResponse(BaseModel):
+    token: str
+    token_type: str = "bearer"
+    expires_in: int
