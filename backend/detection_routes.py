@@ -22,7 +22,13 @@ def run_detection(
     db: Session = Depends(get_db),
 ):
     """Manual trigger — same pipeline the scheduler runs automatically."""
-    return detection_service.run_detection_job(db, host=host, rescan=rescan)
+    return detection_service.run_detection_job(db, host=host, rescan=rescan, trigger="manual")
+
+
+@router.get("/detection-runs", dependencies=[Depends(require_admin)])
+def list_detection_runs(status: str = None, limit: int = 50, db: Session = Depends(get_db)):
+    """Detection run history — when cycles ran, what triggered them, and the outcome."""
+    return detection_service.list_detection_runs(db, status=status, limit=limit)
 
 
 @router.get("/detections", dependencies=[Depends(require_admin)])

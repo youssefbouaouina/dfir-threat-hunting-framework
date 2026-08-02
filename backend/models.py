@@ -52,3 +52,25 @@ class Detection(Base):
     severity = Column(String, nullable=True)
     matched_data = Column(Text, nullable=False)         # JSON-encoded artifact data that triggered this
     detected_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class DetectionRun(Base):
+    """One detection-pipeline cycle (scheduled or manual) — the run history.
+
+    Lets analysts see when detection ran, what triggered it, how many
+    artifacts were scanned, what it found, and whether it failed. This is
+    the audit trail the dashboard's 'history' view reads from.
+    """
+    __tablename__ = "detection_runs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    trigger = Column(String, nullable=False, default="manual")  # manual | scheduled
+    status = Column(String, nullable=False, default="started")  # started | completed | failed
+    host = Column(String, nullable=True)                        # scope, when a single host was targeted
+    rescan = Column(Integer, default=0)                         # 1 = re-analyzed processed artifacts
+    started_at = Column(DateTime(timezone=True), server_default=func.now())
+    finished_at = Column(DateTime(timezone=True), nullable=True)
+    artifacts_scanned = Column(Integer, default=0)
+    detections_found = Column(Integer, default=0)
+    by_severity = Column(Text, nullable=True)   # JSON-encoded counts
+    by_technique = Column(Text, nullable=True)  # JSON-encoded counts

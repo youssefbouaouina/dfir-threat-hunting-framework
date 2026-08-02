@@ -36,7 +36,7 @@ def _scheduled_detection_run():
     """The job body — opens its own DB session (can't reuse a request-scoped one)."""
     db = SessionLocal()
     try:
-        result = run_detection_job(db)
+        result = run_detection_job(db, trigger="scheduled")
         if result["artifacts_scanned"] > 0:
             logger.info(
                 "Scheduled detection run: %s artifact(s) scanned, %s detection(s) found",
