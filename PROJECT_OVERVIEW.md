@@ -29,13 +29,13 @@ A three-tier, offline-first **DFIR (Digital Forensics & Incident Response) threa
 
 - **Collector** (`collector/`) — a cross-platform agent that runs **on the endpoint** (Windows VM / Linux server). It snapshots processes, network connections, persistence mechanisms, scheduled tasks, log events, and hashes/YARA-scans executables locally. Output is a folder of JSON files, one per artifact type.
 - **Backend** (`backend/`) — a FastAPI service with two halves:
-  - *Ingest API:* receives artifact JSON, validates the envelope, and stores it in SQLite.
+  - *Ingest API:* receives artifact JSON, validates the envelope, and stores it (SQLite by default; Postgres via `DATABASE_URL`). Ingestion is idempotent when a `batch_id` is supplied.
   - *Detection engine:* periodically (scheduler) or on-demand (`POST /detect`) sweeps unprocessed artifacts through four detection layers (Sigma-style behavioral rules, embedded YARA matches, known-bad hash matching, network IOC correlation), enriches findings with MITRE ATT&CK technique metadata from a local STIX dataset, persists them, and exposes them for querying.
-- **SQLite** (`backend/dfir.db`) — three tables: `hosts`, `artifacts`, `detections`.
+- **SQLite/Postgres** (`backend/dfir.db` by default) — managed by **Alembic migrations** (see `backend/migrations/`): tables `hosts`, `artifacts`, `detections`, plus new `endpoints`, `detection_runs` and new artifact columns `analyzed_at`, `source_run_id`, `agent_batch_id`.
 
 Detection is **deliberately decoupled from ingest**: ingest just stores; a background scheduler (APScheduler, every 30 s by default) picks up whatever is unprocessed. This mirrors real EDR/SIEM backend design and keeps ingest fast.
 
-Current state: the pipeline is proven end-to-end on real VM data. The committed `dfir.db` contains 2,742 artifacts from 2 hosts (`DESKTOP-A5E108P` Windows 10, `ns-ubuntu-server` Ubuntu) and 4 detections.
+Current state: the pipeline is proven end-to-end on real VM data. The committed `dfir.db` contains 2,742 artifacts from 2 hosts (`DESKTOP-A5E108P` Windows 10, `ns-ubuntu-server` Ubuntu) and 4 detections. Agents can now **enroll** (`POST /endpoints/enroll`), poll a **config** (`GET /endpoints/config`), and **auto-push** collected data with idempotent batches (`collector/agent_client.py`, `collector_agent.py --daemon`).
 
 ---
 
@@ -50,20 +50,31 @@ dfir-threat-hunting-frameworkV3/
 │
 ├── backend/                     # FastAPI ingest + detection API (canonical backend)
 │   ├── main.py                  # FastAPI app, ingest/query endpoints, scheduler lifecycle
-│   ├── models.py                # SQLAlchemy ORM models: Host, Artifact, Detection
+│   ├── models.py                # SQLAlchemy ORM models: Host, Artifact, Detection, Endpoint, DetectionRun
 │   ├── schemas.py               # Pydantic request/response models
 │   ├── database.py              # SQLite engine, session factory, get_db dependency
 │   ├── detection_routes.py      # detection pipeline + /detect /detections endpoints
+│   ├── endpoint_routes.py       # /endpoints/enroll, /endpoints, /endpoints/config
 │   ├── scheduler.py             # APScheduler background job (periodic detection)
 │   ├── sigma_matcher.py         # custom Sigma-style rule loader + evaluator
 │   ├── hash_checker.py          # known-bad hash matching (iocs/known_bad_hashes.txt)
 │   ├── ioc_correlation.py       # network IOC matching (local blocklist + AbuseIPDB)
 │   ├── attck_mapper.py          # MITRE ATT&CK enrichment from local STIX dataset
 │   ├── push_samples.py          # CLI: push sample_data/ folders into /ingest
+│   ├── ingest_service.py        # ingest_artifacts() incl. batch_id idempotency + dedup
+│   ├── services/
+│   │   └── endpoint_service.py  # enroll_endpoint, list_endpoints, get_endpoint_config
+│   ├── alembic.ini              # Alembic config (sqlite default; DATABASE_URL overrides)
+│   ├── migrations/              # Alembic env + versions/4823f807fcd2 initial schema
+│   │   └── versions/4823f807fcd2_initial_schema_endpoints_artifacts_.py
+│   ├── Dockerfile               # multi-stage, python:3.12-slim, non-root, healthcheck
+│   ├── docker-entrypoint.sh     # alembic upgrade head, then exec "$@"
+│   ├── tests/                   # pytest suite (44 tests incl. test_phase2.py)
 │   ├── yara_engine.py           # DEAD CODE — unused by the app (see Known Issues)
-│   ├── requirements.txt         # UTF-16 pip-freeze dump; MISSING deps (see Known Issues)
+│   ├── requirements.txt         # UTF-8, top-level deps incl. alembic + psycopg2-binary
+│   ├── requirements-dev.txt     # pytest + ruff + test deps
 │   ├── README.md                # setup/run notes for the backend
-│   ├── .env.txt                 # ⚠ committed API keys (AbuseIPDB) — rotate!
+│   ├── .env.example             # placeholder secrets (real keys removed from repo)
 │   ├── dfir.db                  # ⚠ committed SQLite database (runtime data)
 │   ├── db/                      # empty (.gitkeep) — placeholder, unused
 │   ├── iocs/                    # threat intel data files
@@ -82,8 +93,11 @@ dfir-threat-hunting-frameworkV3/
 │
 ├── collector/                   # endpoint-side agent
 │   ├── collector_agent.py       # CLI entrypoint, orchestrates modules
-│   ├── requirements.txt         # psutil, pywin32 (Windows only)
+│   ├── agent_client.py          # enroll, get_endpoint_config, push_folder, daemon_loop
+│   ├── requirements.txt         # psutil, pywin32 (Windows only), requests
+│   ├── pyproject.toml           # ruff config for collector conventions
 │   ├── README.md                # setup/run notes
+│   ├── tests/                   # pytest suite (conftest.py + test_agent_client.py)
 │   ├── modules/
 │   │   ├── __init__.py          # empty
 │   │   ├── common.py            # schema wrapper + JSON writer (shared)
@@ -98,6 +112,12 @@ dfir-threat-hunting-frameworkV3/
 │       └── 2026-07-31_DESKTOP-68VLDRS/   # one folder per collection run
 │           ├── processes.json, network.json, persistence.json,
 │           ├── scheduled_tasks.json, logs.json, file_scan.json
+│
+├── docker-compose.yml           # dev stack: Postgres 16 + backend
+├── .dockerignore
+├── .github/
+│   └── workflows/
+│       └── ci.yml               # lint+test+gitleaks; GHCR build+push+smoke on v* tags
 │
 ├── detection/                   # ⚠ BROKEN STALE COPY of backend/ detection code
 │   ├── attck_mapper.py          # identical copy of backend's
@@ -156,11 +176,11 @@ Every artifact is a JSON object with this standard shape (defined in `collector/
 | `log_event` | logs.py | Win: `event_id`, `time_generated`, `source_name`, `event_category`, `string_inserts`. Linux: `message`, `unit`, `pid`, `priority`, `timestamp_us`, or auditd: `source`, `key`, `raw` |
 | `file_scan` | file_scan.py | `path`, `sha256`, `size_bytes`, `yara_matches` (`[{rule, tags, meta}]`) |
 
-### 3.2 SQLite database (`backend/dfir.db`)
+### 3.2 Database (`backend/dfir.db` by default; Postgres via `DATABASE_URL`)
 
-Created on first run by `models.Base.metadata.create_all(bind=engine)` in `backend/main.py`.
+Schema is **managed by Alembic migrations** (`backend/migrations/`). On app import, `backend/main.py::migrate_to_head()` runs `alembic upgrade head` — it replaces the old `Base.metadata.create_all`. The initial migration is **idempotent**: for a Phase-1 SQLite DB that already has `artifacts`/`hosts`/`detections` from `create_all`, it adds the new columns/tables in place and preserves existing rows (verified against the committed `dfir.db`).
 
-**`hosts`** — one row per endpoint that has ever reported in.
+**`hosts`** — one row per endpoint that has ever reported in (kept for backwards compatibility; new enrollments go to `endpoints`).
 
 | Column | Type | Notes |
 |---|---|---|
@@ -181,6 +201,36 @@ Created on first run by `models.Base.metadata.create_all(bind=engine)` in `backe
 | `data` | Text, not null | JSON-encoded artifact-specific fields |
 | `ingested_at` | DateTime(tz) | `server_default=func.now()` |
 | `processed` | Integer | `0` = not yet analyzed, `1` = analyzed (terminal — see Known Issues #10) |
+| `analyzed_at` | DateTime(tz) | nullable — set when a detection run marks the artifact `processed=1` (added by migration) |
+| `source_run_id` | Integer | nullable — FK to `detection_runs.id` of the run that analyzed it |
+| `agent_batch_id` | String | nullable — idempotency key; repeat pushes of the same `(host, batch_id)` are deduplicated by ingest |
+
+**`endpoints`** — one row per enrolled endpoint (added in Phase 2).
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | Integer PK | indexed |
+| `hostname` | String, unique, not null | enrollment is idempotent per hostname |
+| `os` | String, nullable | |
+| `agent_version` | String, nullable | |
+| `status` | String, default `online` | `online` / `offline` |
+| `last_seen` | DateTime(tz) | refreshed on enroll/config poll |
+| `enrollment_token_hash` | String, nullable | SHA-256 of the one-time enrollment token |
+| `config_json` | Text, nullable | per-endpoint agent config (default: collectors + `interval_seconds: 300`) |
+| `registered_at` | DateTime(tz) | `server_default=func.now()` |
+
+**`detection_runs`** — one row per detection cycle (history; table added in Phase 2; the scheduler does **not** yet write a row per cycle — see Known Issues).
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | Integer PK | indexed |
+| `started_at` | DateTime(tz) | `server_default=func.now()` |
+| `finished_at` | DateTime(tz) | nullable |
+| `trigger` | String | `scheduled` / `manual` / `api` |
+| `artifacts_scanned` | Integer | default 0 |
+| `detections_found` | Integer | default 0 |
+| `by_severity` | Text | JSON |
+| `by_technique` | Text | JSON |
 
 **`detections`** — one row per detection produced by the pipeline.
 
@@ -224,8 +274,15 @@ Currently contains only `203.0.113.66` (RFC 5737 TEST-NET range, safe for valida
 
 - `CORE_COLLECTORS` — dict of collector name → `(filename, callable)`.
 - `_extract_exe_paths(process_records, persistence_records) -> set` — gathers `exe` paths from process artifacts and a best-effort first-token path parse of registry Run key `value_data`.
-- `run_collection(output_dir, only, yara_rules_dir) -> str` — runs `processes` + `persistence` first (file_scan depends on their output), then `network`, `scheduled_tasks`, `logs`, then `file_scan`. Each module is wrapped in try/except; a failure records `[]` (for processes/persistence) or is skipped, never aborting the run.
-- CLI flags: `--output`, `--only processes,network`, `--yara-rules <dir>`.
+- `run_collection(output_dir, only, yara_rules_dir) -> str` — runs `processes` + `persistence` first (file_scan depends on their output), then `network`, `scheduled_tasks`, `logs`, then `file_scan`. Each module is wrapped in try/except; a failure records `[]` (for processes/persistence) or is skipped, never aborting the run. Returns the run directory (used as the idempotent `batch_id` when pushing).
+- CLI flags: `--output`, `--only processes,network`, `--yara-rules <dir>`, plus Phase 2 `--api-url`, `--api-key`, `--enroll`, `--daemon`, `--interval <seconds>` (env fallbacks `DFIR_API_URL`, `DFIR_API_KEY`, `COLLECT_INTERVAL_SECONDS`).
+
+**`collector/agent_client.py`** — HTTP client for the agent-to-backend interface (Phase 2).
+- `make_batch_id() -> str` — unique id per run (timestamp + hostname + random suffix; avoids same-second collisions).
+- `enroll(api_url, hostname, os, agent_version, api_key=None) -> dict` — `POST /endpoints/enroll`; returns endpoint + config + enrollment token.
+- `get_endpoint_config(api_url, hostname, api_key=None) -> dict` — `GET /endpoints/config?hostname=`; returns interval + collectors.
+- `push_folder(folder, api_url, api_key=None, batch_id=None) -> dict` — for each `*.json` artifact file in `folder`, `POST /ingest?batch_id=<id>`; aggregates `{ingested, deduplicated}`; returns `{}` on connection error (fail-soft).
+- `daemon_loop(...)` — collect → push → sleep(interval) forever; used by `--daemon`.
 
 **`collector/modules/common.py`** — shared helpers.
 - `get_hostname() -> str` — `socket.gethostname()`.
@@ -264,11 +321,20 @@ Currently contains only `203.0.113.66` (RFC 5737 TEST-NET range, safe for valida
 
 ### 4.2 Backend
 
-**`backend/main.py`** — FastAPI app (`title="DFIR Ingest & Detection API"`, `version="0.3.0"`).
-- Module import creates all DB tables.
+**`backend/main.py`** — FastAPI app (`title="DFIR Ingest & Detection API"`, `version="0.4.0"`).
+- Module import runs `migrate_to_head()` → `alembic upgrade head` (replaces the old `create_all`).
 - `lifespan(app)` context manager — calls `start_scheduler()` on startup, `stop_scheduler()` on shutdown.
-- Includes the detection router.
-- Endpoints: `/ingest`, `/artifacts`, `/hosts`, `/health`, `/scheduler/status` (see [§5](#5-api-endpoints)).
+- Includes the detection router and the endpoint router.
+- Optional auth layer (`AUTH_ENABLED=true`): agent-key gate on `/ingest` + `/endpoints/*`, admin-key gate on the rest.
+- Endpoints: `/ingest`, `/artifacts`, `/hosts`, `/health`, `/scheduler/status`, `/endpoints/*` (see [§5](#5-api-endpoints)).
+
+**`backend/ingest_service.py`**
+- `ingest_artifacts(db, artifacts, batch_id=None) -> dict` — validates, upserts the `Host` row, inserts `Artifact` rows, and (when `batch_id` given) skips rows already ingested for that `(host, batch_id)`. Returns `{ingested, deduplicated, host, artifact_types, batch_id}`.
+
+**`backend/services/endpoint_service.py`**
+- `enroll_endpoint(db, hostname, os=None, agent_version=None) -> (endpoint, token)` — idempotent per hostname; generates a `secrets.token_urlsafe(32)` enrollment token (stored hashed) and the default agent config (`interval_seconds: 300` + collector list).
+- `list_endpoints(db)` — all endpoint rows.
+- `get_endpoint_config(db, hostname)` — per-endpoint config, falling back to defaults.
 
 **`backend/models.py`** — SQLAlchemy models `Host`, `Artifact`, `Detection` (see [§6](#6-classes) and [§3.2](#32-sqlite-database-backenddfirdb)).
 
@@ -360,15 +426,18 @@ Base URL: `http://127.0.0.1:8000` (auto-generated interactive docs at `/docs`).
 | Method | Path | Auth | Summary |
 |---|---|---|---|
 | GET | `/health` | none | Liveness check |
-| POST | `/ingest` | none | Store a batch of artifacts |
-| GET | `/artifacts` | none | Query stored artifacts (filterable) |
-| GET | `/hosts` | none | List all known hosts |
+| POST | `/ingest` | none* | Store a batch of artifacts (idempotent with `?batch_id=`) |
+| GET | `/artifacts` | none* | Query stored artifacts (filterable) |
+| GET | `/hosts` | none* | List all known hosts |
 | GET | `/scheduler/status` | none | Scheduler running state |
 | POST | `/detect` | none | Manually trigger the detection pipeline |
 | GET | `/detections` | none | Query detections (filterable) |
 | GET | `/detections/summary` | none | Aggregated detection counts |
+| POST | `/endpoints/enroll` | agent key* | Enroll an endpoint (idempotent per hostname) |
+| GET | `/endpoints` | admin key* | List enrolled endpoints |
+| GET | `/endpoints/config?hostname=` | agent key* | Poll per-endpoint agent config |
 
-> **No authentication/authorization on any endpoint.** Do not expose beyond a trusted lab network (see Known Issues #7).
+> \* **Authentication is optional and opt-in** (`AUTH_ENABLED=true` in env; default off for lab/demo use). When enabled: `POST /ingest` and agent-facing `/endpoints/*` routes require the agent API key (`X-API-Key`), and admin routes require the admin key. See [Known Issues #7](#10-known-issues--gotchas).
 
 ### 5.2 Endpoint details
 
@@ -376,10 +445,20 @@ Base URL: `http://127.0.0.1:8000` (auto-generated interactive docs at `/docs`).
 - Response: `{"status": "ok"}`
 
 **POST `/ingest`** — Stores a JSON array of artifacts (the exact content of one collector output file). Request body is `List[ArtifactIn]`.
+- Query param `batch_id` (optional): if provided, repeat pushes of the same `(host, batch_id)` are deduplicated — second push returns `{ingested: 0, deduplicated: 1}` and inserts nothing.
 - Behavior: rejects an empty list (400). Upserts a `Host` row for `artifacts[0].host` (updates `os` if changed). Inserts one `Artifact` row per element with `data` JSON-encoded. Commits once.
-- Response `200`: `{"ingested": <n>, "host": <hostname>, "artifact_types": [...]}`
+- Response `200`: `{"ingested": <n>, "deduplicated": <n>, "batch_id": <id>, "host": <hostname>, "artifact_types": [...]}`
 - Errors: `400` empty list; Pydantic `422` on schema violation.
-- **No idempotency** — re-posting duplicates rows.
+
+**POST `/endpoints/enroll`** — Enroll an endpoint (agent-facing).
+- Body: `{hostname, os?, agent_version?}`. Creates (or returns) an `Endpoint` row keyed by unique hostname (idempotent — re-enrolling returns the same endpoint).
+- Response `200`: `{id, hostname, enrollment_token, config: {...}, status}` — `enrollment_token` is returned **once** (only on first enroll); the stored value is a hash, so a lost token requires re-enrollment.
+
+**GET `/endpoints`** — List enrolled endpoints (admin-facing).
+- Response `200`: `List[{id, hostname, os, agent_version, status, last_seen, registered_at}]`.
+
+**GET `/endpoints/config?hostname=`** — Poll per-endpoint agent config (agent-facing).
+- Response `200`: `{hostname, interval_seconds, collectors: [...]}` — defaults applied for unknown hostnames.
 
 **GET `/artifacts`** — Query stored artifacts.
 - Query params: `host` (optional), `artifact_type` (optional), `limit` (default 50, max 500).
@@ -409,24 +488,31 @@ Base URL: `http://127.0.0.1:8000` (auto-generated interactive docs at `/docs`).
 
 | Class | Module | Type | Purpose |
 |---|---|---|---|
-| `Host` | `backend/models.py` | SQLAlchemy model | Table `hosts` — one row per reporting endpoint |
+| `Host` | `backend/models.py` | SQLAlchemy model | Table `hosts` — one row per reporting endpoint (legacy) |
+| `Endpoint` | `backend/models.py` | SQLAlchemy model | Table `endpoints` — one row per enrolled endpoint |
 | `Artifact` | `backend/models.py` | SQLAlchemy model | Table `artifacts` — one row per collected artifact |
+| `DetectionRun` | `backend/models.py` | SQLAlchemy model | Table `detection_runs` — one row per detection cycle (history) |
 | `Detection` | `backend/models.py` | SQLAlchemy model | Table `detections` — one row per detection result |
 | `ArtifactIn` | `backend/schemas.py` | Pydantic | Request model for `/ingest` items; matches collector `wrap_artifact` output |
 | `ArtifactOut` | `backend/schemas.py` | Pydantic | Response model for `/artifacts`; `Config.from_attributes = True` (ORM compatible) |
-| `IngestResponse` | `backend/schemas.py` | Pydantic | Response model for `POST /ingest` |
+| `IngestResponse` | `backend/schemas.py` | Pydantic | Response model for `POST /ingest` (incl. `deduplicated`, `batch_id`) |
+| `EndpointEnrollRequest` / `EndpointOut` / `EndpointConfigOut` | `backend/schemas.py` | Pydantic | Request/response models for `/endpoints/*` |
 
 **`Host`** — columns: `id` (int PK, indexed), `hostname` (str, unique, not null, indexed), `os` (str, not null), `last_seen` (DateTime tz, `server_default=func.now()`, `onupdate=func.now()`).
 
-**`Artifact`** — columns: `id` (int PK, indexed), `host` (str, not null, indexed), `os` (str, not null), `artifact_type` (str, not null, indexed), `collected_at` (str, not null), `data` (Text, not null — JSON-encoded), `ingested_at` (DateTime tz, server_default now), `processed` (int, default 0).
+**`Endpoint`** — columns: `id` (int PK, indexed), `hostname` (str, unique, not null, indexed), `os` (str, nullable), `agent_version` (str, nullable), `status` (str, default `online`), `last_seen` (DateTime tz, server_default now), `enrollment_token_hash` (str, nullable), `config_json` (Text, nullable), `registered_at` (DateTime tz, server_default now).
+
+**`Artifact`** — columns: `id` (int PK, indexed), `host` (str, not null, indexed), `os` (str, not null), `artifact_type` (str, not null, indexed), `collected_at` (str, not null), `data` (Text, not null — JSON-encoded), `ingested_at` (DateTime tz, server_default now), `processed` (int, default 0), `analyzed_at` (DateTime tz, nullable), `source_run_id` (int, nullable), `agent_batch_id` (str, nullable).
+
+**`DetectionRun`** — columns: `id` (int PK, indexed), `started_at` (DateTime tz, server_default now), `finished_at` (DateTime tz, nullable), `trigger` (str), `artifacts_scanned` (int, default 0), `detections_found` (int, default 0), `by_severity` (Text — JSON), `by_technique` (Text — JSON).
 
 **`Detection`** — columns: `id` (int PK, indexed), `host` (str, not null, indexed), `rule_id` (str, not null, indexed), `rule_title` (str, not null), `technique_id` (str, nullable, indexed), `technique_name` (str, nullable), `tactic` (str, nullable), `artifact_type` (str, not null), `severity` (str, nullable), `matched_data` (Text, not null — JSON-encoded), `detected_at` (DateTime tz, server_default now).
 
 **`ArtifactIn`** — fields: `host: str`, `os: str`, `collected_at: str`, `artifact_type: str`, `data: Dict[str, Any]`.
 
-**`ArtifactOut`** — fields: `id: int`, `host`, `os`, `artifact_type`, `collected_at`, `data: Dict[str, Any]`, `ingested_at: Optional[datetime]`, `processed: int`.
+**`ArtifactOut`** — fields: `id: int`, `host`, `os`, `artifact_type`, `collected_at`, `data: Dict[str, Any]`, `ingested_at: Optional[datetime]`, `processed: int`, `analyzed_at: Optional[datetime]`, `source_run_id: Optional[int]`, `agent_batch_id: Optional[str]`.
 
-**`IngestResponse`** — fields: `ingested: int`, `host: str`, `artifact_types: List[str]`.
+**`IngestResponse`** — fields: `ingested: int`, `deduplicated: int = 0`, `batch_id: Optional[str]`, `host: str`, `artifact_types: List[str]`.
 
 > The collector has no classes — it is function-based.
 
@@ -436,19 +522,23 @@ Base URL: `http://127.0.0.1:8000` (auto-generated interactive docs at `/docs`).
 
 ### 7.1 Backend (`backend/requirements.txt`)
 
-⚠ The file is **UTF-16 encoded** (PowerShell `pip freeze`) — `pip install -r requirements.txt` fails on Linux. It is a full frozen dump, and it is **missing** `yara-python` and `mitreattack-python` (both imported by backend code). Content (pinned versions):
+Now a clean UTF-8 file of top-level packages (see the **Known Issues #4** history note; it was previously a UTF-16 `pip freeze` dump and is now installable on Linux):
 
 | Package | Version | Used by |
 |---|---|---|
-| fastapi | 0.141.1 | main.py, detection_routes.py |
-| uvicorn | 0.52.0 | ASGI server (run command) |
-| sqlalchemy | 2.0.51 | database.py, models.py |
-| pydantic / pydantic-core | 2.13.4 / 2.46.4 | schemas.py |
-| APScheduler | 3.11.3 | scheduler.py |
-| PyYAML | 6.0.3 | sigma_matcher.py |
-| requests | 2.34.2 | ioc_correlation.py, push_samples.py |
-| python-dotenv | 1.2.2 | ioc_correlation.py (`load_dotenv`) |
-| (transitives) annotated-doc, annotated-types, anyio, certifi, charset-normalizer, click, colorama, greenlet, h11, httptools, idna, starlette, typing-inspection, typing_extensions, tzdata, tzlocal, urllib3, watchfiles, websockets | | pulled in by the above |
+| fastapi | >=0.110 | main.py, detection_routes.py, endpoint_routes.py |
+| uvicorn | >=0.30 | ASGI server (run command) |
+| sqlalchemy | >=2.0 | database.py, models.py |
+| alembic | >=1.12 | migrations (added Phase 2) |
+| psycopg2-binary | >=2.9 | Postgres driver (added Phase 2) |
+| pydantic | >=2 | schemas.py |
+| APScheduler | >=3.10 | scheduler.py |
+| PyYAML | >=6 | sigma_matcher.py |
+| requests | >=2.31 | ioc_correlation.py, push_samples.py |
+| python-dotenv | >=1 | ioc_correlation.py (`load_dotenv`) |
+| python-multipart | >=0.0.9 | (FastAPI form support) |
+
+**`requirements-dev.txt`** — pytest + ruff (+ psycopg2-binary for Postgres tests).
 
 **Missing from backend requirements (present in `detection/requirements.txt`):**
 - `yara-python>=4.5.0` — required by `backend/yara_engine.py` (dead code) and the collector's `file_scan.py`.
@@ -462,6 +552,7 @@ Base URL: `http://127.0.0.1:8000` (auto-generated interactive docs at `/docs`).
 | Package | Constraint | Notes |
 |---|---|---|
 | psutil | >=5.9.0 | processes, network modules |
+| requests | >=2.31 | agent_client.py (enroll/push/config) |
 | pywin32 | >=306, `sys_platform == 'win32'` | persistence (win32service), logs (win32evtlog) on Windows; requires `pywin32_postinstall.py -install` once |
 
 `yara` (yara-python) is **optional** for the collector — `file_scan.py` imports it in a try/except; without it, hashing still works but YARA scanning is skipped.
@@ -491,15 +582,22 @@ collector_agent.py
 ### 8.2 Flow B — Ship + Ingest
 
 ```
-[manually] copy collector output folder → sample_data/<date>_<hostname>/
-[manually] python backend/push_samples.py sample_data/<date>_<hostname>
-  └─ POST {/ingest} with each JSON file's artifact array
-       main.py::ingest_artifacts
-         ├─ validate with Pydantic ArtifactIn (envelope only; data is free-form)
-         ├─ upsert Host row (create or refresh os)
-         ├─ insert Artifact row per element (data → JSON text, processed=0)
-         └─ commit → response {ingested, host, artifact_types}
+[agent] collector_agent.py --enroll --api-url http://<host>:8000 --api-key <key>
+  └─ POST /endpoints/enroll {hostname, os, agent_version}  → receives config + enrollment_token
+[agent] collector_agent.py --daemon --api-url ... [--enroll]
+  └─ every COLLECT_INTERVAL_SECONDS (default 300, from config):
+       run_collection() → output/<YYYY-MM-DD>_<hostname>/   (run_dir = batch_id)
+       push_folder(run_dir) → POST /ingest?batch_id=<run_dir> per JSON file
+         main.py::ingest_artifacts
+           ├─ validate with Pydantic ArtifactIn (envelope only; data is free-form)
+           ├─ skip rows already ingested for (host, batch_id)  → deduplicated
+           ├─ upsert Host row (create or refresh os)
+           ├─ insert Artifact row per element (data → JSON text, processed=0)
+           └─ commit → response {ingested, deduplicated, batch_id, host, artifact_types}
+[offline replay] python backend/push_samples.py sample_data/<date>_<hostname> [--url ...] [--batch-id ...]
 ```
+
+The agent's `agent_client.py` (`enroll`, `get_endpoint_config`, `push_folder`, `daemon_loop`) fails soft on connection/HTTP errors so a missing backend never aborts a collection run.
 
 ### 8.3 Flow C — Detection
 
@@ -536,9 +634,15 @@ GET /scheduler/status      → scheduler state
 
 ```
 uvicorn main:app (from backend/)
-  ├─ import: create_all tables (no-op if present)
+  ├─ import: migrate_to_head() → alembic upgrade head (idempotent; adds new tables/columns to legacy DBs)
   ├─ startup (lifespan): start_scheduler()
   └─ shutdown: stop_scheduler()
+
+docker compose up   # containerized equivalent:
+  ├─ db (postgres:16-alpine, healthcheck)
+  └─ backend (python:3.12-slim, non-root)
+       entrypoint: alembic upgrade head → uvicorn
+       DATABASE_URL=postgresql+psycopg2://dfir:dfir@db:5432/dfir
 ```
 
 ---
@@ -608,20 +712,21 @@ Used **by the collector agent** (`file_scan.py`) on the endpoint, not by the bac
 
 Facts about the current state that future development must account for.
 
-1. **Committed secrets.** `backend/.env.txt` (AbuseIPDB key) and `detection/.env.txt` (AbuseIPDB + OTX + URLhaus keys) are committed to git. **Rotate these keys and remove the files**; replace with a `.env.example`.
-2. **`detection/` is a broken stale copy.** It lacks `database.py`/`models.py`/`schemas.py`, its `detection_routes.py` predates the `run_detection_job` refactor, and it cannot run. Do not develop there; prefer `backend/`. (Repeated rule files under both trees must stay in sync if both are kept.)
-3. **Zero automated tests.** Only `__main__` smoke blocks in each module. The 4-engine pipeline, ingest, and DB writes have no regression coverage.
-4. **`backend/requirements.txt` is UTF-16** and missing `yara-python` + `mitreattack-python`. `pip install -r` fails on Linux; install missing deps manually or fix the file.
-5. **Duplicate sigma rule IDs** cause duplicate detections (see §9.1).
-6. **Runtime data committed.** `backend/dfir.db` (2,742 artifacts, hostnames) and `collector/output/` are in git. `dfir.db` is **not** gitignored.
-7. **No auth on any API endpoint** and README suggests binding `0.0.0.0`. Keep it on a trusted lab network.
+1. ~~**Committed secrets.**~~ **RESOLVED in Phase 1** — `backend/.env.txt` / `detection/.env.txt` were removed from the repo; `.env.example` with placeholders added. (If any key was ever pushed publicly, still rotate it — see Phase 1 exit criteria.)
+2. **`detection/` is a broken stale copy.** It lacks `database.py`/`models.py`/`schemas.py`, its `detection_routes.py` predates the `run_detection_job` refactor, and it cannot run. Do not develop there; prefer `backend/`. (Repeated rule files under both trees must stay in sync if both are kept.) **Still present** — scheduled for removal but awaiting explicit approval.
+3. ~~**Zero automated tests.**~~ **RESOLVED in Phases 1–2** — pytest suite in `backend/tests/` (44 tests) and `collector/tests/` (4 tests) covers sigma matcher, hash checker, IOC correlation (mocked), detection service, API, security, Phase 2 (enroll/config/dedup/analyzed_at), and agent client.
+4. ~~**`backend/requirements.txt` is UTF-16** and missing deps.~~ **RESOLVED in Phase 1** — now a clean UTF-8 top-level file; `alembic` + `psycopg2-binary` added in Phase 2.
+5. **Duplicate sigma rule IDs** cause duplicate detections (see §9.1). Still open — rule validation + dedup at `load_rules` is pending.
+6. **Runtime data committed.** `backend/dfir.db` (2,742 artifacts, hostnames) and `collector/output/` are in git. `dfir.db` is still tracked from before the `.gitignore` update.
+7. **Auth is opt-in and off by default.** `AUTH_ENABLED=true` (env) enables the key-gated agent/admin endpoints, but the default lab/demo profile runs open. Keep it on a trusted lab network; CI smoke tests run with auth on for `/endpoints`.
 8. **ATT&CK enrichment depends on an external STIX dataset** (`../../dfir-refs/cti/…` relative to CWD) that is not in the repo; if missing, `enrich_technique` silently returns `None` fields / error dicts.
-9. **Ingest has no idempotency** — re-posting duplicates artifact rows.
-10. **`processed=1` is terminal** — there is no rescan path; artifacts never re-analyzed when new rules are added.
-11. **Vestigial code:** `backend/yara_engine.py` (and its `__main__`-written `test_eicar.yar`) is unused by the app; `db/` is an unused empty placeholder; `docs/mitre_mapping.json`, `SCHEMA.md`, and `sample_data/README.md` are empty placeholders.
-12. **Small perf/robustness notes:** sigma rules reloaded from disk every detection run; `ioc_correlation._ip_cache` never expires (unbounded growth); `ioc_correlation` advertises URLhaus/Feodo but only implements AbuseIPDB (OTX/URLhaus keys unused); `collected_at` is stored as a string (no time-window queries); `host` is denormalized (no FK); the committed `.env.txt` is named `.env.txt` so `load_dotenv()` in `ioc_correlation.py` will **not** pick it up — the API key currently comes from real env vars.
+9. ~~**Ingest has no idempotency.**~~ **RESOLVED in Phase 2** — `?batch_id=` deduplicates repeat `(host, batch_id)` pushes.
+10. **`processed=1` is terminal** — there is no rescan path; artifacts never re-analyzed when new rules are added. (`analyzed_at` + `source_run_id` now exist to support rescan, but the rescan flow is not implemented.)
+11. **Vestigial code:** `backend/yara_engine.py` (and its `__main__`-written `test_eicar.yar`) is unused by the app; `db/` is an unused empty placeholder; `docs/mitre_mapping.json`, `SCHEMA.md`, and `sample_data/README.md` are empty placeholders. **Still present** — scheduled for removal pending approval.
+12. **Small perf/robustness notes:** sigma rules reloaded from disk every detection run; `ioc_correlation._ip_cache` never expires (unbounded growth); `ioc_correlation` advertises URLhaus/Feodo but only implements AbuseIPDB (OTX/URLhaus keys unused); `collected_at` is stored as a string (no time-window queries); `host` is denormalized (no FK).
 13. **`attck_mapper.DEFAULT_STIX_PATH` is CWD-relative** — running uvicorn from `backend/` resolves to `dev/dfir-refs/cti/…`; running from the repo root resolves elsewhere. Depends on where the process is launched.
 14. **Scheduler + `--reload`:** with uvicorn `--reload` the lifespan runs in the reloader process too; a duplicate scheduler can start. Prefer running without `--reload` for the scheduled path, or verify behavior if this matters.
+15. **`detection_runs` history is not yet populated** — the table + model exist (Phase 2), but `run_detection_job` and the scheduler do **not** yet write a row per cycle; `artifacts.source_run_id` is therefore also never set by the pipeline (only by the Phase 2 tests). Remaining Phase 2 work item.
 
 ---
 

@@ -117,13 +117,13 @@ def _linux_cron_entries() -> list:
         if not os.path.isfile(path):
             continue
         try:
-            with open(path, "r", errors="ignore") as f:
+            with open(path, errors="ignore") as f:
                 for line in f:
                     line = line.strip()
                     if line and not line.startswith("#"):
                         data = {"type": "cron", "source": path, "entry": line}
                         records.append(wrap_artifact("persistence", data))
-        except (IOError, PermissionError):
+        except (OSError, PermissionError):
             continue
 
     # Per-user crontabs (needs root to read other users')
@@ -131,13 +131,13 @@ def _linux_cron_entries() -> list:
     if os.path.isdir(spool_dir):
         for user in os.listdir(spool_dir):
             try:
-                with open(os.path.join(spool_dir, user), "r", errors="ignore") as f:
+                with open(os.path.join(spool_dir, user), errors="ignore") as f:
                     for line in f:
                         line = line.strip()
                         if line and not line.startswith("#"):
                             data = {"type": "cron", "user": user, "entry": line}
                             records.append(wrap_artifact("persistence", data))
-            except (IOError, PermissionError):
+            except (OSError, PermissionError):
                 continue
 
     return records
@@ -148,11 +148,11 @@ def _linux_rc_local() -> list:
     path = "/etc/rc.local"
     if os.path.isfile(path):
         try:
-            with open(path, "r", errors="ignore") as f:
+            with open(path, errors="ignore") as f:
                 content = f.read()
             data = {"type": "rc.local", "path": path, "content": content}
             records.append(wrap_artifact("persistence", data))
-        except (IOError, PermissionError):
+        except (OSError, PermissionError):
             pass
     return records
 

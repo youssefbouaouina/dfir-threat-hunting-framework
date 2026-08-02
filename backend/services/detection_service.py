@@ -107,8 +107,11 @@ def run_detection_job(db, host: str = None, rescan: bool = False, trigger: str =
         # Persist everything, then mark all scanned artifacts processed
         for d in all_detections:
             _persist_detection(db, d)
+        now = datetime.now(timezone.utc)
         for row in unprocessed:
             row.processed = 1
+            row.analyzed_at = now
+            row.source_run_id = run.id
 
         run.artifacts_scanned = len(artifacts)
         run.detections_found = len(all_detections)

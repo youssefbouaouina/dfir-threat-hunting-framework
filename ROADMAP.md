@@ -1,6 +1,6 @@
 # DFIR Threat Hunting Framework — Enterprise Roadmap
 
-> **Status:** Proposed plan only. No code changes have been made. This roadmap is the architectural blueprint for evolving the current demo-stage framework (collect → ship → store → detect → query) into an enterprise-grade, containerized, CI/CD-driven DFIR platform with automated collection/detection, self-service endpoint enrollment from a dashboard, detection run history, and manual trigger controls.
+> **Status:** Plan with Phases 1–2 **implemented and committed on the `youssef` branch**. Phase 1 (security hardening, test net, CI scaffolding) and Phase 2 (containers, Postgres-ready migrations, CI/CD delivery pipeline, agent automation) are done. Phases 3–5 remain proposals. This roadmap is the architectural blueprint for evolving the framework into an enterprise-grade, containerized, CI/CD-driven DFIR platform with automated collection/detection, self-service endpoint enrollment from a dashboard, detection run history, and manual trigger controls.
 
 Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the system as it exists today, including all known issues this roadmap fixes.
 
@@ -73,6 +73,8 @@ Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the syst
 ---
 
 ## Phase 2 — Containers, Postgres, and a Real CI/CD Delivery Pipeline
+
+> **Status: ✅ DONE** (committed on `youssef`; push pending). Delivered: backend `Dockerfile` (multi-stage, non-root, healthcheck, migration entrypoint) + `docker-compose.yml` (backend + Postgres 16) + `.dockerignore`; Alembic migrations (initial schema incl. `endpoints`, `detection_runs`, new artifact columns; idempotent for Phase-1 SQLite DBs, `DATABASE_URL`-driven for Postgres); agent automation (`--daemon`, push to API, enrollment, idempotent `batch_id`); GitHub Actions `ci.yml` (lint+test+gitleaks on push/PR, GHCR build+push+smoke on `v*` tags). See `backend/tests/test_phase2.py` + `collector/tests/`. Not yet done from the original list: `Dockerfile.agent`, migration for existing `dfir.db` backfill is handled in-place, `/detect` scope/rescan options, `detection_runs` row per scheduler cycle.
 
 **Goal:** the backend becomes a containerized, deployable service with migrations and an automated build/deploy pipeline; agents begin reporting on a schedule automatically.
 

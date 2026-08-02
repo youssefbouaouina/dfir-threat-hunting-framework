@@ -16,7 +16,10 @@ def collect_network() -> list:
     try:
         connections = psutil.net_connections(kind="inet")
     except psutil.AccessDenied:
-        print("[!] Access denied listing all connections — re-run elevated/root for full visibility")
+        print(
+            "[!] Access denied listing all connections — "
+            "re-run elevated/root for full visibility"
+        )
         connections = []
 
     for conn in connections:

@@ -1,19 +1,45 @@
 """
 SQLAlchemy table models.
 
-hosts     — one row per endpoint that has ever reported in
-artifacts — one row per collected artifact (process, network conn,
-            persistence entry, scheduled task, or log event)
+endpoints       — managed endpoint inventory (replaces the passive hosts table):
+                  enrollment tokens, agent version, health status, per-endpoint config.
+hosts           — legacy passive table of every host that has ever reported in
+                  (kept for backwards compatibility with the /hosts endpoint).
+artifacts       — one row per collected artifact (process, network conn,
+                  persistence entry, scheduled task, or log event)
+detections      — one row per detection result from the pipeline
+detection_runs  — one row per detection-pipeline cycle (run history)
 
 The `processed` flag on Artifact is there for Person B: the detection
 engine can query WHERE processed = 0, run YARA/Sigma/correlation against
 those rows, then flip them to processed = 1 so it never re-analyzes the
-same artifact twice.
+same artifact twice. `analyzed_at` records when it happened (Phase 2:
+keeps history and enables rescan).
 """
 from sqlalchemy import Column, DateTime, Integer, String, Text
 from sqlalchemy.sql import func
 
 from database import Base
+
+
+class Endpoint(Base):
+    """A managed endpoint (enrolled agent) — the Phase 2 inventory model.
+
+    Supersedes the passive `Host` table: an endpoint is registered through
+    the enroll flow, carries an enrollment token hash, a health status, and
+    an editable per-endpoint collection config (JSON).
+    """
+    __tablename__ = "endpoints"
+
+    id = Column(Integer, primary_key=True, index=True)
+    hostname = Column(String, unique=True, index=True, nullable=False)
+    os = Column(String, nullable=False)
+    agent_version = Column(String, nullable=True)
+    status = Column(String, default="offline")  # online | offline
+    last_seen = Column(DateTime(timezone=True), nullable=True)
+    enrollment_token_hash = Column(String, nullable=True)
+    config_json = Column(Text, nullable=True)  # JSON-encoded collector config
+    registered_at = Column(DateTime(timezone=True), server_default=func.now())
 
 
 class Host(Base):
@@ -36,6 +62,9 @@ class Artifact(Base):
     data = Column(Text, nullable=False)              # JSON-encoded artifact-specific fields
     ingested_at = Column(DateTime(timezone=True), server_default=func.now())
     processed = Column(Integer, default=0)            # 0 = not yet analyzed, 1 = analyzed
+    analyzed_at = Column(DateTime(timezone=True), nullable=True)  # when processed flipped to 1
+    source_run_id = Column(Integer, nullable=True, index=True)  # detection run that analyzed it
+    agent_batch_id = Column(String, nullable=True, index=True)  # idempotency key for agent uploads
 
 
 class Detection(Base):

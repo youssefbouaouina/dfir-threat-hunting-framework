@@ -10,6 +10,8 @@ ignore = ["UP006", "UP035", "B008"]
 [tool.ruff.lint.per-file-ignores]
 "tests/*.py" = ["S101"]
 "**/__main__.py" = ["S101"]
+# Alembic-generated migration DDL has unavoidably long lines.
+"migrations/versions/*.py" = ["E501", "I001", "W291"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

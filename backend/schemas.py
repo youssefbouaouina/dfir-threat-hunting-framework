@@ -36,6 +36,31 @@ class IngestResponse(BaseModel):
     ingested: int
     host: str
     artifact_types: List[str]
+    deduplicated: int = 0
+    batch_id: Optional[str] = None
+
+
+class EndpointEnrollRequest(BaseModel):
+    hostname: str
+    os: str
+    agent_version: Optional[str] = None
+
+
+class EndpointOut(BaseModel):
+    id: int
+    hostname: str
+    os: str
+    agent_version: Optional[str] = None
+    status: str
+    last_seen: Optional[datetime] = None
+    registered_at: Optional[datetime] = None
+    config: Optional[Dict[str, Any]] = None
+
+
+class EndpointConfigOut(BaseModel):
+    hostname: str
+    interval_seconds: int
+    collectors: List[str]
 
 
 class LoginRequest(BaseModel):

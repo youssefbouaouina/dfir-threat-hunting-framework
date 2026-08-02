@@ -1,0 +1,15 @@
+# Keep the Docker build context lean. Build context = repo root.
+**/.git
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.ruff_cache
+**/venv
+**/.venv
+backend/dfir.db
+backend/.env
+backend/.env.txt
+sample_data
+collector/output
+.gitignore
+*.md

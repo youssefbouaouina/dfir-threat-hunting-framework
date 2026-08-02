@@ -1,0 +1,114 @@
+# DFIR Threat Hunting Framework — CI/CD pipeline (Phase 2).
+#
+# Two paths:
+#   * On every push/PR to main: lint + test (fast feedback gate).
+#   * On a version tag (v*): build + publish the backend image to GHCR
+#     (tagged semver + short sha) and run a smoke test against the built image.
+#
+# Secrets are injected from the repository's Actions secrets — never
+# committed to the repo (see backend/.env.example for the variable list).
+
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  lint-and-test:
+    name: Lint & test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements*.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Lint (ruff)
+        run: ruff check .
+
+      - name: Test (pytest)
+        run: pytest -v
+
+      - name: Secret scan (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-and-push:
+    name: Build & push backend image (GHCR)
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Derive image tags
+        id: meta
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          SHA="${GITHUB_SHA::7}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
+          echo "image=${IMAGE_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: backend/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ steps.meta.outputs.image }}:latest
+            ghcr.io/${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.version }}
+            ghcr.io/${{ steps.meta.outputs.image }}:sha-${{ steps.meta.outputs.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test (health check on published image)
+        run: |
+          docker run --rm -d --name dfir-smoke -p 8000:8000 \
+            -e DATABASE_URL=sqlite:///./dfir.db \
+            ghcr.io/${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.version }}
+          for i in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:8000/health; then
+              echo "health OK"
+              docker stop dfir-smoke
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "health check failed" >&2
+          docker logs dfir-smoke || true
+          docker stop dfir-smoke || true
+          exit 1

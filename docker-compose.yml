@@ -1,0 +1,50 @@
+# DFIR Threat Hunting Framework — development / demo stack.
+#
+#   docker compose up --build
+#
+# Backend + Postgres. The backend runs migrations at startup and exposes the
+# API on http://127.0.0.1:8000 (docs at /docs). Auth is OFF by default
+# (open-lab demo); set AUTH_ENABLED=true + ADMIN_API_KEY/AGENT_API_KEYS in
+# the environment or a .env file to enable it.
+#
+# The collector agent is intentionally NOT containerized here: in production
+# it is a lightweight native agent on each endpoint. See the CI workflow for
+# how the backend image is built and pushed.
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: dfir
+      POSTGRES_PASSWORD: dfir
+      POSTGRES_DB: dfir
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dfir -d dfir"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg2://dfir:dfir@db:5432/dfir
+      AUTH_ENABLED: "false"
+      ADMIN_API_KEY: ${ADMIN_API_KEY:-change-me-admin-key}
+      AUTH_SECRET: ${AUTH_SECRET:-change-me-to-a-long-random-string}
+      AGENT_API_KEYS: ${AGENT_API_KEYS:-}
+      DETECTION_INTERVAL_SECONDS: "30"
+      ABUSEIPDB_API_KEY: ${ABUSEIPDB_API_KEY:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:

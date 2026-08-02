@@ -1,0 +1,14 @@
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+# Collector conventions (documented in the modules): blind excepts are the
+# deliberate "never abort a run" fail-soft boundary, and implicit Optional
+# (`str = None`) matches the existing codebase style.
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["RUF013", "BLE001", "UP006", "UP035"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

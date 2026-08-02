@@ -78,13 +78,13 @@ def _collect_linux_timers() -> list:
             continue
         for user in os.listdir(spool_dir):
             try:
-                with open(os.path.join(spool_dir, user), "r", errors="ignore") as f:
+                with open(os.path.join(spool_dir, user), errors="ignore") as f:
                     for line in f:
                         line = line.strip()
                         if line and not line.startswith("#"):
                             data = {"type": "cron", "user": user, "entry": line}
                             records.append(wrap_artifact("scheduled_task", data))
-            except (IOError, PermissionError):
+            except (OSError, PermissionError):
                 continue
 
     return records
