@@ -18,7 +18,9 @@ from ioc_correlation import correlate_network_artifacts
 from sigma_matcher import evaluate as evaluate_sigma
 from sigma_matcher import load_rules as load_sigma_rules
 
-SIGMA_RULES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "sigma_rules")
+SIGMA_RULES_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "sigma_rules"
+)
 
 
 def _row_to_artifact_dict(row) -> dict:
@@ -199,7 +201,8 @@ def detections_summary(db) -> dict:
     by_severity = {}
     by_host = {}
     for r in rows:
-        by_technique[r.technique_id or "unknown"] = by_technique.get(r.technique_id or "unknown", 0) + 1
+        technique = r.technique_id or "unknown"
+        by_technique[technique] = by_technique.get(technique, 0) + 1
         by_severity[r.severity or "unknown"] = by_severity.get(r.severity or "unknown", 0) + 1
         by_host[r.host] = by_host.get(r.host, 0) + 1
     return {

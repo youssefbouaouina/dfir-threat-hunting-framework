@@ -1,12 +1,14 @@
 """
 Database engine and session setup for the DFIR backend.
-Uses SQLite, matching the "lightweight" requirement from the project brief.
-The .db file is created automatically on first run, in this same folder.
+Uses SQLite by default, matching the "lightweight" requirement from the
+project brief. Override with DATABASE_URL to point at Postgres etc. (Phase 2).
 """
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+import os
 
-DATABASE_URL = "sqlite:///./dfir.db"
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
+
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./dfir.db")
 
 # check_same_thread=False is required for SQLite when used with FastAPI's
 # threaded request handling — safe here since each request gets its own

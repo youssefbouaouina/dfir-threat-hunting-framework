@@ -63,7 +63,9 @@ def start_scheduler():
         replace_existing=True,
     )
     scheduler.start()
-    logger.info("Detection scheduler started — running every %s seconds", DETECTION_INTERVAL_SECONDS)
+    logger.info(
+        "Detection scheduler started — running every %s seconds", DETECTION_INTERVAL_SECONDS
+    )
 
 
 def stop_scheduler():

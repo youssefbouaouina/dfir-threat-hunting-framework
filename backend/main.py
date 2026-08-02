@@ -23,9 +23,9 @@ from sqlalchemy.orm import Session
 
 import models
 import schemas
-from database import Base, engine, get_db
+from database import engine, get_db
 from detection_routes import router as detection_router
-from scheduler import start_scheduler, stop_scheduler, get_status
+from scheduler import get_status, start_scheduler, stop_scheduler
 from security import (
     TOKEN_TTL_SECONDS,
     authenticate_login,

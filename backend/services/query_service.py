@@ -8,7 +8,15 @@ import json
 import models
 
 
-def list_artifacts(db, host=None, artifact_type=None, collected_since=None, collected_until=None, processed=None, limit=50) -> list:
+def list_artifacts(
+    db,
+    host=None,
+    artifact_type=None,
+    collected_since=None,
+    collected_until=None,
+    processed=None,
+    limit=50,
+) -> list:
     """Returns up to `limit` artifacts (newest first), applying optional filters."""
     query = db.query(models.Artifact)
     if host:

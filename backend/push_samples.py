@@ -29,7 +29,7 @@ def push_folder(folder_path: str, api_url: str) -> None:
 
     for filename in json_files:
         filepath = os.path.join(folder_path, filename)
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             artifacts = json.load(f)
 
         if not artifacts:
@@ -44,7 +44,10 @@ def push_folder(folder_path: str, api_url: str) -> None:
 
         if resp.status_code == 200:
             result = resp.json()
-            print(f"[+] {filename}: ingested {result['ingested']} records for host {result['host']}")
+            print(
+                f"[+] {filename}: ingested {result['ingested']} records "
+                f"for host {result['host']}"
+            )
         else:
             print(f"[!] {filename}: failed ({resp.status_code}) — {resp.text}")
 

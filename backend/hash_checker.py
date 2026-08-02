@@ -22,7 +22,7 @@ def load_known_bad_hashes(path: str = DEFAULT_HASH_LIST) -> dict:
 
     hashes = {}
     if os.path.isfile(path):
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if not line or line.startswith("#"):

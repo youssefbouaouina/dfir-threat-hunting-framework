@@ -42,7 +42,7 @@ def _extract_ip(remote_address: str) -> str:
 def load_local_blocklist(path: str = LOCAL_BLOCKLIST_PATH) -> dict:
     entries = {}
     if os.path.isfile(path):
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if not line or line.startswith("#"):
@@ -144,7 +144,8 @@ if __name__ == "__main__":
     test_artifacts = [
         {
             "host": "test-host", "os": "linux", "artifact_type": "network",
-            "collected_at": "x", "data": {"remote_address": "203.0.113.66:443", "status": "ESTABLISHED"},
+            "collected_at": "x",
+            "data": {"remote_address": "203.0.113.66:443", "status": "ESTABLISHED"},
         },
         {
             "host": "test-host", "os": "linux", "artifact_type": "network",

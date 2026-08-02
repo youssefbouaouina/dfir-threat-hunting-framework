@@ -50,7 +50,7 @@ def load_rules(rules_dir: str) -> list:
             continue
         path = os.path.join(rules_dir, fname)
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 rule = yaml.safe_load(f)
         except (OSError, yaml.YAMLError) as exc:
             logger.warning("Skipping rule file %s: %s", path, exc)

@@ -32,7 +32,9 @@ def list_detection_runs(status: str = None, limit: int = 50, db: Session = Depen
 
 
 @router.get("/detections", dependencies=[Depends(require_admin)])
-def list_detections(host: str = None, severity: str = None, limit: int = 100, db: Session = Depends(get_db)):
+def list_detections(
+    host: str = None, severity: str = None, limit: int = 100, db: Session = Depends(get_db)
+):
     return detection_service.list_detections(db, host=host, severity=severity, limit=limit)
 
 
