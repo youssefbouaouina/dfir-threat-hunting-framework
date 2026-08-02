@@ -15,6 +15,7 @@ import models
 from attck_mapper import enrich_technique
 from hash_checker import check_file_scan_artifacts
 from ioc_correlation import correlate_network_artifacts
+from services.audit_service import log_action
 from sigma_matcher import evaluate as evaluate_sigma
 from sigma_matcher import load_rules as load_sigma_rules
 
@@ -45,6 +46,7 @@ def _persist_detection(db, d: dict) -> models.Detection:
         artifact_type=d.get("artifact_type"),
         severity=d.get("severity", "unknown"),
         matched_data=json.dumps(d.get("matched_data", {})),
+        triage_status="new",
     )
     db.add(row)
     return row
@@ -121,6 +123,20 @@ def run_detection_job(db, host: str = None, rescan: bool = False, trigger: str =
         run.finished_at = datetime.now(timezone.utc)
         db.commit()
 
+        log_action(
+            db,
+            "run_detection",
+            actor=trigger,
+            detail={
+                "run_id": run.id,
+                "trigger": trigger,
+                "host": host,
+                "rescan": bool(rescan),
+                "artifacts_scanned": len(artifacts),
+                "detections_found": len(all_detections),
+            },
+        )
+
         return {
             "artifacts_scanned": len(artifacts),
             "detections_found": len(all_detections),
@@ -167,9 +183,54 @@ def list_detections(db, host: str = None, severity: str = None, limit: int = 100
             "severity": r.severity,
             "matched_data": json.loads(r.matched_data),
             "detected_at": str(r.detected_at),
+            "triage_status": r.triage_status or "new",
+            "triage_notes": r.triage_notes,
+            "triage_updated_at": str(r.triage_updated_at) if r.triage_updated_at else None,
+            "triage_updated_by": r.triage_updated_by,
         }
         for r in rows
     ]
+
+
+TRIAGE_STATUSES = ("new", "acknowledged", "false_positive", "true_positive", "reviewed")
+
+
+def triage_detection(
+    db, detection_id: int, status: str, notes: str = None, actor: str = None
+) -> dict:
+    """Records an analyst's triage decision on a detection (Phase 3).
+
+    Moves the detection through the lifecycle: new -> acknowledged ->
+    false_positive | true_positive | reviewed. Re-triaging is allowed (an
+    analyst may change their mind); every change is audited.
+    """
+    if status not in TRIAGE_STATUSES:
+        raise ValueError(f"Invalid triage status '{status}' — must be one of {TRIAGE_STATUSES}")
+
+    row = db.query(models.Detection).filter(models.Detection.id == detection_id).first()
+    if row is None:
+        return None
+
+    row.triage_status = status
+    row.triage_notes = notes or row.triage_notes
+    row.triage_updated_at = datetime.now(timezone.utc)
+    row.triage_updated_by = actor or "unknown"
+    db.commit()
+
+    log_action(
+        db,
+        "triage_detection",
+        actor=actor or "unknown",
+        detail={"detection_id": detection_id, "status": status, "notes": notes},
+    )
+
+    return {
+        "id": row.id,
+        "triage_status": row.triage_status,
+        "triage_notes": row.triage_notes,
+        "triage_updated_at": str(row.triage_updated_at),
+        "triage_updated_by": row.triage_updated_by,
+    }
 
 
 def list_detection_runs(db, limit: int = 50, status: str = None) -> list:
@@ -203,14 +264,18 @@ def detections_summary(db) -> dict:
     by_technique = {}
     by_severity = {}
     by_host = {}
+    by_triage = {}
     for r in rows:
         technique = r.technique_id or "unknown"
         by_technique[technique] = by_technique.get(technique, 0) + 1
         by_severity[r.severity or "unknown"] = by_severity.get(r.severity or "unknown", 0) + 1
         by_host[r.host] = by_host.get(r.host, 0) + 1
+        triage = r.triage_status or "new"
+        by_triage[triage] = by_triage.get(triage, 0) + 1
     return {
         "total_detections": len(rows),
         "by_technique": by_technique,
         "by_severity": by_severity,
         "by_host": by_host,
+        "by_triage": by_triage,
     }

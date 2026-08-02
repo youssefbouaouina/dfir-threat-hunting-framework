@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DFIR Threat Hunting — Analyst Dashboard</title>
+<link rel="stylesheet" href="/dashboard/style.css">
+</head>
+<body>
+<header>
+  <h1>DFIR Threat Hunting Framework</h1>
+  <div id="auth-zone">
+    <div id="login-box">
+      <input id="api-key" type="password" placeholder="Admin API key" autocomplete="off">
+      <button id="login-btn">Login</button>
+      <span id="login-msg"></span>
+    </div>
+    <div id="user-box" hidden>
+      <span id="user-label">Analyst</span>
+      <button id="logout-btn">Logout</button>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <button class="nav-btn active" data-view="overview">Overview</button>
+  <button class="nav-btn" data-view="endpoints">Endpoints</button>
+  <button class="nav-btn" data-view="detections">Detections</button>
+  <button class="nav-btn" data-view="runs">Detection Runs</button>
+  <button class="nav-btn" data-view="artifacts">Artifacts</button>
+  <button class="nav-btn" data-view="audit">Audit Log</button>
+</nav>
+
+<main>
+  <section id="view-overview" class="view active">
+    <h2>Overview</h2>
+    <div id="health-cards" class="cards"></div>
+    <h3>Manual controls</h3>
+    <div class="toolbar">
+      <label>Host scope <input id="detect-host" placeholder="(all hosts)"></label>
+      <label><input id="detect-rescan" type="checkbox"> Rescan processed</label>
+      <button id="run-detect-btn">Run detection now</button>
+      <span id="detect-result"></span>
+    </div>
+    <h3>Detection summary</h3>
+    <pre id="summary-box"></pre>
+  </section>
+
+  <section id="view-endpoints" class="view">
+    <h2>Endpoints</h2>
+    <div class="toolbar">
+      <button id="refresh-endpoints">Refresh</button>
+      <button id="add-endpoint-btn">Add endpoint (enroll)</button>
+      <span id="add-endpoint-host"><input id="new-hostname" placeholder="hostname"></span>
+    </div>
+    <table id="endpoints-table">
+      <thead><tr>
+        <th>ID</th><th>Hostname</th><th>OS</th><th>Agent</th><th>Status</th>
+        <th>Last seen</th><th>Interval (s)</th><th>Collectors</th><th>Actions</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="view-detections" class="view">
+    <h2>Detections</h2>
+    <div class="toolbar">
+      <label>Host <input id="det-host-filter" placeholder="(all)"></label>
+      <label>Severity <input id="det-severity-filter" placeholder="(all)"></label>
+      <button id="apply-det-filters">Apply</button>
+    </div>
+    <table id="detections-table">
+      <thead><tr>
+        <th>ID</th><th>Host</th><th>Rule</th><th>Technique</th><th>Severity</th>
+        <th>Triage</th><th>Actions</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="view-runs" class="view">
+    <h2>Detection Runs (history)</h2>
+    <button id="refresh-runs">Refresh</button>
+    <table id="runs-table">
+      <thead><tr>
+        <th>ID</th><th>Trigger</th><th>Status</th><th>Host</th><th>Rescan</th>
+        <th>Started</th><th>Scanned</th><th>Detections</th><th>By severity</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="view-artifacts" class="view">
+    <h2>Artifacts</h2>
+    <div class="toolbar">
+      <label>Host <input id="art-host-filter" placeholder="(all)"></label>
+      <label>Type <input id="art-type-filter" placeholder="(all)"></label>
+      <label>Limit <input id="art-limit" value="50"></label>
+      <button id="apply-art-filters">Apply</button>
+    </div>
+    <table id="artifacts-table">
+      <thead><tr>
+        <th>ID</th><th>Host</th><th>Type</th><th>Collected</th><th>Processed</th><th>Data</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="view-audit" class="view">
+    <h2>Audit Log</h2>
+    <button id="refresh-audit">Refresh</button>
+    <table id="audit-table">
+      <thead><tr>
+        <th>ID</th><th>Time</th><th>Actor</th><th>Action</th><th>Detail</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+
+<div id="toast" hidden></div>
+<script src="/dashboard/app.js"></script>
+</body>
+</html>

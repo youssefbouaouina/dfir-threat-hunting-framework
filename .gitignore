@@ -221,3 +221,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# External reference data (dfir-refs). Only the ATT&CK STIX dataset the
+# backend consumes is committed; everything else (huge nested clones of
+# atomic-red-team, sigma, yara rules) stays local.
+dfir-refs/*
+!dfir-refs/cti/
+dfir-refs/cti/*
+!dfir-refs/cti/enterprise-attack/
+dfir-refs/cti/enterprise-attack/*
+!dfir-refs/cti/enterprise-attack/enterprise-attack.json

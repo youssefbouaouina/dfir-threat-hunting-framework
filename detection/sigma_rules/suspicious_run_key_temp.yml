@@ -1,6 +1,0 @@
-title: Persistence via Run key pointing to Temp folder
-id: rule-003
-artifact_type: persistence
-technique_id: T1547.001
-condition:
-  value_data_contains: ["\\Temp\\", "/tmp/", "AppData\\Local\\Temp"]

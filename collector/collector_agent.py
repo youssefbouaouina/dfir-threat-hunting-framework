@@ -126,7 +126,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--yara-rules", default=None,
         help="Path to a folder of .yar/.yara rules for file_scan to use "
-             "(e.g. ../detection/yara_rules)"
+             "(e.g. ../backend/yara_rules)"
     )
     parser.add_argument(
         "--api-url", default=os.getenv("DFIR_API_URL"),

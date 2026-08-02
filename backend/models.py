@@ -9,6 +9,9 @@ artifacts       — one row per collected artifact (process, network conn,
                   persistence entry, scheduled task, or log event)
 detections      — one row per detection result from the pipeline
 detection_runs  — one row per detection-pipeline cycle (run history)
+audit_logs      — one row per analyst/admin action (Phase 3: audit trail)
+pending_commands — one row per "run collection now" instruction queued for an agent
+                  (Phase 3: manual trigger from the dashboard)
 
 The `processed` flag on Artifact is there for Person B: the detection
 engine can query WHERE processed = 0, run YARA/Sigma/correlation against
@@ -81,6 +84,13 @@ class Detection(Base):
     severity = Column(String, nullable=True)
     matched_data = Column(Text, nullable=False)  # JSON-encoded artifact data that triggered this
     detected_at = Column(DateTime(timezone=True), server_default=func.now())
+    # Phase 3 — triage lifecycle: new -> acknowledged -> false_positive | true_positive | reviewed
+    triage_status = Column(
+        String, default="new"
+    )  # new | acknowledged | false_positive | true_positive | reviewed
+    triage_notes = Column(Text, nullable=True)
+    triage_updated_at = Column(DateTime(timezone=True), nullable=True)
+    triage_updated_by = Column(String, nullable=True)
 
 
 class DetectionRun(Base):
@@ -103,3 +113,43 @@ class DetectionRun(Base):
     detections_found = Column(Integer, default=0)
     by_severity = Column(Text, nullable=True)   # JSON-encoded counts
     by_technique = Column(Text, nullable=True)  # JSON-encoded counts
+
+
+class AuditLog(Base):
+    """Immutable audit trail of analyst/admin actions (Phase 3 ops hardening).
+
+    Records who did what and when (login, run detection, triage a detection,
+    update an endpoint config). Reads are admin-only; appends happen from the
+    services so every state change is traceable.
+    """
+    __tablename__ = "audit_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    actor = Column(String, nullable=True)  # admin key label, token subject, or agent hostname
+    action = Column(String, nullable=False)  # e.g. "run_detection", "triage_detection"
+    detail = Column(Text, nullable=True)  # JSON-encoded context (ids, filters, counts)
+    created_at = Column(
+        DateTime(timezone=True), server_default=func.now(), index=True
+    )
+
+
+class PendingCommand(Base):
+    """A manual trigger queued for an agent by the dashboard (Phase 3).
+
+    When an analyst clicks "Run collection now" on an endpoint, a row is
+    inserted here; the agent's next config poll (or command poll) picks it
+    up, performs the action, and marks it completed.
+    """
+    __tablename__ = "pending_commands"
+
+    id = Column(Integer, primary_key=True, index=True)
+    hostname = Column(String, index=True, nullable=False)  # target endpoint
+    command = Column(String, nullable=False)               # e.g. "run_collection"
+    params = Column(Text, nullable=True)                   # JSON-encoded extra params
+    status = Column(String, default="pending")  # pending | picked_up | completed | failed
+    created_at = Column(
+        DateTime(timezone=True), server_default=func.now(), index=True
+    )
+    picked_up_at = Column(DateTime(timezone=True), nullable=True)
+    completed_at = Column(DateTime(timezone=True), nullable=True)
+    result = Column(Text, nullable=True)                   # JSON-encoded result/report

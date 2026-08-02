@@ -31,7 +31,9 @@ def rules_dir(tmp_path, monkeypatch):
 
 
 def test_health(client):
-    assert client.get("/health").json() == {"status": "ok"}
+    body = client.get("/health").json()
+    assert body["status"] == "ok"
+    assert "metrics" in body  # Phase 3: live counts for the dashboard header
 
 
 def test_ingest_round_trip(client):

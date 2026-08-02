@@ -12,6 +12,7 @@ import secrets
 from datetime import datetime, timezone
 
 import models
+from services.audit_service import log_action
 
 DEFAULT_CONFIG = {
     "collectors": ["processes", "network", "persistence", "scheduled_tasks", "logs", "file_scan"],
@@ -47,6 +48,13 @@ def enroll_endpoint(db, hostname: str, os_name: str, agent_version: str = None) 
 
     config = json.loads(endpoint.config_json) if endpoint.config_json else dict(DEFAULT_CONFIG)
 
+    log_action(
+        db,
+        "endpoint_enroll",
+        actor=hostname,
+        detail={"endpoint_id": endpoint.id, "os": endpoint.os},
+    )
+
     return {
         "id": endpoint.id,
         "hostname": endpoint.hostname,
@@ -56,6 +64,125 @@ def enroll_endpoint(db, hostname: str, os_name: str, agent_version: str = None) 
         "last_seen": endpoint.last_seen,
         "config": config,
     }
+
+
+def update_endpoint_config(
+    db, endpoint_id: int, collectors: list = None, interval_seconds: int = None
+) -> dict:
+    """Admin edits a single endpoint's agent config (Phase 3 dashboard control).
+
+    Only the provided fields change; unset fields keep their current value
+    (which defaults to DEFAULT_CONFIG for a fresh endpoint).
+    """
+    endpoint = db.query(models.Endpoint).filter(models.Endpoint.id == endpoint_id).first()
+    if endpoint is None:
+        return None
+
+    config = json.loads(endpoint.config_json) if endpoint.config_json else dict(DEFAULT_CONFIG)
+    if collectors is not None:
+        config["collectors"] = collectors
+    if interval_seconds is not None:
+        if interval_seconds < 10:
+            raise ValueError("interval_seconds must be at least 10")
+        config["interval_seconds"] = interval_seconds
+
+    endpoint.config_json = json.dumps(config)
+    db.commit()
+
+    log_action(
+        db,
+        "update_endpoint_config",
+        actor="admin",
+        detail={"endpoint_id": endpoint_id, "config": config},
+    )
+
+    return {
+        "id": endpoint.id,
+        "hostname": endpoint.hostname,
+        "os": endpoint.os,
+        "agent_version": endpoint.agent_version,
+        "status": endpoint.status,
+        "last_seen": endpoint.last_seen,
+        "registered_at": endpoint.registered_at,
+        "config": config,
+    }
+
+
+def queue_collection(db, endpoint_id: int, actor: str = "admin") -> dict:
+    """Queues a 'run_collection' pending command for an endpoint (Phase 3).
+
+    The dashboard's "Run collection now" button calls this; the agent picks
+    the command up on its next poll and reports back via complete_command().
+    """
+    endpoint = db.query(models.Endpoint).filter(models.Endpoint.id == endpoint_id).first()
+    if endpoint is None:
+        return None
+
+    cmd = models.PendingCommand(
+        hostname=endpoint.hostname,
+        command="run_collection",
+        status="pending",
+    )
+    db.add(cmd)
+    db.commit()
+
+    log_action(
+        db,
+        "queue_collection",
+        actor=actor,
+        detail={"endpoint_id": endpoint_id, "hostname": endpoint.hostname, "command_id": cmd.id},
+    )
+
+    return {
+        "command_id": cmd.id,
+        "hostname": endpoint.hostname,
+        "command": "run_collection",
+        "status": "pending",
+    }
+
+
+def poll_pending_commands(db, hostname: str) -> list:
+    """Returns the pending commands for an endpoint and marks them picked up.
+
+    Called by the agent on each poll cycle; commands are returned once
+    (pending -> picked_up) so a retry doesn't re-run a collection.
+    """
+    now = datetime.now(timezone.utc)
+    rows = (
+        db.query(models.PendingCommand)
+        .filter(models.PendingCommand.hostname == hostname)
+        .filter(models.PendingCommand.status == "pending")
+        .order_by(models.PendingCommand.id.asc())
+        .all()
+    )
+    for row in rows:
+        row.status = "picked_up"
+        row.picked_up_at = now
+    db.commit()
+
+    return [
+        {
+            "id": r.id,
+            "hostname": r.hostname,
+            "command": r.command,
+            "params": json.loads(r.params) if r.params else None,
+            "status": r.status,
+        }
+        for r in rows
+    ]
+
+
+def complete_command(db, command_id: int, status: str = "completed", result: dict = None) -> dict:
+    """Agent reports the outcome of a picked-up command (marks it done)."""
+    row = db.query(models.PendingCommand).filter(models.PendingCommand.id == command_id).first()
+    if row is None:
+        return None
+
+    row.status = status
+    row.result = json.dumps(result) if result else None
+    row.completed_at = datetime.now(timezone.utc)
+    db.commit()
+    return {"command_id": row.id, "status": row.status}
 
 
 def list_endpoints(db, limit: int = 100) -> list:

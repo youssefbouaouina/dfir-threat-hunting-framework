@@ -52,6 +52,50 @@ def get_endpoint_config(api_url: str, hostname: str, api_key: str = None) -> dic
     return {}
 
 
+def poll_pending_commands(api_url: str, hostname: str, api_key: str = None) -> list:
+    """Polls for manual-trigger commands ("run collection now") and returns them.
+
+    The backend marks them picked_up on return, so re-polling won't re-run a
+    collection. Returns [] on any failure (fail-soft for a daemon loop).
+    """
+    headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
+    try:
+        resp = requests.get(
+            f"{api_url.rstrip('/')}/endpoints/commands",
+            params={"hostname": hostname},
+            headers=headers,
+            timeout=10,
+        )
+        if resp.status_code == 200:
+            return resp.json()
+    except requests.exceptions.RequestException as exc:
+        logger.warning("Command poll failed for %s: %s", hostname, exc)
+    return []
+
+
+def complete_command(
+    api_url: str,
+    command_id: int,
+    api_key: str = None,
+    status: str = "completed",
+    result: dict = None,
+) -> dict:
+    """Reports the outcome of a picked-up command back to the backend."""
+    headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
+    try:
+        resp = requests.post(
+            f"{api_url.rstrip('/')}/endpoints/commands/{command_id}/complete",
+            headers=headers,
+            json={"status": status, "result": result},
+            timeout=10,
+        )
+        if resp.status_code == 200:
+            return resp.json()
+    except requests.exceptions.RequestException as exc:
+        logger.warning("Command completion failed for %s: %s", command_id, exc)
+    return {}
+
+
 def enroll(
     api_url: str,
     hostname: str,
@@ -129,14 +173,37 @@ def daemon_loop(
     interval: int = 300,
     yara_rules_dir: str = None,
 ) -> None:
-    """Runs collect + push on a fixed cadence until interrupted."""
+    """Runs collect + push on a fixed cadence until interrupted.
+
+    Also polls the backend for manual-trigger commands ("run collection now"
+    queued from the dashboard) so an analyst can force a collection between
+    scheduled cycles.
+    """
+    import socket
+
     from collector_agent import run_collection
 
+    hostname = socket.gethostname()
     logger.info(
         "Agent daemon started — collecting + pushing every %s seconds to %s", interval, api_url
     )
     while True:
         try:
+            for cmd in poll_pending_commands(api_url, hostname, api_key):
+                logger.info("Manual trigger picked up: %s", cmd)
+                if cmd.get("command") == "run_collection":
+                    try:
+                        run_dir = run_collection(output_dir="output", yara_rules_dir=yara_rules_dir)
+                        summary = push_folder(run_dir, api_url, api_key)
+                        complete_command(
+                            api_url, cmd["id"], api_key, status="completed", result=summary
+                        )
+                    except Exception as exc:  # noqa: BLE001
+                        complete_command(
+                            api_url, cmd["id"], api_key, status="failed", result={"error": str(exc)}
+                        )
+                        logger.error("Manual collection failed: %s", exc)
+
             run_dir = run_collection(output_dir="output", yara_rules_dir=yara_rules_dir)
             summary = push_folder(run_dir, api_url, api_key)
             logger.info("Push summary: %s", summary)

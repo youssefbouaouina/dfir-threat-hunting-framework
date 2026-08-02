@@ -1,6 +1,6 @@
 # DFIR Threat Hunting Framework — Enterprise Roadmap
 
-> **Status:** Plan with Phases 1–2 **implemented and committed on the `youssef` branch**. Phase 1 (security hardening, test net, CI scaffolding) and Phase 2 (containers, Postgres-ready migrations, CI/CD delivery pipeline, agent automation) are done. Phases 3–5 remain proposals. This roadmap is the architectural blueprint for evolving the framework into an enterprise-grade, containerized, CI/CD-driven DFIR platform with automated collection/detection, self-service endpoint enrollment from a dashboard, detection run history, and manual trigger controls.
+> **Status:** Plan with Phases 1–3 **implemented and committed on the `youssef` branch**. Phase 1 (security hardening, test net, CI scaffolding), Phase 2 (containers, Postgres-ready migrations, CI/CD delivery pipeline, agent automation) and Phase 3 (dashboard, endpoint management, manual triggers, detection triage, ops hardening) are done. Phases 4–5 remain proposals. This roadmap is the architectural blueprint for evolving the framework into an enterprise-grade, containerized, CI/CD-driven DFIR platform with automated collection/detection, self-service endpoint enrollment from a dashboard, detection run history, and manual trigger controls.
 
 Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the system as it exists today, including all known issues this roadmap fixes.
 
@@ -11,7 +11,7 @@ Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the syst
 1. **Security first.** Secrets, auth, and least-privilege are Phase 1, non-negotiable, before any feature growth.
 2. **Highest impact first.** Each phase ships independently and is usable on its own; ordering = impact × risk reduction ÷ effort.
 3. **Everything automated.** Collection, detection, testing, building, and deployment should require zero manual steps once configured.
-4. **Backwards-compatible, incremental.** The existing `backend/` FastAPI app is the kernel — we evolve it, not rewrite it. Remove the broken `detection/` tree, keep the shared `run_detection_job()` as the single pipeline entry point.
+4. **Backwards-compatible, incremental.** The existing `backend/` FastAPI app is the kernel — we evolve it, not rewrite it. The broken `detection/` tree was **removed in Phase 3**; the shared `run_detection_job()` is the single pipeline entry point.
 5. **Containers for the backend** (the user-visible platform); the **collector stays a lightweight native agent** on endpoints (agents in containers on every endpoint are operationally heavy) — but agent packaging becomes a first-class CI artifact.
 6. **Configuration-as-code + infrastructure-as-code.** Env-driven config, Alembic migrations, Docker Compose for dev, tagged CI/CD releases.
 
@@ -53,10 +53,10 @@ Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the syst
 - **Dependency/install correctness**
   - Rewrite `backend/requirements.txt` as UTF-8, top-level packages only, unpinned-or-ranged; add missing `yara-python` and `mitreattack-python`.
   - Split into `requirements-dev.txt` (pytest, ruff, mypy, gitleaks).
-- **Retire dead/broken code**
+- **Retire dead/broken code** (✅ done in Phase 3 cleanup)
   - Remove the non-functional `detection/` duplicate tree (its detection_routes.py predates `run_detection_job`).
   - Remove dead `backend/yara_engine.py` + legacy `test_eicar.yar`; remove unused `db/`, empty `docs/mitre_mapping.json`, empty `SCHEMA.md`/`sample_data/README.md` (or fill them).
-- **Rule hygiene**
+- **Rule hygiene** (✅ done in Phase 3 cleanup)
   - Delete duplicate sigma rule files (`suspicious_*.yml`, `test_encoded_ps.yml`); add rule validation + duplicate-ID detection at `load_rules`.
 - **AuthN/AuthZ (API layer)**
   - API-key auth for all agent-facing endpoints (`/ingest`, agent config, heartbeat) — per-endpoint keys, not one global key.
@@ -74,7 +74,7 @@ Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the syst
 
 ## Phase 2 — Containers, Postgres, and a Real CI/CD Delivery Pipeline
 
-> **Status: ✅ DONE** (committed on `youssef`; push pending). Delivered: backend `Dockerfile` (multi-stage, non-root, healthcheck, migration entrypoint) + `docker-compose.yml` (backend + Postgres 16) + `.dockerignore`; Alembic migrations (initial schema incl. `endpoints`, `detection_runs`, new artifact columns; idempotent for Phase-1 SQLite DBs, `DATABASE_URL`-driven for Postgres); agent automation (`--daemon`, push to API, enrollment, idempotent `batch_id`); GitHub Actions `ci.yml` (lint+test+gitleaks on push/PR, GHCR build+push+smoke on `v*` tags). See `backend/tests/test_phase2.py` + `collector/tests/`. Not yet done from the original list: `Dockerfile.agent`, migration for existing `dfir.db` backfill is handled in-place, `/detect` scope/rescan options, `detection_runs` row per scheduler cycle.
+> **Status: ✅ DONE** (committed on `youssef`). Delivered: backend `Dockerfile` (multi-stage, non-root, healthcheck, migration entrypoint) + `docker-compose.yml` (backend + Postgres 16) + `.dockerignore`; Alembic migrations (initial schema incl. `endpoints`, `detection_runs`, new artifact columns; idempotent for Phase-1 SQLite DBs, `DATABASE_URL`-driven for Postgres); agent automation (`--daemon`, push to API, enrollment, idempotent `batch_id`); GitHub Actions `ci.yml` (lint+test+gitleaks on push/PR, GHCR build+push+smoke on `v*` tags). See `backend/tests/test_phase2.py` + `collector/tests/`. Outstanding items from the original list (`/detect` scope/rescan, `detection_runs` row per cycle) were delivered in Phase 3. Not yet done: `Dockerfile.agent`.
 
 **Goal:** the backend becomes a containerized, deployable service with migrations and an automated build/deploy pipeline; agents begin reporting on a schedule automatically.
 
@@ -109,27 +109,29 @@ Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the syst
 
 ## Phase 3 — Dashboard, Endpoint Management, and Manual Trigger Controls
 
+> **Status: ✅ DONE** (this session; commit + push on `youssef`). Delivered: `backend/static/` dashboard served at `/dashboard` (overview/endpoints/detections/history/artifacts/audit views); endpoint management (`PUT /endpoints/{id}/config`, add-endpoint enroll); manual triggers (run collection now via `pending_commands` queue, run detection with host scope + rescan, `GET /detection-runs` history); detection triage lifecycle (new → acknowledged → false_positive/true_positive/reviewed + analyst notes); ops hardening (structured JSON logging, `/metrics`, `/audit-logs` audit trail); ATT&CK enrichment now uses the in-repo `dfir-refs/cti/enterprise-attack` STIX dataset; repo cleanup (removed `detection/`, dead code, empty placeholders, duplicate rules). Tests: `backend/tests/test_phase3.py` (9) + collector command-poll tests (3).
+
 **Goal:** a web dashboard where an analyst can add endpoints in one click, see their health, trigger collection/detection on demand, and browse detection history — the user-facing "self-service" surface.
 
 ### Work items
 
 - **Dashboard (web app)**
-  - New `dashboard/` SPA (e.g. React/Vite or a lightweight server-rendered app), served by the backend (static mount) in the container image.
-  - Auth via the Phase 1 JWT flow; roles: `admin`, `analyst`, `viewer`.
+  - [x] Lightweight vanilla-JS SPA (`backend/static/`) served by the backend at `/dashboard` — no build step, ships in the container image.
+  - [x] Auth via the Phase 1 JWT flow; admin actions (`/endpoints`, `/metrics`, `/audit-logs`) gated behind the existing `admin` role.
 - **Endpoint management**
-  - **"Add endpoint" wizard**: admin clicks Add → backend generates a one-time enrollment token + a ready-to-run agent command (downloadable config `agent-config.json` / install snippet).
-  - Endpoint cards/list: status (online/offline/last seen), OS, agent version, artifact counts, pending/unprocessed artifacts.
-  - Agent config editing: per-endpoint collector modules, interval, yara rules dir; agents poll `/endpoints/<id>/config` on each cycle.
+  - [x] **"Add endpoint"**: admin fills host/OS → `POST /endpoints` returns the agent's collection config.
+  - [x] Endpoint list: status (online/offline/last seen), OS, agent version, artifact counts, config `interval_seconds` (editable via `PUT /endpoints/{id}/config`, min 10s).
+  - [x] Agent config editing: per-endpoint collector interval; agents poll `/endpoints/commands` each cycle.
 - **Manual triggers & history (dashboard controls)**
-  - Button: **Run collection now** → sends a signal to the endpoint (agent polls `pending_commands`) or directly triggers agent if reachable.
-  - Button: **Run detection now** → `POST /detect` with scope/rescan options; result shown inline.
-  - Views: **Detection history** (`detection_runs` list with timing/counts), **Detections** table (filter host/severity/technique), **ATT&CK coverage** (existing `/detections/summary`), **Artifacts explorer**.
+  - [x] Button: **Run collection now** → `POST /endpoints/{id}/run-collection` enqueues a `run_collection` pending command the agent picks up next poll.
+  - [x] Button: **Run detection now** → `POST /detect?host=&rescan=1` with host scope/rescan options; result shown inline.
+  - [x] Views: **Detection history** (recent runs with timing/counts), **Detections** table (filter host/severity/technique + triage), **ATT&CK coverage** (`/detections/summary` incl. `by_triage`), **Artifacts explorer**.
 - **Detection result lifecycle**
-  - Detection triage states: `new → acknowledged → false_positive | true_positive | reviewed`, with analyst notes (new columns/migration).
+  - [x] Detection triage states: `new → acknowledged → false_positive | true_positive | reviewed`, with analyst notes (`triage_status`, `triage_notes`, `triage_updated_at`, `triage_updated_by`; migration `ca41c1ba0e02`).
 - **Operations hardening**
-  - Structured JSON logging; `/metrics` (Prometheus) for API, queue, scheduler; audit log endpoint for admin actions.
+  - [x] Structured JSON logging (env `LOG_FORMAT=json`, stdlib-only `logging_config.py`); `/metrics` (Prometheus) for artifacts/detections/endpoints/runs/pending commands; `/audit-logs` endpoint for admin actions (audit table + `audit_service`).
 
-**Exit criteria:** an analyst can enroll a new endpoint entirely from the dashboard, trigger collection + detection manually, see run history, and triage detections. No CLI/curl needed for daily operations.
+**Exit criteria:** an analyst can enroll a new endpoint entirely from the dashboard, trigger collection + detection manually, see run history, and triage detections. No CLI/curl needed for daily operations. ✅
 
 ---
 

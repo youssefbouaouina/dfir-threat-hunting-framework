@@ -1,7 +1,7 @@
-"""Tests for the Phase 2 collector agent client (push/enroll/daemon helpers)."""
+"""Tests for the Phase 2/3 collector agent client (push/enroll/daemon/commands)."""
 import json
 
-from agent_client import make_batch_id, push_folder
+from agent_client import complete_command, make_batch_id, poll_pending_commands, push_folder
 
 
 def _write_batch(tmp_path, name="batch-abc", count=2):
@@ -59,3 +59,59 @@ def test_push_folder_handles_connection_error(monkeypatch, tmp_path):
     folder = _write_batch(tmp_path)
     summary = push_folder(folder, "http://backend:8000")
     assert summary["errors"] == 1
+
+
+def test_poll_pending_commands_returns_list(monkeypatch):
+    """Phase 3: agent polls for manual-trigger commands (fail-soft)."""
+    captured = {}
+
+    def fake_get(url, params=None, headers=None, timeout=None):
+        captured["url"] = url
+        captured["params"] = params
+        return _FakeResp([{"id": 1, "command": "run_collection", "status": "picked_up"}])
+
+    monkeypatch.setattr("agent_client.requests.get", fake_get)
+    cmds = poll_pending_commands("http://backend:8000", "edge-01", api_key="k")
+    assert len(cmds) == 1
+    assert cmds[0]["command"] == "run_collection"
+    assert captured["url"].endswith("/endpoints/commands")
+    assert captured["params"] == {"hostname": "edge-01"}
+
+
+def test_poll_pending_commands_fails_soft(monkeypatch):
+    from requests.exceptions import ConnectionError as RequestsConnError
+
+    def fake_get(url, params=None, headers=None, timeout=None):
+        raise RequestsConnError("network down")
+
+    monkeypatch.setattr("agent_client.requests.get", fake_get)
+    assert poll_pending_commands("http://backend:8000", "edge-01") == []
+
+
+def test_complete_command_reports_result(monkeypatch):
+    captured = {}
+
+    def fake_post(url, headers=None, json=None, timeout=None):
+        captured["url"] = url
+        captured["json"] = json
+        return _FakeResp({"command_id": 1, "status": "completed"})
+
+    monkeypatch.setattr("agent_client.requests.post", fake_post)
+    out = complete_command(
+        "http://backend:8000", 1, api_key="k", status="completed", result={"files": 6}
+    )
+    assert out["status"] == "completed"
+    assert captured["url"].endswith("/endpoints/commands/1/complete")
+    assert captured["json"] == {"status": "completed", "result": {"files": 6}}
+
+
+class _FakeResp:
+    def __init__(self, payload):
+        self._payload = payload
+
+    @property
+    def status_code(self):
+        return 200
+
+    def json(self):
+        return self._payload

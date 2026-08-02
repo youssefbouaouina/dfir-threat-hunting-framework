@@ -1,24 +1,23 @@
 """
 MITRE ATT&CK technique lookup, using the local ATT&CK STIX dataset
-(cloned from github.com/mitre/cti during setup) via mitreattack-python.
-Looking this up locally (instead of calling the ATT&CK Navigator API)
-keeps the framework "lightweight" and demo-able offline.
+(dfir-refs/cti/enterprise-attack/enterprise-attack.json, in-repo since
+Phase 3) via mitreattack-python. Looking this up locally (instead of calling
+the ATT&CK Navigator API) keeps the framework "lightweight" and demo-able
+offline.
 
-Expects the CTI repo to be cloned as a sibling of your project repo,
-e.g.:
-    dev/
-    ├── dfir-threat-hunting-framework/
-    └── dfir-refs/
-        └── cti/
-            └── enterprise-attack/
-                └── enterprise-attack.json
+The dataset lives in the repository tree so enrichment works without any
+extra clone step:
 
-Adjust DEFAULT_STIX_PATH below if you place it elsewhere.
+    dfir-refs/cti/enterprise-attack/enterprise-attack.json
+
+Override with the STIX_PATH env var if you keep it elsewhere.
 """
 import os
 
-DEFAULT_STIX_PATH = os.path.join(
-    "..", "..", "dfir-refs", "cti", "enterprise-attack", "enterprise-attack.json"
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DEFAULT_STIX_PATH = os.getenv(
+    "STIX_PATH",
+    os.path.join(_REPO_ROOT, "dfir-refs", "cti", "enterprise-attack", "enterprise-attack.json"),
 )
 
 _cache = {}

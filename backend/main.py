@@ -13,12 +13,15 @@ pending migrations at startup; `python -m alembic upgrade head` does the same
 explicitly.
 
 Endpoints:
-    GET  /health              — liveness check
+    GET  /health              — liveness check (+ live counts for the dashboard)
+    GET  /metrics             — Prometheus-style operational gauges (Phase 3)
+    GET  /audit-logs          — analyst/admin action trail (Phase 3)
     POST /ingest               — accepts a JSON array of artifacts (one collector output file)
     GET  /artifacts            — query stored artifacts, filterable by host/artifact_type
     GET  /hosts                — list all hosts that have reported in
     POST /endpoints/enroll     — agent self-registration (Phase 2)
     GET  /endpoints            — managed endpoint inventory (Phase 2)
+    GET  /dashboard            — analyst dashboard (Phase 3, served static)
 """
 import logging
 import os
@@ -27,12 +30,14 @@ from contextlib import asynccontextmanager
 from typing import List, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
 import schemas
 from database import get_db
 from detection_routes import router as detection_router
 from endpoint_routes import router as endpoint_router
+from logging_config import configure_logging
 from scheduler import get_status, start_scheduler, stop_scheduler
 from security import (
     TOKEN_TTL_SECONDS,
@@ -42,9 +47,9 @@ from security import (
     require_admin,
     require_agent,
 )
-from services import ingest_service, query_service
+from services import audit_service, ingest_service, metrics_service, query_service
 
-logging.basicConfig(level=logging.INFO)
+configure_logging()
 
 logger = logging.getLogger(__name__)
 
@@ -80,9 +85,14 @@ async def lifespan(app: FastAPI):
     stop_scheduler()
 
 
-app = FastAPI(title="DFIR Ingest & Detection API", version="0.4.0", lifespan=lifespan)
+app = FastAPI(title="DFIR Ingest & Detection API", version="0.5.0", lifespan=lifespan)
 app.include_router(detection_router)
 app.include_router(endpoint_router)
+
+# Phase 3: analyst dashboard — a lightweight server-rendered static app.
+_STATIC_DIR = os.path.join(_BACKEND_DIR, "static")
+if os.path.isdir(_STATIC_DIR):
+    app.mount("/dashboard", StaticFiles(directory=_STATIC_DIR, html=True), name="dashboard")
 
 
 @app.get("/scheduler/status", dependencies=[Depends(require_admin)])
@@ -100,8 +110,29 @@ def login(body: schemas.LoginRequest):
 
 
 @app.get("/health")
-def health():
-    return {"status": "ok"}
+def health(db: Session = Depends(get_db)):
+    """Liveness + a small payload of live counts for the dashboard header."""
+    try:
+        payload = metrics_service.health_payload(db)
+    except Exception:  # noqa: BLE001 — health must stay cheap and never fail
+        payload = {"status": "ok"}
+    return payload
+
+
+@app.get("/metrics", dependencies=[Depends(require_admin)])
+def metrics(db: Session = Depends(get_db)):
+    """Prometheus-style operational gauges (artifacts, detections, endpoints, runs)."""
+    return metrics_service.metrics_text(db)
+
+
+@app.get("/audit-logs", dependencies=[Depends(require_admin)])
+def list_audit_logs(
+    action: Optional[str] = Query(default=None),
+    limit: int = Query(default=100, le=1000),
+    db: Session = Depends(get_db),
+):
+    """Analyst/admin action trail (who did what, when)."""
+    return audit_service.list_audit_logs(db, limit=limit, action=action)
 
 
 @app.post(
