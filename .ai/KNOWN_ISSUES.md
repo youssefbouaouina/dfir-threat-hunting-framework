@@ -1,5 +1,7 @@
 # Known Issues
 
+> **2026-08-03 continuation:** baseline re-validated (53 backend + 7 collector tests, ruff clean). Auth path verified live (C2 → done; see `.ai/CURRENT_ANALYSIS.md`). `.ai/` memory committed to git this session. Items below still open except where marked.
+
 ## Bugs / correctness
 
 - **B1. Enrollment token never returned to the agent.** `enroll_endpoint()` (endpoint_service.py) generates `secrets.token_urlsafe(32)` and stores only its SHA-256 hash; the returned payload omits the token. Feature is vestigial. *(→ NEXT_STEPS H1)*
@@ -56,7 +58,7 @@
 
 ## Missing tests
 
-- **T1.** Auth: no tests for `AUTH_ENABLED=true` JWT flow, agent-key auth, rate limiting (429), or 401 paths.
+- **T1.** Auth: no tests for `AUTH_ENABLED=true` JWT flow, agent-key auth, rate limiting (429), or 401 paths. → **Partially addressed:** verified live this session (manual smoke); no committed automated test yet — add `test_auth_live.py` or extend `test_security.py` to cover the enabled path (H4/C2 follow-up).
 - **T2.** No tests for `attck_mapper.enrich_technique` with the real STIX file (mitreattack lazy import path).
 - **T3.** No tests for `ioc_correlation` live-feed layer (AbuseIPDB mocked) — only local blocklist is covered.
 - **T4.** No tests for the scheduler job body (`_scheduled_detection_run`).

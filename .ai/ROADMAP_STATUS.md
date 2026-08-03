@@ -26,6 +26,8 @@ Source: `ROADMAP.md` (the authoritative 5-phase plan). Phases 1–3 are done; Ph
 
 **Remaining (~5%):** `mypy` (gradual typing) not adopted; `pip-audit` dependency-vulnerability step not in CI; `POST /ingest` request-size limit not enforced; live verification of the agent-key auth path pending.
 
+> **Update (2026-08-03 continuation):** the agent-key + admin-token + rate-limit auth paths were **verified end-to-end** via a live `AUTH_ENABLED=true` smoke (see `.ai/CURRENT_ANALYSIS.md`). `POST /ingest` size limit still pending (H4).
+
 ## Phase 2 — Containers, Postgres, CI/CD
 
 **Completed milestones:**

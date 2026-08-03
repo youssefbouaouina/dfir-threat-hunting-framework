@@ -5,6 +5,8 @@ You are resuming work on the **DFIR Threat Hunting Framework** on branch `yousse
 > **Session note (2026-08-03):** As of this continuation session, `.ai/` and `SETUP_GUIDE.md` were untracked; they are committed here. The `.ai/` docs are now version-controlled and authoritative.
 >
 > **Environment note (IMPORTANT):** This box is **Windows**, Python 3.12.10 system-wide. The handover's `/tmp/opencode/pydeps` + `/tmp/opencode/rufbin` paths are from a Linux dev box and **do not exist here**. Working venv: `%TEMP%\dfir_venv` (created via `python -m venv`). Run backend tests with `& "$env:TEMP\dfir_venv\Scripts\python.exe" -m pytest` from `backend/`; ruff via `& "$env:TEMP\dfir_venv\Scripts\ruff.exe" check .`. The in-repo venvs (`backend/.venv`, `backend/venv`, `collector/venv`) are broken/non-functional on this machine.
+>
+> **Phase 2 note (2026-08-03):** full independent validation recorded in `.ai/CURRENT_ANALYSIS.md` — 53 backend + 7 collector tests green, ruff clean, migration at head `ca41c1ba0e02`, auth verified live end-to-end. Recommended next task is **H3** (commit `SETUP_GUIDE.md` + refresh `PROJECT_SUMMARY.md`) then **C1** (delete `detection/.env.txt` + `backend/.env.txt`, rotate keys) and **H1/H2/H4**.
 
 ## Current architecture (one paragraph)
 

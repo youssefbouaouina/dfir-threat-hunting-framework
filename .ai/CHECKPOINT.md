@@ -3,6 +3,8 @@
 > Generated: 2026-08-03. Branch: `youssef`. Head commit: `af77469` (`phase 3 completed:Dashboard, EndpointManagement, and Manual Trigger Controls`).
 >
 > **Session update (2026-08-03, continuation):** Baseline re-validated on Windows (Python 3.12, deps in `%TEMP%\dfir_venv`): backend 53 tests pass, collector 7 pass, ruff clean on both, DB at head migration `ca41c1ba0e02`. **Critical finding: the entire `.ai/` directory (all AI memory files) is untracked in git** — never committed. This session commits it as the top priority. Leaked keys still on disk in `detection/.env.txt` + `backend/.env.txt` (gitignored).
+>
+> **Phase 2 validation (same session):** Auth path verified live end-to-end with `AUTH_ENABLED=true` (login → token, admin 401s, agent-key 401s, enroll+config work). `.ai/` committed (docs commit). Full analysis in `.ai/CURRENT_ANALYSIS.md`. Remaining priorities: C1 (delete/rotate keys), H1 (return enrollment token), H2 (honor collectors config), H3 (commit SETUP_GUIDE + fix PROJECT_SUMMARY), H4 (ingest size limit + split rate-limit flag), then M1–M7.
 
 ## Project name
 DFIR Threat Hunting Framework (repo: `dfir-threat-hunting-frameworkV3`, remote: `youssefbouaouina/dfir-threat-hunting-framework` — private).
