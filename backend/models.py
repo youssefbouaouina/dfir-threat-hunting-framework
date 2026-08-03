@@ -43,6 +43,10 @@ class Endpoint(Base):
     enrollment_token_hash = Column(String, nullable=True)
     config_json = Column(Text, nullable=True)  # JSON-encoded collector config
     registered_at = Column(DateTime(timezone=True), server_default=func.now())
+    # Phase 4 (F4): team ownership — RBAC scope for analysts/viewers. Hosts are
+    # keyed by hostname, so team scoping of detections/artifacts resolves
+    # hostname -> endpoint -> team through this column.
+    team = Column(String, default="default", index=True)
 
 
 class Host(Base):
@@ -121,6 +125,11 @@ class AuditLog(Base):
     Records who did what and when (login, run detection, triage a detection,
     update an endpoint config). Reads are admin-only; appends happen from the
     services so every state change is traceable.
+
+    Phase 4 (F4) makes the trail tamper-evident: each row carries a SHA-256
+    `record_hash` computed over (prev_hash, actor, action, detail) chained to
+    the previous row's record_hash. Any modification breaks the chain, which
+    GET /audit-logs/verify detects.
     """
     __tablename__ = "audit_logs"
 
@@ -131,6 +140,9 @@ class AuditLog(Base):
     created_at = Column(
         DateTime(timezone=True), server_default=func.now(), index=True
     )
+    # Phase 4 (F4): hash-chain columns for tamper-evidence (nullable on legacy rows).
+    prev_hash = Column(String, nullable=True)
+    record_hash = Column(String, nullable=True, index=True)
 
 
 class PendingCommand(Base):

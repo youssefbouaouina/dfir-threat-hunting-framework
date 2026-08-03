@@ -65,6 +65,8 @@ class EndpointOut(BaseModel):
     last_seen: Optional[datetime] = None
     registered_at: Optional[datetime] = None
     config: Optional[Dict[str, Any]] = None
+    # Phase 4 (F4): RBAC team ownership.
+    team: Optional[str] = "default"
 
 
 class EnrollResponse(EndpointOut):
@@ -134,3 +136,6 @@ class LoginResponse(BaseModel):
     token: str
     token_type: str = "bearer"
     expires_in: int
+    # Phase 4 (F4): RBAC — role + team the token was issued for.
+    role: Optional[str] = "viewer"
+    team: Optional[str] = None

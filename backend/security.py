@@ -1,15 +1,30 @@
 """
-API authentication and rate limiting for the DFIR backend.
+API authentication, authorization (RBAC) and rate limiting for the DFIR backend.
 
 Credential model (chosen for DFIR operations, not generic web apps):
   * Agents (headless endpoints)      -> long-lived API keys, one per endpoint,
                                         presented as `Authorization: Bearer <key>`.
-  * Admins/analysts (human users)    -> short-lived HMAC-signed tokens obtained
+  * Humans (analysts / admins)       -> short-lived HMAC-signed tokens obtained
                                         from POST /auth/login (TTL enforced).
+
+Phase 4 (F4) adds role-based access control + team scoping:
+  * Three roles: admin, analyst, viewer.
+      - admin   — full access (manage config, run detection, triage, everything)
+      - analyst — read + triage + trigger detection (no config/inventory writes)
+      - viewer  — read-only
+  * Tokens carry a `role` and an optional `team` claim. Human credentials map
+    to (role, team) via env:
+      - ADMIN_API_KEY     -> admin (no team scope; sees everything)
+      - ANALYST_API_KEYS  -> comma-separated "key@team" entries -> analyst
+      - VIEWER_API_KEYS   -> comma-separated "key@team" entries -> viewer
+    A token issued without a team claim is unscoped (sees everything within
+    its role). A team-scoped user only ever sees that team's endpoints and
+    the detections/artifacts/incidents belonging to those hosts (F4c).
 
 Everything is OPT-IN: when AUTH_ENABLED is false every dependency is a no-op,
 preserving the existing open-lab behavior and all current tests. When enabled,
-missing/invalid credentials raise 401 and over-limit requests raise 429.
+missing/invalid credentials raise 401, insufficient role raises 403, and
+over-limit requests raise 429.
 
 No secrets are ever logged. Tokens use stdlib only (base64/hmac/hashlib) so the
 module has zero hard runtime dependencies beyond FastAPI.
@@ -32,6 +47,11 @@ load_dotenv()
 
 logger = logging.getLogger(__name__)
 
+ROLE_ADMIN = "admin"
+ROLE_ANALYST = "analyst"
+ROLE_VIEWER = "viewer"
+ROLES = (ROLE_ADMIN, ROLE_ANALYST, ROLE_VIEWER)
+
 # ---------------------------------------------------------------------------
 # Env-driven configuration
 # ---------------------------------------------------------------------------
@@ -45,6 +65,25 @@ for _key in os.getenv("AGENT_API_KEYS", "").split(","):
     _key = _key.strip()
     if _key:
         AGENT_API_KEYS[_key] = "agent"
+
+
+def _parse_human_keys(raw: str, role: str) -> Dict[str, dict]:
+    """Parses "key@team,key2@team2" env entries into key -> {role, team}."""
+    mapping: Dict[str, dict] = {}
+    for entry in raw.split(","):
+        entry = entry.strip()
+        if not entry:
+            continue
+        key, _, team = entry.partition("@")
+        mapping[key] = {"role": role, "team": team or None}
+    return mapping
+
+
+# key -> {"role": ..., "team": ...|None} for human credentials.
+HUMAN_API_KEYS: Dict[str, dict] = {}
+HUMAN_API_KEYS.update(_parse_human_keys(os.getenv("ADMIN_API_KEY", ""), ROLE_ADMIN))
+HUMAN_API_KEYS.update(_parse_human_keys(os.getenv("ANALYST_API_KEYS", ""), ROLE_ANALYST))
+HUMAN_API_KEYS.update(_parse_human_keys(os.getenv("VIEWER_API_KEYS", ""), ROLE_VIEWER))
 
 _bearer = HTTPBearer(auto_error=False)
 
@@ -67,6 +106,10 @@ def _reject() -> HTTPException:
     return HTTPException(status_code=401, detail="Authentication required")
 
 
+def _forbidden() -> HTTPException:
+    return HTTPException(status_code=403, detail="Insufficient role")
+
+
 def _b64url(data: bytes) -> str:
     return base64.urlsafe_b64encode(data).rstrip(b"=").decode("ascii")
 
@@ -85,22 +128,38 @@ def _sign(payload: Dict[str, object]) -> str:
 
 
 def _verify_token(token: str) -> bool:
+    return _decode_token(token) is not None
+
+
+def _decode_token(token: str) -> Optional[dict]:
     try:
         body, _, digest = token.partition(".")
         expected = _b64url(
             hmac.new(AUTH_SECRET.encode("utf-8"), body.encode("ascii"), hashlib.sha256).digest()
         )
         if not hmac.compare_digest(digest, expected):
-            return False
+            return None
         payload = json.loads(_b64url_decode(body))
-        return isinstance(payload, dict) and int(payload.get("exp", 0)) >= int(time.time())
+        if not isinstance(payload, dict) or int(payload.get("exp", 0)) < int(time.time()):
+            return None
+        return payload
     except (ValueError, TypeError, json.JSONDecodeError):
-        return False
+        return None
 
 
-def issue_token(subject: str, ttl_seconds: int = TOKEN_TTL_SECONDS) -> str:
-    """Issues a short-lived signed token for a human user (admin/analyst)."""
-    payload = {"sub": subject, "exp": int(time.time()) + int(ttl_seconds)}
+def issue_token(
+    subject: str,
+    role: str = ROLE_ADMIN,
+    team: Optional[str] = None,
+    ttl_seconds: int = TOKEN_TTL_SECONDS,
+) -> str:
+    """Issues a short-lived signed token for a human user (admin/analyst/viewer)."""
+    payload: Dict[str, object] = {
+        "sub": subject,
+        "role": role if role in ROLES else ROLE_VIEWER,
+        "team": team,
+        "exp": int(time.time()) + int(ttl_seconds),
+    }
     return _sign(payload)
 
 
@@ -119,10 +178,61 @@ def require_agent(
     return AGENT_API_KEYS[creds.credentials]
 
 
+def _resolve_human(creds: HTTPAuthorizationCredentials) -> Optional[dict]:
+    """Returns {role, team, subject} for a human credential (key or token)."""
+    if hmac.compare_digest(creds.credentials, ADMIN_API_KEY):
+        return {"role": ROLE_ADMIN, "team": None, "subject": "admin"}
+    if creds.credentials in HUMAN_API_KEYS:
+        info = HUMAN_API_KEYS[creds.credentials]
+        return {"role": info["role"], "team": info["team"], "subject": info["role"]}
+    payload = _decode_token(creds.credentials)
+    if payload:
+        return {
+            "role": payload.get("role", ROLE_VIEWER),
+            "team": payload.get("team"),
+            "subject": payload.get("sub", "user"),
+        }
+    return None
+
+
+def current_user(
+    creds: Optional[HTTPAuthorizationCredentials] = Depends(_bearer),
+) -> Optional[dict]:
+    """Dependency yielding the authenticated human's {role, team, subject}.
+
+    Returns None when auth is disabled (open-lab mode), so callers that treat
+    `None` as "unscoped admin" keep working unchanged.
+    """
+    if not AUTH_ENABLED:
+        return None
+    if creds is None or creds.scheme.lower() != "bearer":
+        raise _reject()
+    user = _resolve_human(creds)
+    if user is None:
+        raise _reject()
+    return user
+
+
+def require_role(*roles: str):
+    """Factory: builds a dependency enforcing membership in one of `roles`."""
+    allowed = set(roles)
+
+    def _dependency(
+        user: Optional[dict] = Depends(current_user),
+    ) -> Optional[dict]:
+        if user is None:
+            return None  # auth off -> open mode
+        if user["role"] not in allowed:
+            raise _forbidden()
+        return user
+
+    return _dependency
+
+
 def require_admin(
     creds: Optional[HTTPAuthorizationCredentials] = Depends(_bearer),
 ) -> Optional[str]:
-    """Dependency for analyst/admin endpoints. Accepts the admin key or a signed token."""
+    """Dependency for admin endpoints. Accepts the admin key or a signed token."""
     if not AUTH_ENABLED:
         return None
     if creds is None or creds.scheme.lower() != "bearer":
@@ -132,9 +242,17 @@ def require_admin(
     raise _reject()
 
 
-def authenticate_login(api_key: str) -> bool:
-    """Validates credentials for POST /auth/login (admin key)."""
-    return hmac.compare_digest(api_key, ADMIN_API_KEY)
+def authenticate_login(api_key: str) -> dict:
+    """Validates credentials for POST /auth/login; returns {role, team}.
+
+    Accepts any configured human credential (admin/analyst/viewer key).
+    """
+    if hmac.compare_digest(api_key, ADMIN_API_KEY):
+        return {"role": ROLE_ADMIN, "team": None}
+    info = HUMAN_API_KEYS.get(api_key)
+    if info:
+        return {"role": info["role"], "team": info["team"]}
+    return {}
 
 
 # ---------------------------------------------------------------------------
@@ -179,3 +297,4 @@ def rate_limit(request: Request) -> None:
         logger.warning("Rate limit exceeded for client %s", key)
         raise HTTPException(status_code=429, detail="Rate limit exceeded")
     window.append(now)
+

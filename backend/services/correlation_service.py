@@ -218,13 +218,28 @@ def list_incidents(
     severity: Optional[str] = None,
     limit: int = 100,
     before_id: Optional[int] = None,
+    hosts: Optional[List[str]] = None,
 ) -> list:
-    """Returns incidents newest-first, optionally filtered by status/severity."""
+    """Returns incidents newest-first, optionally filtered by status/severity.
+
+    `hosts` (F4) is a team-scope allow-list: an incident is visible if at
+    least one of its member detections belongs to an allowed host.
+    """
     query = db.query(models.Incident)
     if status:
         query = query.filter(models.Incident.status == status)
     if severity:
         query = query.filter(models.Incident.severity == severity)
+    if hosts is not None:
+        link = models.IncidentDetection
+        scoped_incident_ids = (
+            db.query(link.incident_id)
+            .join(models.Detection, models.Detection.id == link.detection_id)
+            .filter(models.Detection.host.in_(hosts))
+            .distinct()
+            .subquery()
+        )
+        query = query.filter(models.Incident.id.in_(scoped_incident_ids))
     if before_id is not None:
         query = query.filter(models.Incident.id < before_id)
     rows = query.order_by(models.Incident.id.desc()).limit(min(limit, 500)).all()

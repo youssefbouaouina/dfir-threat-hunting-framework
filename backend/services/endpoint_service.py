@@ -209,14 +209,15 @@ def complete_command(
     return {"command_id": row.id, "status": row.status}
 
 
-def list_endpoints(db, limit: int = 100) -> list:
-    """Returns the managed endpoint inventory, newest registration first."""
-    rows = (
-        db.query(models.Endpoint)
-        .order_by(models.Endpoint.id.desc())
-        .limit(min(limit, 500))
-        .all()
-    )
+def list_endpoints(db, limit: int = 100, team: Optional[str] = None) -> list:
+    """Returns the managed endpoint inventory, newest registration first.
+
+    `team` (F4) scopes the inventory to a single team when provided.
+    """
+    query = db.query(models.Endpoint)
+    if team:
+        query = query.filter(models.Endpoint.team == team)
+    rows = query.order_by(models.Endpoint.id.desc()).limit(min(limit, 500)).all()
     return [
         {
             "id": r.id,
@@ -226,6 +227,7 @@ def list_endpoints(db, limit: int = 100) -> list:
             "status": r.status,
             "last_seen": r.last_seen,
             "registered_at": r.registered_at,
+            "team": r.team,
             "config": json.loads(r.config_json) if r.config_json else dict(DEFAULT_CONFIG),
         }
         for r in rows

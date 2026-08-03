@@ -187,15 +187,18 @@ def list_detections(
     severity: Optional[str] = None,
     limit: int = 100,
     before_id: Optional[int] = None,
+    hosts: Optional[list] = None,
 ) -> list:
     """Returns detections newest-first, optionally filtered by host/severity.
 
     `before_id` is a cursor (id < before_id) so paging stays stable as new
-    detections arrive.
+    detections arrive. `hosts` (F4) is an allow-list from team scoping.
     """
     query = db.query(models.Detection)
     if host:
         query = query.filter(models.Detection.host == host)
+    if hosts is not None:
+        query = query.filter(models.Detection.host.in_(hosts))
     if severity:
         query = query.filter(models.Detection.severity == severity)
     if before_id is not None:
@@ -271,15 +274,22 @@ def triage_detection(
 
 
 def list_detection_runs(
-    db, limit: int = 50, status: Optional[str] = None, before_id: Optional[int] = None
+    db,
+    limit: int = 50,
+    status: Optional[str] = None,
+    before_id: Optional[int] = None,
+    hosts: Optional[list] = None,
 ) -> list:
     """Returns detection-run history (newest first), optionally filtered by status.
 
-    `before_id` is a cursor (id < before_id) for stable paging.
+    `before_id` is a cursor (id < before_id) for stable paging. `hosts` (F4)
+    is an allow-list from team scoping (runs scoped by their host field).
     """
     query = db.query(models.DetectionRun)
     if status:
         query = query.filter(models.DetectionRun.status == status)
+    if hosts is not None:
+        query = query.filter(models.DetectionRun.host.in_(hosts))
     if before_id is not None:
         query = query.filter(models.DetectionRun.id < before_id)
     rows = query.order_by(models.DetectionRun.id.desc()).limit(min(limit, 500)).all()
@@ -302,20 +312,22 @@ def list_detection_runs(
     ]
 
 
-def detections_summary(db) -> dict:
+def detections_summary(db, hosts: Optional[list] = None) -> dict:
     """Aggregates detection counts by technique/severity/host (ATT&CK coverage view).
 
     Uses SQL GROUP BY so /detections/summary stays cheap as the table grows
-    (M3): no full-table load into Python.
+    (M3): no full-table load into Python. `hosts` (F4) scopes to a team.
     """
-    total = db.query(models.Detection).count()
+    base = db.query(models.Detection)
+    if hosts is not None:
+        base = base.filter(models.Detection.host.in_(hosts))
+    total = base.count()
 
     def _grouped(column) -> dict:
-        rows = (
-            db.query(column, func.count(models.Detection.id))
-            .group_by(column)
-            .all()
-        )
+        query = db.query(column, func.count(models.Detection.id))
+        if hosts is not None:
+            query = query.filter(models.Detection.host.in_(hosts))
+        rows = query.group_by(column).all()
         return {key or "unknown": n for key, n in rows}
 
     return {

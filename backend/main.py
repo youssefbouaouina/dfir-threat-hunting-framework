@@ -46,6 +46,7 @@ from scheduler import get_status, start_scheduler, stop_scheduler
 from security import (
     TOKEN_TTL_SECONDS,
     authenticate_login,
+    current_user,
     issue_token,
     rate_limit,
     require_admin,
@@ -142,11 +143,14 @@ def scheduler_status():
 
 @app.post("/auth/login", response_model=schemas.LoginResponse)
 def login(body: schemas.LoginRequest):
-    """Exchanges the admin API key for a short-lived bearer token (analyst access)."""
-    if not authenticate_login(body.api_key):
-        raise HTTPException(status_code=401, detail="Invalid admin API key")
-    token = issue_token("admin")
-    return schemas.LoginResponse(token=token, expires_in=TOKEN_TTL_SECONDS)
+    """Exchanges a human API key for a short-lived role-scoped bearer token."""
+    info = authenticate_login(body.api_key)
+    if not info:
+        raise HTTPException(status_code=401, detail="Invalid API key")
+    token = issue_token(info["role"], role=info["role"], team=info["team"])
+    return schemas.LoginResponse(
+        token=token, expires_in=TOKEN_TTL_SECONDS, role=info["role"], team=info["team"]
+    )
 
 
 @app.get("/health")
@@ -173,6 +177,16 @@ def list_audit_logs(
 ):
     """Analyst/admin action trail (who did what, when)."""
     return audit_service.list_audit_logs(db, limit=limit, action=action)
+
+
+@app.get("/audit-logs/verify", dependencies=[Depends(require_admin)])
+def verify_audit_logs(db: Session = Depends(get_db)):
+    """F4: verifies the tamper-evident hash chain over the audit trail.
+
+    Returns {"valid", "checked", "broken_at"}; any historical modification
+    breaks the chain for every later row and is flagged here.
+    """
+    return audit_service.verify_audit_chain(db)
 
 
 @app.post(
@@ -209,6 +223,12 @@ def ingest_artifacts(
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
+def _scope_hosts(db, user):
+    from services import query_service
+
+    return query_service.scoped_hosts(db, user.get("team")) if user else None
+
+
 @app.get(
     "/artifacts",
     response_model=List[schemas.ArtifactOut],
@@ -224,6 +244,7 @@ def list_artifacts(
     before_id: Optional[int] = Query(
         default=None, gt=0, description="cursor: only ids < before_id"
     ),
+    user: dict = Depends(current_user),
     db: Session = Depends(get_db),
 ):
     return query_service.list_artifacts(
@@ -235,6 +256,7 @@ def list_artifacts(
         processed=processed,
         limit=limit,
         before_id=before_id,
+        hosts=_scope_hosts(db, user),
     )
 
 

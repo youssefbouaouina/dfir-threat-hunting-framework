@@ -14,7 +14,7 @@ from sqlalchemy.orm import Session
 
 import schemas
 from database import get_db
-from security import require_admin, require_agent
+from security import current_user, require_admin, require_agent
 from services import endpoint_service
 
 router = APIRouter(prefix="/endpoints", tags=["endpoints"])
@@ -38,9 +38,13 @@ def enroll(
 
 
 @router.get("", response_model=list[schemas.EndpointOut], dependencies=[Depends(require_admin)])
-def list_endpoints(limit: int = 100, db: Session = Depends(get_db)):
-    """Managed endpoint inventory (analyst/admin view)."""
-    return endpoint_service.list_endpoints(db, limit=limit)
+def list_endpoints(
+    limit: int = 100,
+    user: dict = Depends(current_user),
+    db: Session = Depends(get_db),
+):
+    """Managed endpoint inventory (analyst/admin view), team-scoped for F4."""
+    return endpoint_service.list_endpoints(db, limit=limit, team=user.get("team") if user else None)
 
 
 @router.get(
