@@ -27,7 +27,9 @@ def test_make_batch_id_is_unique():
     assert make_batch_id() != make_batch_id()
 
 
-def test_push_folder_sends_batch_id(monkeypatch, tmp_path):
+def test_push_folder_sends_per_file_batch_id(monkeypatch, tmp_path):
+    """Each file in a folder gets its own batch id so the backend's
+    (host, batch_id) dedup doesn't collapse the folder to its first file."""
     calls = {}
 
     def fake_post_json(url, headers=None, data=None, params=None, timeout=None):
@@ -41,7 +43,7 @@ def test_push_folder_sends_batch_id(monkeypatch, tmp_path):
     summary = push_folder(folder, "http://backend:8000", api_key="key-1")
 
     assert summary["ingested"] == 2
-    assert calls["params"] == {"batch_id": "batch-abc"}
+    assert calls["params"] == {"batch_id": "batch-abc/processes.json"}
     assert calls["url"].endswith("/ingest")
 
 

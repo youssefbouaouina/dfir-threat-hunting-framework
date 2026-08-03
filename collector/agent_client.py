@@ -127,8 +127,12 @@ def enroll(
 def push_folder(folder_path: str, api_url: str, api_key: str = None, batch_id: str = None) -> dict:
     """Pushes every *.json artifact file in a folder to /ingest as one batch.
 
-    batch_id defaults to the folder's basename (a per-run id), so re-pushing
-    the same folder is a no-op on the backend. Returns a summary dict.
+    batch_id defaults to the folder's basename (a per-run id). Each file gets a
+    per-file batch id ("<batch_id>/<filename>") so re-pushing the same folder is
+    a no-op on the backend *while* every file in a fresh folder is stored —
+    a single folder-level batch id would otherwise collapse to the first file
+    only, because the backend dedups at (host, batch_id) granularity.
+    Returns a summary dict.
     """
     api_url = api_url.rstrip("/")
     headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
@@ -149,11 +153,12 @@ def push_folder(folder_path: str, api_url: str, api_key: str = None, batch_id: s
         if not isinstance(artifacts, list) or not artifacts:
             continue
 
+        file_batch_id = f"{batch_id}/{fname}"
         status, body = _post_json(
             f"{api_url}/ingest",
             headers=headers,
             data=artifacts,
-            params={"batch_id": batch_id},
+            params={"batch_id": file_batch_id},
             timeout=60,
         )
         summary["files"] += 1

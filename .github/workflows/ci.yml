@@ -59,6 +59,48 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  agent-e2e:
+    name: Agent → backend e2e (containerized)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build backend image
+        run: docker build -f backend/Dockerfile -t dfir-backend:e2e .
+
+      - name: Build agent image
+        run: docker build -f Dockerfile.agent -t dfir-agent:e2e .
+
+      - name: Start backend
+        run: |
+          docker run -d --name dfir-backend -p 8000:8000 \
+            -e DATABASE_URL=sqlite:///./dfir.db \
+            dfir-backend:e2e
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/health >/dev/null 2>&1; then
+              echo "backend healthy"; break
+            fi
+            sleep 1
+          done
+
+      - name: Enroll agent + run one-shot collection
+        run: |
+          docker run --rm --network host --name dfir-agent dfir-agent:e2e \
+            --api-url http://127.0.0.1:8000 --enroll \
+            --only processes,network
+
+      - name: Verify artifacts reached the backend
+        run: |
+          curl -fsS "http://127.0.0.1:8000/artifacts?limit=50" > artifacts.json
+          python -c "
+          import json, sys
+          rows = json.load(open('artifacts.json'))
+          types = {a['artifact_type'] for a in rows}
+          assert rows, 'no artifacts ingested from agent'
+          print('e2e OK — ingested artifacts:', sorted(types))
+          "
+          docker stop dfir-backend
+
   build-and-push:
     name: Build & push backend image (GHCR)
     if: startsWith(github.ref, 'refs/tags/v')

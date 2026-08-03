@@ -1,0 +1,32 @@
+# Containerized collector agent — used for the CI end-to-end test and as a
+# quick way to run an agent on a disposable Linux container. In production the
+# agent is still a native per-endpoint process (see SETUP_GUIDE / ROADMAP);
+# this image exists so CI can exercise the full agent -> backend loop.
+#
+# Build context: the repo root.
+#
+#   docker build -f Dockerfile.agent -t dfir-agent:dev .
+#
+# Example run (one-shot collection of Linux-safe collectors, push to a
+# backend on the host):
+#   docker run --rm --network host dfir-agent:dev \
+#     --api-url http://127.0.0.1:8000 --only processes,network
+FROM python:3.12-slim
+
+ENV PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+
+# yara-python ships prebuilt manylinux wheels; psutil/requests too.
+COPY collector/requirements.txt /requirements.txt
+RUN pip install -r /requirements.txt yara-python>=4.5.0
+
+WORKDIR /agent
+COPY collector/ /agent/
+COPY backend/yara_rules/ /agent/yara_rules/
+
+# Agents run as non-root; give the output dir a home.
+RUN useradd --uid 1000 --create-home agent \
+    && mkdir -p /agent/output && chown -R agent:agent /agent
+USER agent
+
+ENTRYPOINT ["python", "collector_agent.py"]
