@@ -60,11 +60,18 @@ function renderAuth() {
 }
 
 /* ---------------- views ---------------- */
+let overviewTimer = null;
+
 function switchView(name) {
   document.querySelectorAll(".view").forEach((v) => v.classList.remove("active"));
   document.querySelectorAll(".nav-btn").forEach((b) => b.classList.toggle("active", b.dataset.view === name));
   $(`#view-${name}`).classList.add("active");
-  if (name === "overview") loadOverview();
+  clearInterval(overviewTimer);
+  overviewTimer = null;
+  if (name === "overview") {
+    loadOverview();
+    overviewTimer = setInterval(() => loadOverview().catch(() => {}), 15000);
+  }
   if (name === "endpoints") loadEndpoints();
   if (name === "detections") loadDetections();
   if (name === "runs") loadRuns();
@@ -85,6 +92,16 @@ async function loadOverview() {
     ["Detection runs", m.detection_runs ?? 0],
     ["Hosts", m.hosts ?? 0],
   ].map(([lbl, num]) => `<div class="card"><div class="num">${num}</div><div class="lbl">${esc(lbl)}</div></div>`).join("");
+  const sched = $("#scheduler-box");
+  if (sched) {
+    try {
+      const s = await api("/scheduler/status");
+      const next = s.next_run_time ? new Date(s.next_run_time).toLocaleString() : "—";
+      sched.textContent = `Running: ${s.running ? "yes" : "no"}  ·  Detection interval: ${s.interval_seconds}s  ·  Next run: ${next}`;
+    } catch {
+      sched.textContent = "Scheduler status unavailable";
+    }
+  }
   $("#summary-box").textContent = JSON.stringify(summary, null, 2);
 }
 
