@@ -8,11 +8,14 @@ backwards compatibility.
 """
 import hashlib
 import json
+import logging
 import secrets
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import models
 from services.audit_service import log_action
+
+logger = logging.getLogger("dfir.endpoint_service")
 
 DEFAULT_CONFIG = {
     "collectors": ["processes", "network", "persistence", "scheduled_tasks", "logs", "file_scan"],
@@ -216,9 +219,55 @@ def list_endpoints(db, limit: int = 100) -> list:
     ]
 
 
+def _touch_endpoint(db, hostname: str) -> None:
+    """Refreshes the endpoint's heartbeat timestamp (its status flips back to online)."""
+    endpoint = (
+        db.query(models.Endpoint).filter(models.Endpoint.hostname == hostname).first()
+    )
+    if endpoint is None:
+        return
+    endpoint.status = "online"
+    endpoint.last_seen = datetime.now(timezone.utc)
+    db.commit()
+
+
 def get_endpoint_config(db, hostname: str) -> dict:
-    """Returns the collection config an agent should follow for its hostname."""
+    """Returns the collection config an agent should follow for its hostname.
+
+    Doubles as the agent's heartbeat: any poll refreshes last_seen, so the
+    offline sweep (mark_offline_stale) can rely on it.
+    """
+    _touch_endpoint(db, hostname)
     endpoint = db.query(models.Endpoint).filter(models.Endpoint.hostname == hostname).first()
     if endpoint is None:
         return dict(DEFAULT_CONFIG)
     return json.loads(endpoint.config_json) if endpoint.config_json else dict(DEFAULT_CONFIG)
+
+
+def mark_offline_stale(db, stale_after_seconds: int = 900) -> int:
+    """Marks endpoints that stopped polling 'offline' (M6).
+
+    An endpoint whose last_seen is older than `stale_after_seconds` (default
+    15 min = 3x the default 5-min poll interval) is flipped to offline.
+    Returns the number of endpoints transitioned online -> offline.
+    """
+    cutoff = datetime.now(timezone.utc) - timedelta(seconds=stale_after_seconds)
+    stale = (
+        db.query(models.Endpoint)
+        .filter(models.Endpoint.status == "online")
+        .filter(
+            models.Endpoint.last_seen.is_(None)
+            | (models.Endpoint.last_seen < cutoff)
+        )
+        .all()
+    )
+    for endpoint in stale:
+        endpoint.status = "offline"
+    if stale:
+        db.commit()
+        logger.info(
+            "Marked %d endpoint(s) offline (last poll > %ss ago)",
+            len(stale),
+            stale_after_seconds,
+        )
+    return len(stale)

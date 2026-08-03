@@ -24,10 +24,13 @@ from apscheduler.triggers.interval import IntervalTrigger
 
 from database import SessionLocal
 from services.detection_service import run_detection_job
+from services.endpoint_service import mark_offline_stale
 
 logger = logging.getLogger("dfir.scheduler")
 
 DETECTION_INTERVAL_SECONDS = int(os.getenv("DETECTION_INTERVAL_SECONDS", "30"))
+OFFLINE_SWEEP_INTERVAL_SECONDS = int(os.getenv("OFFLINE_SWEEP_INTERVAL_SECONDS", "60"))
+OFFLINE_STALE_AFTER_SECONDS = int(os.getenv("OFFLINE_STALE_AFTER_SECONDS", "900"))
 
 scheduler = BackgroundScheduler()
 
@@ -51,6 +54,17 @@ def _scheduled_detection_run():
         db.close()
 
 
+def _scheduled_offline_sweep():
+    """M6: flips endpoints that stopped polling to offline (own DB session)."""
+    db = SessionLocal()
+    try:
+        mark_offline_stale(db, stale_after_seconds=OFFLINE_STALE_AFTER_SECONDS)
+    except Exception:
+        logger.exception("Offline sweep failed")
+    finally:
+        db.close()
+
+
 def start_scheduler():
     if scheduler.running:
         return
@@ -58,6 +72,14 @@ def start_scheduler():
         _scheduled_detection_run,
         trigger=IntervalTrigger(seconds=DETECTION_INTERVAL_SECONDS),
         id="detection_cycle",
+        max_instances=1,
+        coalesce=True,
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        _scheduled_offline_sweep,
+        trigger=IntervalTrigger(seconds=OFFLINE_SWEEP_INTERVAL_SECONDS),
+        id="offline_sweep",
         max_instances=1,
         coalesce=True,
         replace_existing=True,

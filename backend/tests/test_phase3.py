@@ -125,3 +125,73 @@ def test_dashboard_static_served(client):
     resp = client.get("/dashboard")
     assert resp.status_code == 200
     assert "DFIR Threat Hunting" in resp.text
+
+
+def test_config_poll_refreshes_heartbeat(client):
+    """M6: the agent's config poll doubles as a heartbeat (status back online)."""
+    client.post("/endpoints/enroll", json={"hostname": "edge-04", "os": "linux"})
+    ep = client.get("/endpoints").json()[0]
+    assert ep["status"] == "online"
+
+    # First poll
+    client.get("/endpoints/config", params={"hostname": "edge-04"})
+    ep = client.get("/endpoints").json()[0]
+    assert ep["status"] == "online"
+    assert ep["last_seen"] is not None
+
+
+def test_mark_offline_stale_flips_stale_endpoints(db_session):
+    """M6: endpoints whose last poll is older than the threshold go offline."""
+    import json
+    from datetime import datetime, timedelta, timezone
+
+    import models
+    from services import endpoint_service
+
+    now = datetime.now(timezone.utc)
+    fresh = models.Endpoint(
+        hostname="fresh",
+        os="linux",
+        status="online",
+        last_seen=now - timedelta(seconds=60),
+        config_json=json.dumps(endpoint_service.DEFAULT_CONFIG),
+    )
+    stale = models.Endpoint(
+        hostname="stale",
+        os="linux",
+        status="online",
+        last_seen=now - timedelta(hours=24),
+        config_json=json.dumps(endpoint_service.DEFAULT_CONFIG),
+    )
+    db_session.add_all([fresh, stale])
+    db_session.commit()
+
+    flipped = endpoint_service.mark_offline_stale(db_session, stale_after_seconds=900)
+    assert flipped == 1
+
+    db_session.refresh(fresh)
+    db_session.refresh(stale)
+    assert fresh.status == "online"
+    assert stale.status == "offline"
+
+
+def test_heartbeat_restores_offline_endpoint(client, db_session):
+    """M6: a config poll after being marked offline flips the endpoint back online."""
+    from datetime import datetime, timedelta, timezone
+
+    import models
+    from services import endpoint_service
+
+    client.post("/endpoints/enroll", json={"hostname": "edge-05", "os": "linux"})
+    ep = db_session.query(models.Endpoint).filter(models.Endpoint.hostname == "edge-05").first()
+    ep.status = "offline"
+    ep.last_seen = datetime.now(timezone.utc) - timedelta(hours=24)
+    db_session.commit()
+
+    # The poll touches last_seen and restores online status.
+    client.get("/endpoints/config", params={"hostname": "edge-05"})
+
+    db_session.expire_all()
+    ep = db_session.query(models.Endpoint).filter(models.Endpoint.hostname == "edge-05").first()
+    assert ep.status == "online"
+    assert endpoint_service.list_endpoints(db_session)[0]["status"] == "online"
