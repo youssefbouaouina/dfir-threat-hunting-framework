@@ -94,3 +94,34 @@ def test_failed_run_is_recorded(db_session, svc, monkeypatch):
     runs = db_session.query(models.DetectionRun).all()
     assert len(runs) == 1
     assert runs[0].status == "failed"
+
+
+def test_yara_severity_from_rule_meta(db_session, svc):
+    """M1: YARA severity should come from rule meta.severity/level, not a hardcoded 'high'."""
+    artifact = models.Artifact(
+        host="h1",
+        os="linux",
+        artifact_type="file_scan",
+        collected_at="2026-01-01T00:00:00Z",
+        data=json.dumps(
+            {
+                "yara_matches": [
+                    {
+                        "rule": "EvilRule",
+                        "meta": {"description": "bad stuff", "severity": "critical"},
+                    },
+                    {"rule": "OtherRule", "meta": {"level": "medium"}},
+                    {"rule": "BareRule"},
+                ]
+            }
+        ),
+    )
+    db_session.add(artifact)
+    db_session.commit()
+
+    svc.run_detection_job(db_session)
+
+    detections = {d.rule_id: d.severity for d in db_session.query(models.Detection).all()}
+    assert detections["yara-EvilRule"] == "critical"
+    assert detections["yara-OtherRule"] == "medium"
+    assert detections["yara-BareRule"] == "high"  # no meta -> default

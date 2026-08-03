@@ -88,12 +88,13 @@ def run_detection_job(db, host: str = None, rescan: bool = False, trigger: str =
             if artifact["artifact_type"] != "file_scan":
                 continue
             for match in artifact["data"].get("yara_matches", []):
+                meta = match.get("meta", {})
                 all_detections.append(
                     {
                         "rule_id": f"yara-{match['rule']}",
-                        "rule_title": match.get("meta", {}).get("description", match["rule"]),
-                        "technique_id": match.get("meta", {}).get("technique_id"),
-                        "severity": "high",
+                        "rule_title": meta.get("description", match["rule"]),
+                        "technique_id": meta.get("technique_id"),
+                        "severity": str(meta.get("severity") or meta.get("level") or "high"),
                         "host": artifact["host"],
                         "artifact_type": "file_scan",
                         "matched_data": artifact["data"],
