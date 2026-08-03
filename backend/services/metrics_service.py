@@ -6,6 +6,8 @@ consume this via /metrics; CI smoke tests hit the same endpoint.
 """
 import json
 
+from sqlalchemy import func
+
 import models
 
 
@@ -66,8 +68,9 @@ def health_payload(db) -> dict:
 
 
 def _summary_counts(db) -> dict:
-    rows = db.query(models.Detection).all()
-    by_severity = {}
-    for r in rows:
-        by_severity[r.severity or "unknown"] = by_severity.get(r.severity or "unknown", 0) + 1
-    return {"by_severity": by_severity}
+    rows = (
+        db.query(models.Detection.severity, func.count(models.Detection.id))
+        .group_by(models.Detection.severity)
+        .all()
+    )
+    return {"by_severity": {key or "unknown": n for key, n in rows}}

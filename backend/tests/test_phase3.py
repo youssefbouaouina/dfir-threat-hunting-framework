@@ -4,6 +4,7 @@ Covers the new analyst-facing surface: detection triage (PATCH), endpoint
 config editing + "run collection now" command queue (polled by the agent),
 the audit trail, and the /metrics + /health payloads.
 """
+import json
 
 
 def _seed_detection(client, host="h1"):
@@ -54,6 +55,29 @@ def test_summary_includes_triage(client):
     _seed_detection(client)
     summary = client.get("/detections/summary").json()
     assert summary["by_triage"]["new"] == 1
+
+
+def test_summary_aggregates_match_grouped_counts(client):
+    """M3: summary uses SQL GROUP BY — counts must match seeded data."""
+    _seed_detection(client, host="h1")
+    artifact = {
+        "host": "h2",
+        "os": "linux",
+        "collected_at": "2026-01-01T00:00:00Z",
+        "artifact_type": "process",
+        "data": {"cmdline": "powershell -enc BBB"},
+    }
+    client.post("/ingest", json=[artifact])
+    client.post("/detect")
+
+    summary = client.get("/detections/summary").json()
+    assert summary["total_detections"] == 2
+    assert summary["by_host"] == {"h1": 1, "h2": 1}
+    assert summary["by_severity"]["high"] == 2
+
+    # /health's embedded summary uses the same aggregation path.
+    health = client.get("/health").json()
+    assert json.loads(health["summary"])["by_severity"]["high"] == 2
 
 
 def test_endpoint_config_edit_and_collection_trigger(client):

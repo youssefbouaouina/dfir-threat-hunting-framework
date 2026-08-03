@@ -11,6 +11,8 @@ import json
 import os
 from datetime import datetime, timezone
 
+from sqlalchemy import func
+
 import models
 from attck_mapper import enrich_technique
 from hash_checker import check_file_scan_artifacts
@@ -260,23 +262,25 @@ def list_detection_runs(db, limit: int = 50, status: str = None) -> list:
 
 
 def detections_summary(db) -> dict:
-    """Aggregates detection counts by technique/severity/host (ATT&CK coverage view)."""
-    rows = db.query(models.Detection).all()
-    by_technique = {}
-    by_severity = {}
-    by_host = {}
-    by_triage = {}
-    for r in rows:
-        technique = r.technique_id or "unknown"
-        by_technique[technique] = by_technique.get(technique, 0) + 1
-        by_severity[r.severity or "unknown"] = by_severity.get(r.severity or "unknown", 0) + 1
-        by_host[r.host] = by_host.get(r.host, 0) + 1
-        triage = r.triage_status or "new"
-        by_triage[triage] = by_triage.get(triage, 0) + 1
+    """Aggregates detection counts by technique/severity/host (ATT&CK coverage view).
+
+    Uses SQL GROUP BY so /detections/summary stays cheap as the table grows
+    (M3): no full-table load into Python.
+    """
+    total = db.query(models.Detection).count()
+
+    def _grouped(column) -> dict:
+        rows = (
+            db.query(column, func.count(models.Detection.id))
+            .group_by(column)
+            .all()
+        )
+        return {key or "unknown": n for key, n in rows}
+
     return {
-        "total_detections": len(rows),
-        "by_technique": by_technique,
-        "by_severity": by_severity,
-        "by_host": by_host,
-        "by_triage": by_triage,
+        "total_detections": total,
+        "by_technique": _grouped(models.Detection.technique_id),
+        "by_severity": _grouped(models.Detection.severity),
+        "by_host": _grouped(models.Detection.host),
+        "by_triage": _grouped(models.Detection.triage_status),
     }
