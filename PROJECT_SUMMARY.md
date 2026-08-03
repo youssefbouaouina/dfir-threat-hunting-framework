@@ -41,11 +41,12 @@ Collect → Ship → Store → Detect → Query
 - A **FastAPI backend** ingests those artifacts into SQLite and runs a **4-layer detection pipeline** (Sigma-style behavioral rules, embedded YARA results, known-bad hash matching, network IOC correlation), enriches findings with **MITRE ATT&CK** technique metadata, and exposes everything via a REST API.
 - A **background scheduler** re-runs detection automatically; detection **run history** is recorded.
 
-When we received the project it was a working demo that had never been hardened: **committed secrets, an uninstallable UTF-16 `requirements.txt`, zero automated tests, a broken duplicate code tree, duplicate detection rules, and no authentication.** Since then, on the `youssef` branch, we delivered **Phases 1–3 of the roadmap**:
+When we received the project it was a working demo that had never been hardened: **committed secrets, an uninstallable UTF-16 `requirements.txt`, zero automated tests, a broken duplicate code tree, duplicate detection rules, and no authentication.** Since then, on the `youssef` branch, we delivered **Phases 1–3 of the roadmap plus the first four Phase 4 work items (F1–F4)**:
 
 - **Phase 1 (security + testability):** opt-in auth + rate limiting, installable dependency set, services-layer refactor, rule deduplication/validation, detection run history, host-scoped + rescan detection, artifact time/processed filters, and a **53-test pytest suite with ruff lint clean**.
 - **Phase 2 (containers + CI/CD + agent automation):** multi-stage non-root `Dockerfile` + `docker-compose.yml` (Postgres 16), **Alembic migrations** replacing `create_all`, agent `--enroll`/`--daemon`/idempotent batch uploads, and a GitHub Actions pipeline (lint + test + gitleaks; GHCR build/push/smoke on version tags).
 - **Phase 3 (dashboard + endpoint mgmt + manual triggers):** analyst **dashboard** at `/dashboard` (overview/endpoints/detections/runs/artifacts/audit), endpoint management (`PUT /endpoints/{id}/config`, add-endpoint enroll), manual triggers (run-collection-now command queue, `POST /detect` with host scope/rescan, run history), **detection triage lifecycle** (new → acknowledged → false/true positive → reviewed + notes), ops hardening (structured JSON logging, `/metrics`, `/audit-logs`), and ATT&CK enrichment from the **in-repo STIX dataset**.
+- **Phase 4 (F1–F4):** async **Redis ingest queue** with a containerized worker (`/ingest` returns 202 when queuing is enabled); **correlation engine** grouping detections into `incidents` (same-rule campaigns, ATT&CK chains, severity escalation); **retention/archival** (monthly JSONL + optional OpenSearch sink); **RBAC + team scoping + tamper-evident audit** (admin/analyst/viewer roles, `Endpoint.team` scoping, SHA-256 audit hash chain + `/audit-logs/verify`).
 
 Today the framework is a self-service platform: an analyst can enroll endpoints from the dashboard, trigger collection/detection on demand, browse history, and triage detections — all without CLI/curl.
 
@@ -181,7 +182,7 @@ Per AI_RULES §14 (ask before deleting files), these deletion candidates have be
 | P1 | Agent & admin endpoints require auth | ✅ Opt-in auth (`AUTH_ENABLED`), agent keys + admin tokens + rate limiting |
 | P1 | Duplicate rules gone | ✅ Validation + dedup at `load_rules` |
 | P2 | `docker compose up` runs the stack | ✅ backend + Postgres 16 |
-| P2 | DB migrations apply cleanly | ✅ Alembic; committed `dfir.db` verified at head `ca41c1ba0e02` |
+| P2 | DB migrations apply cleanly | ✅ Alembic; committed `dfir.db` verified at head `4a1f2c9d3b70` |
 | P2 | Images build + deploy via CI on tag | ⚠️ workflow present; not yet exercised on a real tag |
 | P2 | Agent enrolls + auto-pushes on schedule | ✅ `--enroll --daemon` + idempotent `batch_id` |
 | P2 | Every detection cycle logs a history row | ✅ `detection_runs` row per cycle (incl. failures) |
@@ -189,6 +190,10 @@ Per AI_RULES §14 (ask before deleting files), these deletion candidates have be
 | P3 | Analyst enrolls endpoint from dashboard | ✅ Add-endpoint + run-collection-now + edit-config |
 | P3 | Trigger collection + detection manually | ✅ `pending_commands` queue + `POST /detect` |
 | P3 | See run history and triage detections | ✅ Runs view + triage lifecycle + audit trail |
+| P4 F1 | Async ingest without blocking the API | ✅ Redis queue + worker; `/ingest` 202 when `INGEST_QUEUE_URL` set |
+| P4 F2 | Detections correlate into incidents | ✅ `incidents` + `incident_detections`; campaigns/chains + severity escalation |
+| P4 F3 | Retention/archival works | ✅ Monthly JSONL + optional OpenSearch sink; `/retention/run` + `/retention/status` |
+| P4 F4 | Roles + team scoping + immutable audit | ✅ admin/analyst/viewer, `Endpoint.team` scoping, audit hash chain + verify |
 
 ### 4.2 Delivered capabilities (current state)
 
@@ -206,7 +211,11 @@ Per AI_RULES §14 (ask before deleting files), these deletion candidates have be
 - **Filterable queries** — artifacts (host / type / time window / processed state), detections (host / severity), run history (status).
 - **Opt-in production-grade auth** — agent API keys, admin HMAC tokens, rate limiting; verified end-to-end.
 - **Clean architecture** — thin endpoints, services layer with DI, no duplicated logic, lint-clean, typed, documented.
-- **60 automated tests** (53 backend + 7 collector) covering the matcher, hash checker, IOC correlation, security, detection service, endpoint mgmt, and the full HTTP API.
+- **115 automated backend tests + 10 collector tests** (ruff + mypy clean) covering the matcher, hash checker, IOC correlation, security/RBAC, detection service, endpoint mgmt, retention, correlation, async queue, and the full HTTP API.
+- **Correlation engine** — detections group into `incidents` (same-rule campaigns across hosts, ATT&CK chain sequences, severity escalation), idempotently recomputed after every detection run.
+- **RBAC + team scoping** — `admin`/`analyst`/`viewer` roles and per-team data visibility (`Endpoint.team`); list/summary endpoints are scoped for non-admins.
+- **Tamper-evident audit** — every audit entry is SHA-256 hash-chained (`prev_hash`/`record_hash`); integrity verifiable via `/audit-logs/verify`.
+- **Async ingest + retention** — optional Redis queue + worker (202 path) and monthly JSONL archival with an optional OpenSearch sink.
 
 ### 4.3 Quality attributes achieved
 
@@ -219,24 +228,20 @@ Per AI_RULES §14 (ask before deleting files), these deletion candidates have be
 
 ## 5. What Is Still Needed to Complete Our Goals
 
-The **ROADMAP.md** target is an enterprise-grade, containerized, CI/CD-driven platform. **Phases 1–3 are done**; the following remain:
+The **ROADMAP.md** target is an enterprise-grade, containerized, CI/CD-driven platform. **Phases 1–3 are done and Phase 4 items F1–F4 (queue, correlation, retention, RBAC/audit) are done**; the following remain:
 
-### Phase 4 — Scale, correlation, enterprise features *(next)*
-- **Async ingest** via a message queue (Redis/RabbitMQ) + containerized workers — `/ingest` returns 202, no API blocking.
-- **Correlation engine**: group detections into `incidents` (new `incidents` + `incident_detections` tables), same-rule-across-hosts aggregation, ATT&CK chain reconstruction, severity scoring.
-- **Storage & retention**: retention/purging policies per artifact type, JSONL archival, optional OpenSearch sink.
-- **RBAC & audit**: team/org scoping, granular roles, immutable audit trail.
-- **Notifications**: webhook/email/Slack/Teams on high/critical detections or endpoint offline > threshold.
+### Phase 4 — Scale, correlation, enterprise features
+- **Notifications**: webhook/email/Slack/Teams on high/critical detections or endpoint offline > threshold (F5).
+- **Correlation hardening**: host criticality factor in severity scoring; incidents surfaced in the dashboard UI.
 
 ### Phase 5 — Advanced detection, intel automation, HA
 - Real **pySigma** backend + **SigmaHQ rule update pipeline** in CI (keeping the current rule format via a conversion layer).
-- **IOC feed automation** (MalwareBazaar/Feodo/URLhaus/OTX) into `iocs/` + STIX/TAXII export; complete the IOC correlation live layer (OTX/URLhaus/Feodo are currently env-keys-only).
+- **IOC feed automation** (MalwareBazaar/Feodo/URLhaus/OTX scheduled refresh) + STIX/TAXII export. *(Live lookups for AbuseIPDB/URLhaus/OTX + Feodo refresh already exist — M2.)*
 - **HA & performance**: Kubernetes/multi-replica, Postgres HA + backups, connection pooling, pagination/matview review.
 
 ### Immediate low-effort follow-ups (from the engineering backlog)
 1. Rotate/revoke the API keys that were previously committed (best practice — the `.env.txt` files were deleted from disk in the continuation session).
 2. Backend-side YARA re-scan of stored files (needs file storage; currently hashes only).
-3. Enforce `/ingest` request-size limit + make rate limiting independent of auth.
 4. Return the enrollment token to the agent on first enroll; honor per-endpoint `collectors` config in the agent daemon.
 
 ---
