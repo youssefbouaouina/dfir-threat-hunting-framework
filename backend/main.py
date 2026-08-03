@@ -198,6 +198,9 @@ def list_artifacts(
     collected_until: Optional[str] = None,
     processed: Optional[int] = Query(default=None, ge=0, le=1),
     limit: int = Query(default=50, le=500),
+    before_id: Optional[int] = Query(
+        default=None, gt=0, description="cursor: only ids < before_id"
+    ),
     db: Session = Depends(get_db),
 ):
     return query_service.list_artifacts(
@@ -208,6 +211,7 @@ def list_artifacts(
         collected_until=collected_until,
         processed=processed,
         limit=limit,
+        before_id=before_id,
     )
 
 

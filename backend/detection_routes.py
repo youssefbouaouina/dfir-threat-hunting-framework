@@ -6,7 +6,7 @@ scheduler and this route share one implementation. Reads delegate to the
 same service module. Auth (admin/analyst) is enforced when AUTH_ENABLED=true.
 Phase 3 adds the triage lifecycle endpoints (PATCH /detections/{id}).
 """
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 import schemas
@@ -28,16 +28,29 @@ def run_detection(
 
 
 @router.get("/detection-runs", dependencies=[Depends(require_admin)])
-def list_detection_runs(status: str = None, limit: int = 50, db: Session = Depends(get_db)):
+def list_detection_runs(
+    status: str = None,
+    limit: int = 50,
+    before_id: int = Query(default=None, gt=0, description="cursor: only ids < before_id"),
+    db: Session = Depends(get_db),
+):
     """Detection run history — when cycles ran, what triggered them, and the outcome."""
-    return detection_service.list_detection_runs(db, status=status, limit=limit)
+    return detection_service.list_detection_runs(
+        db, status=status, limit=limit, before_id=before_id
+    )
 
 
 @router.get("/detections", dependencies=[Depends(require_admin)])
 def list_detections(
-    host: str = None, severity: str = None, limit: int = 100, db: Session = Depends(get_db)
+    host: str = None,
+    severity: str = None,
+    limit: int = 100,
+    before_id: int = Query(default=None, gt=0, description="cursor: only ids < before_id"),
+    db: Session = Depends(get_db),
 ):
-    return detection_service.list_detections(db, host=host, severity=severity, limit=limit)
+    return detection_service.list_detections(
+        db, host=host, severity=severity, limit=limit, before_id=before_id
+    )
 
 
 @router.get("/detections/summary", dependencies=[Depends(require_admin)])

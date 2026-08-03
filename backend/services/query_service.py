@@ -16,8 +16,13 @@ def list_artifacts(
     collected_until=None,
     processed=None,
     limit=50,
+    before_id=None,
 ) -> list:
-    """Returns up to `limit` artifacts (newest first), applying optional filters."""
+    """Returns up to `limit` artifacts (newest first), applying optional filters.
+
+    `before_id` is an optional cursor: only artifacts with id < before_id are
+    returned, so paging by the last id seen never drifts when new rows arrive.
+    """
     query = db.query(models.Artifact)
     if host:
         query = query.filter(models.Artifact.host == host)
@@ -29,6 +34,8 @@ def list_artifacts(
         query = query.filter(models.Artifact.collected_at <= collected_until)
     if processed is not None:
         query = query.filter(models.Artifact.processed == processed)
+    if before_id is not None:
+        query = query.filter(models.Artifact.id < before_id)
 
     rows = query.order_by(models.Artifact.id.desc()).limit(limit).all()
 

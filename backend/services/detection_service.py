@@ -164,13 +164,21 @@ def _count_by(detections: list, field: str) -> dict:
     return counts
 
 
-def list_detections(db, host: str = None, severity: str = None, limit: int = 100) -> list:
-    """Returns detections newest-first, optionally filtered by host/severity."""
+def list_detections(
+    db, host: str = None, severity: str = None, limit: int = 100, before_id: int = None
+) -> list:
+    """Returns detections newest-first, optionally filtered by host/severity.
+
+    `before_id` is a cursor (id < before_id) so paging stays stable as new
+    detections arrive.
+    """
     query = db.query(models.Detection)
     if host:
         query = query.filter(models.Detection.host == host)
     if severity:
         query = query.filter(models.Detection.severity == severity)
+    if before_id is not None:
+        query = query.filter(models.Detection.id < before_id)
     rows = query.order_by(models.Detection.id.desc()).limit(min(limit, 500)).all()
 
     return [
@@ -236,11 +244,18 @@ def triage_detection(
     }
 
 
-def list_detection_runs(db, limit: int = 50, status: str = None) -> list:
-    """Returns detection-run history (newest first), optionally filtered by status."""
+def list_detection_runs(
+    db, limit: int = 50, status: str = None, before_id: int = None
+) -> list:
+    """Returns detection-run history (newest first), optionally filtered by status.
+
+    `before_id` is a cursor (id < before_id) for stable paging.
+    """
     query = db.query(models.DetectionRun)
     if status:
         query = query.filter(models.DetectionRun.status == status)
+    if before_id is not None:
+        query = query.filter(models.DetectionRun.id < before_id)
     rows = query.order_by(models.DetectionRun.id.desc()).limit(min(limit, 500)).all()
 
     return [

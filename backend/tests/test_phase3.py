@@ -145,6 +145,57 @@ def test_audit_log_records_actions(client):
     assert run_log["detail"]["detections_found"] >= 0
 
 
+def test_cursor_pagination_no_drift(client):
+    """M4: before_id cursor pages through stable snapshots (no page drift)."""
+    for i in range(5):
+        client.post(
+            "/ingest",
+            json=[
+                {
+                    "host": "h1",
+                    "os": "linux",
+                    "collected_at": "2026-01-01T00:00:00Z",
+                    "artifact_type": "process",
+                    "data": {"cmdline": f"cmd-{i}"},
+                }
+            ],
+        )
+
+    page1 = client.get("/artifacts", params={"limit": 2}).json()
+    assert [a["id"] for a in page1] == [5, 4]  # newest first
+
+    page2 = client.get("/artifacts", params={"limit": 2, "before_id": page1[-1]["id"]}).json()
+    assert [a["id"] for a in page2] == [3, 2]
+
+    page3 = client.get("/artifacts", params={"limit": 2, "before_id": page2[-1]["id"]}).json()
+    assert [a["id"] for a in page3] == [1]
+
+    # All pages together are disjoint and cover the whole set.
+    seen = [a["id"] for p in (page1, page2, page3) for a in p]
+    assert sorted(seen) == [1, 2, 3, 4, 5]
+    assert len(seen) == len(set(seen))
+
+
+def test_detections_cursor_pagination(client):
+    """M4: /detections honors the before_id cursor too."""
+    for host in ("h1", "h2", "h3", "h4"):
+        _seed_detection(client, host=host)
+
+    page1 = client.get("/detections", params={"limit": 2}).json()
+    assert len(page1) == 2
+    page2 = client.get(
+        "/detections", params={"limit": 2, "before_id": page1[-1]["id"]}
+    ).json()
+    assert len(page2) == 2
+    page3 = client.get(
+        "/detections", params={"limit": 2, "before_id": page2[-1]["id"]}
+    ).json()
+    assert len(page3) == 0
+
+    seen = [d["id"] for p in (page1, page2, page3) for d in p]
+    assert sorted(seen) == list(range(1, 5))
+
+
 def test_dashboard_static_served(client):
     resp = client.get("/dashboard")
     assert resp.status_code == 200
