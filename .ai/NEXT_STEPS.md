@@ -59,25 +59,17 @@ Priorities: **Critical** (security/blocking), **High** (correctness/required), *
 
 ## Low
 
-### L1. Add `mypy` gradual typing + `pip-audit` to CI
-- **Reason:** Roadmap Phase 1 item not yet done; codebase is already annotated.
-- **Benefit:** Type safety + dependency vulnerability scanning.
-- **Complexity:** medium. **Order:** 14.
+### L1. ~~Add `mypy` gradual typing + `pip-audit` to CI~~ ✅ DONE (commit `af5b401`)
+- `[tool.mypy]` (gradual, SQLAlchemy plugin) added; fixed implicit-Optional + module-cache annotations; mypy clean on 33 files. `mypy` + `pip-audit` in `requirements-dev.txt`; CI hard gates for both. Backend 73 tests, ruff + mypy clean.
 
-### L2. `Dockerfile.agent` + containerized e2e test in CI
-- **Reason:** Phase 2 outstanding item; roadmap wants an end-to-end agent→backend test.
-- **Benefit:** CI-verified collection path.
-- **Complexity:** medium. **Order:** 15.
+### L2. ~~`Dockerfile.agent` + containerized e2e test in CI~~ ✅ DONE (commit `132b873`)
+- `Dockerfile.agent` (slim Linux, non-root, yara-python); CI `agent-e2e` job builds both images, enrolls + one-shot-collects (processes,network) against a live backend, verifies `/artifacts`. Validated locally with Docker. Also fixed: backend Dockerfile entrypoint chmod (ran after `USER dfir`), and a real bug in `push_folder` — folder-level `batch_id` collapsed multi-file runs to the first file only; now per-file batch ids preserve idempotency while storing every file (9 collector tests).
 
-### L3. Dashboard auto-refresh / websocket for live counts
-- **Reason:** Dashboard only refreshes on view switch or manual buttons.
-- **Benefit:** Better ops UX.
-- **Complexity:** small. **Order:** 16.
+### L3. ~~Dashboard auto-refresh / websocket for live counts~~ ✅ DONE (commit `9ae3c33`)
+- Overview auto-refreshes every 15s (counts + scheduler box); view switches trigger immediate refresh.
 
-### L4. `/scheduler/status` surfaced in the dashboard
-- **Reason:** Endpoint exists; not exposed in UI.
-- **Benefit:** Ops visibility.
-- **Complexity:** trivial. **Order:** 17.
+### L4. ~~`/scheduler/status` surfaced in the dashboard~~ ✅ DONE (commit `9ae3c33`)
+- `#scheduler-box` renders interval/next-run/last-run/last-error; scheduler no longer required for dashboard to load.
 
 ## Future (Phases 4–5)
 
@@ -93,6 +85,6 @@ Priorities: **Critical** (security/blocking), **High** (correctness/required), *
 ## Suggested implementation order
 
 ```
-C1 ✅ → C2 ✅ → H1 ✅ → H2 ✅ → H3 ✅ → H4 ✅ (+ A2) → M1 ✅ → M2 ✅ → M3 ✅ → M4 ✅ → M5 ✅ → M6 ✅ → M7 (user decision) → L1 → L2 → L3 → L4 → F1..F8
+C1 ✅ → C2 ✅ → H1 ✅ → H2 ✅ → H3 ✅ → H4 ✅ (+ A2) → M1 ✅ → M2 ✅ → M3 ✅ → M4 ✅ → M5 ✅ → M6 ✅ → M7 ✅ (dfir.db untracked, commit `8879160`) → L1 ✅ (D1) → L2 ✅ (D2) → L3 ✅ (D3) → L4 ✅ (D4) → F1..F8
 ```
-All Critical + High items done; Phase C (M-series) done except **M7** (user decision on `backend/dfir.db`). Next: M7 decision, then D1–D4 (Low), then F1–F8 (Future).
+All Critical + High items done; Phase C (M-series) done; Phase D (Low) L1–L4 done. **The full roadmap (Phases A–D) is complete** — only F1–F8 (Phases 4–5) remain, plus the user-side key rotation on provider dashboards.

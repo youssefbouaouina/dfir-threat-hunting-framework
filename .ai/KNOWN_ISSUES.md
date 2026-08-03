@@ -1,6 +1,6 @@
 # Known Issues
 
-> **2026-08-03 continuation:** baseline re-validated (53 backend + 7 collector tests, ruff clean). Auth path verified live (C2 → done; see `.ai/CURRENT_ANALYSIS.md`). `.ai/` memory committed to git this session. Phases A + B + C done this session (H1–H4, A2, M1–M6); open items below updated to reflect fixes.
+> **2026-08-03 continuation:** baseline re-validated (73 backend + 9 collector tests, ruff + mypy clean). Auth path verified live (C2 → done; see `.ai/CURRENT_ANALYSIS.md`). `.ai/` memory committed to git this session. Phases A + B + C + D done (H1–H4, A2, M1–M7, L1–L4/D1–D4); open items below updated to reflect fixes.
 
 ## Bugs / correctness
 
@@ -11,14 +11,15 @@
 - **B5. ~~Endpoint status never goes `offline`~~ → FIXED (M6, commit `200e639`).** `mark_offline_stale()` + `offline_sweep` scheduler job flip stale endpoints to offline; the config poll acts as a heartbeat that restores `online`.
 - **B6. Manual `POST /detect` is not concurrency-gated.** APScheduler is `max_instances=1`, but a manual POST can race a scheduled cycle (SQLite write locking is the only practical guard). *(Phase 4 queue fixes)*
 - **B7. `poll_pending_commands` marks all pending commands picked_up on return**, regardless of whether the agent actually executed them (a crash between poll and complete leaves commands stuck in `picked_up`). *(acceptable first-call-wins tradeoff; add timeout-based requeue later)*
+- **B8. ~~Agent `push_folder` used one folder-level `batch_id`~~ → FIXED (D2, commit `132b873`).** Backend dedups per `(host, batch_id)`, so a folder-level id collapsed a multi-file run to the first file only (data loss). Now per-file ids (`<batch_id>/<filename>`) keep re-push idempotency while storing every file. Verified in the containerized e2e.
 
 ## Architectural weaknesses
 
 - **W1. Single-process backend + in-process scheduler.** No worker queue, no HA; scheduler is coupled to the API process (Phase 4 targets).
 - **W2. Legacy `Host` table duplication.** Kept for backwards compat but largely redundant with `Endpoint` (dead-ish state).
 - **W3. No file storage.** Only hashes/YARA-match metadata are kept; the pipeline cannot re-scan stored binaries backend-side.
-- **W4. Scheduler/manual share SQLite single DB file** for a tracked binary (`backend/dfir.db`) — merge conflicts and repo bloat.
-- **W5. Dashboard is a static fetch-on-view SPA** — no polling, no auth refresh (token stored in localStorage, TTL 30 min).
+- **W4.** Scheduler/manual share SQLite single DB file. `backend/dfir.db` is now **untracked** (M7, commit `8879160`) — no more merge conflicts/repo bloat.
+- **W5. Dashboard is a static fetch-on-view SPA** — has a 15s overview auto-refresh (D3) but still no websocket, no auth refresh (token stored in localStorage, TTL 30 min).
 
 ## Performance issues
 
@@ -38,8 +39,8 @@
 
 ## Missing documentation
 
-- **D1. `PROJECT_SUMMARY.md` is stale** (Phase 1 only; claims 38 tests, "never merged into main"). *(→ H3)*
-- **D2. `README.md` is a 1-line stub** ("stage Youssef Bouaouina & Amen Ben Salah esprit in NEXTSTEP").
+- **D1. ~~`PROJECT_SUMMARY.md` is stale~~ → FIXED (M5, commit `1f72448`)** — rewritten for Phases 1–3.
+- **D2. ~~`README.md` is a 1-line stub~~ → FIXED (M5, commit `1f72448`)** — rewritten; root docs refreshed.
 - **D3. ~~Stale references in `AI_RULES.md`~~ → FIXED (M5, commit `1f72448`)** — service names corrected, removed files noted as historically removed. `README.md` rewritten. `common.py`, `collector_agent.py`, `PROJECT_OVERVIEW.md` §7.1 de-staled.
 - **D4. ~~`SETUP_GUIDE.md` written but uncommitted~~ → FIXED (H3, commit `b2094f0`).**
 
@@ -53,7 +54,7 @@
 
 ## Duplicate logic
 
-- **D5. `push_samples.py::push_folder` vs `agent_client.push_folder`** — similar folder→`/ingest` push; consider unifying (keep `push_samples.py` as a thin CLI wrapper).
+- **D5. `push_samples.py::push_folder` vs `agent_client.push_folder`** — similar folder→`/ingest` push; consider unifying (keep `push_samples.py` as a thin CLI wrapper). Note: `agent_client.push_folder` now uses per-file batch ids (B8 fix); `push_samples.py` does not (uses its own semantics).
 - **D6. Host/endpoint last-seen handling** duplicated across `ingest_service` (Host upsert) and `endpoint_service` (Endpoint upsert).
 
 ## Missing tests
@@ -66,3 +67,4 @@
 - **T6.** No tests for failed-run recording (`run_detection_job` error path) or `rescan=true`.
 - **T7.** No tests for dashboard `app.js` behavior (JS has no test harness).
 - **T8.** No test for `PATCH /detections/{id}` returning 400 on `triage_updated_by` actor propagation beyond defaults.
+- **T9.** Agent→backend loop is covered by the containerized CI e2e job (`agent-e2e`, commit `132b873`) rather than a unit test; the full flow (enroll + one-shot collect + `/artifacts` verification) runs in CI only.

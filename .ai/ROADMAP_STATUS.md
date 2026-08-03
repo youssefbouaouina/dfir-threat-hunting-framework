@@ -12,7 +12,7 @@ Source: `ROADMAP.md` (the authoritative 5-phase plan). Phases 1–3 are done; Ph
 | 4 | Scale, correlation, enterprise features | Not started (proposal) | ~5% |
 | 5 | Advanced detection, intel automation, HA | Not started (proposal) | ~0% |
 
-**Overall roadmap completion: ≈ 50%** (3 of 5 phases done; Phases 4–5 are the bulk of remaining effort).
+**Overall roadmap completion: ≈ 50%** (3 of 5 phases done; Phases 4–5 are the bulk of remaining effort). The per-task completion roadmap (`.ai/COMPLETION_ROADMAP.md`) Phases A–D are all done; only its F-series (Phases 4–5) remains.
 
 ## Phase 1 — Harden & Stabilize
 
@@ -32,14 +32,13 @@ Source: `ROADMAP.md` (the authoritative 5-phase plan). Phases 1–3 are done; Ph
 
 **Completed milestones:**
 - `backend/Dockerfile` (multi-stage, non-root, healthcheck, migration entrypoint), `docker-compose.yml` (backend + Postgres 16), `.dockerignore`.
+- `Dockerfile.agent` (containerized agent, non-root, yara-python) — used by the CI e2e job (commit `132b873`).
 - Alembic migrations (initial schema `4823f807fcd2` idempotent on legacy DBs; `DATABASE_URL`-driven).
-- Agent automation: `--enroll`, `--daemon`, push-to-API, idempotent `batch_id`.
-- `ci.yml`: lint + test + gitleaks on push/PR; GHCR build+push+smoke on `v*` tags.
+- Agent automation: `--enroll`, `--daemon`, push-to-API, idempotent `batch_id` (per-file after the push_folder fix).
+- `ci.yml`: lint + mypy + pytest + pip-audit + gitleaks on push/PR; agent→backend containerized e2e job; GHCR build+push+smoke on `v*` tags.
 - Scheduler records a `detection_runs` row per cycle (delivered/verified in Phase 3).
 
-**Remaining (~10%):**
-- `Dockerfile.agent` (containerized agent for CI/e2e) — not done.
-- No version tag/release has been cut yet (build job untested end-to-end on a real tag).
+**Remaining (~5%):** no version tag/release has been cut yet (build job untested end-to-end on a real tag).
 
 ## Phase 3 — Dashboard, Endpoint Management, Manual Triggers
 
@@ -53,6 +52,8 @@ Source: `ROADMAP.md` (the authoritative 5-phase plan). Phases 1–3 are done; Ph
 
 **Remaining (~5%):** `detections/summary` is computed by loading all detections into memory (fine now, needs aggregation at scale); no host criticality field; agent heartbeat/offline detection is last-seen-based only.
 
+> **Update (2026-08-03 continuation, D-series / Low):** `mypy` gradual typing + `pip-audit` dependency audit are now CI hard gates (commit `af5b401`). `Dockerfile.agent` + a containerized agent→backend e2e CI job landed (commit `132b873`), validated locally with Docker. Dashboard got a `/scheduler/status` box + 15s overview auto-refresh (commit `9ae3c33`). `backend/dfir.db` is untracked again (M7, `8879160`). **Phase D of the completion roadmap is done; only F1–F8 (Phases 4–5) remain.**
+
 ## Phase 4 — Scale, Correlation, Enterprise
 
 **Not started.** Work items: async ingest queue (Redis/RabbitMQ) + containerized workers; correlation engine (`incidents` + `incident_detections` tables, same-rule-across-hosts, ATT&CK chain, severity scoring); storage retention/archival; RBAC/team scoping; notifications (webhook/email/Slack). **Estimate: 5%** (design only).
@@ -63,12 +64,12 @@ Source: `ROADMAP.md` (the authoritative 5-phase plan). Phases 1–3 are done; Ph
 
 ## Cross-cutting work
 
-- Documentation updated through Phase 3 (ROADMAP, PROJECT_OVERVIEW, PHASE3). **PROJECT_SUMMARY.md is stale** (Phase 1 only) — needs a Phase 2–3 update.
-- `SETUP_GUIDE.md` (setup/run guide) written but **not committed**.
-- End-to-end CI test using a containerized agent — not present.
+- Documentation updated through Phase 3 + D-series (ROADMAP, PROJECT_OVERVIEW, PHASE3, SETUP_GUIDE, README rewritten in M5).
+- `SETUP_GUIDE.md` committed (H3).
+- End-to-end CI test using a containerized agent — present (`agent-e2e` job, commit `132b873`).
 
 ## Deliverables-per-phase gaps (exit-criteria check)
 
-- **Phase 1 exit criteria:** installable requirements ✓; pytest green ✓; no secrets in repo ✓ (gitleaks scans git history; `detection/.env.txt` still on disk, gitignored); agent+admin endpoints require auth — ⚠️ only when `AUTH_ENABLED=true` (default false); duplicate rules gone ✓.
-- **Phase 2 exit criteria:** `docker compose up` runs stack ✓; migrations apply cleanly ✓; images build+deploy via CI on tag — ⚠️ not exercised on a real tag; agent enroll + auto-push ✓; run history row per cycle ✓; manual `/detect` rescan + host scope ✓.
+- **Phase 1 exit criteria:** installable requirements ✓; pytest green ✓; mypy clean ✓; pip-audit clean ✓; no secrets in repo ✓ (gitleaks scans git history; `detection/.env.txt` deleted, key rotation still user action); agent+admin endpoints require auth — ⚠️ only when `AUTH_ENABLED=true` (default false); duplicate rules gone ✓.
+- **Phase 2 exit criteria:** `docker compose up` runs stack ✓; migrations apply cleanly ✓; images build+deploy via CI on tag — ⚠️ not exercised on a real tag; agent enroll + auto-push ✓ (e2e-verified in CI job); run history row per cycle ✓; manual `/detect` rescan + host scope ✓.
 - **Phase 3 exit criteria:** analyst can enroll endpoint from dashboard, trigger collection+detection, see history, triage — ✓ (all dashboard-exercised in smoke tests).

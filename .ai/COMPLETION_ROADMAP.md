@@ -104,35 +104,35 @@
 - **Result:** config poll refreshes `last_seen` + restores `online`; endpoints stale > `OFFLINE_STALE_AFTER_SECONDS` (default 900s) → `offline`.
 - **Validation:** 3 new tests (heartbeat, sweep flips stale, poll restores offline). Backend 64 tests.
 
-### C7 (M7). Stop tracking `backend/dfir.db` (user decision)
+### C7 (M7). Stop tracking `backend/dfir.db` (user decision) — ✅ DONE (commit `8879160`)
 - **Why:** binary tracked artifact → merge conflicts + bloat (W4).
 - **Files:** `backend/dfir.db` (`git rm --cached`), `.gitignore` (`backend/dfir.db`), docs.
 - **Deps:** user decision (it's demo data). **Difficulty:** small. **Risk:** medium (removes committed demo DB; document how to regenerate).
-- **Result:** `.db` untracked; demo data obtainable via `push_samples.py` + sample_data.
-- **Validation:** `git status` clean; fresh DB boots via migrations.
+- **Result:** `.db` untracked; file stays on disk locally (`*.db` already gitignored); demo data obtainable via `push_samples.py` + sample_data; fresh DB boots via migrations.
 
 ---
 
 ## Phase D — Low (polish)
 
-### D1 (L1). `mypy` gradual typing + `pip-audit` in CI
+### D1 (L1). `mypy` gradual typing + `pip-audit` in CI ✅ (commit `af5b401`)
 - **Files:** `.github/workflows/ci.yml`, `backend/pyproject.toml`, `requirements-dev.txt`.
 - **Deps:** none. **Difficulty:** medium. **Risk:** low (CI-only; keep ruff gates).
 - **Result:** type + dependency-vulnerability gates in CI.
 
-### D2 (L2). `Dockerfile.agent` + containerized e2e test in CI
+### D2 (L2). `Dockerfile.agent` + containerized e2e test in CI ✅ (commit `132b873`)
 - **Files:** `Dockerfile.agent`, `docker-compose.yml`, `.github/workflows/ci.yml`.
 - **Deps:** none. **Difficulty:** medium. **Risk:** low–medium (agent on Linux container has limited collectors; scope to process/network).
-- **Result:** CI exercises agent→backend loop.
+- **Result:** CI exercises agent→backend loop. Also fixed `push_folder` folder-level batch-id data loss + backend Dockerfile entrypoint chmod ordering.
 
-### D3 (L3). Dashboard auto-refresh / websocket
+### D3 (L3). Dashboard auto-refresh / websocket ✅ (commit `9ae3c33`)
 - **Files:** `backend/static/app.js` (+ maybe SSE endpoint).
 - **Deps:** none. **Difficulty:** small. **Risk:** low.
-- **Result:** live counts without manual refresh.
+- **Result:** live counts without manual refresh (15s overview auto-refresh).
 
-### D4 (L4). `/scheduler/status` in dashboard
+### D4 (L4). `/scheduler/status` in dashboard ✅ (commit `9ae3c33`)
 - **Files:** `backend/static/app.js`, `backend/static/index.html`.
 - **Deps:** none. **Difficulty:** trivial. **Risk:** none.
+- **Result:** scheduler status box on the dashboard overview.
 
 ---
 
@@ -155,10 +155,10 @@
 
 ```
 A1 ✅ (user-approved, delete+rotate) → B1 (H3) ✅ → B2 (H1) ✅ → B3 (H2) ✅ → B4 (H4) ✅ → A2 ✅
-→ C1 (M1) ✅ → C5 (M5) ✅ → C6 (M6) ✅ → C3 (M3) ✅ → C4 (M4) ✅ → C2 (M2) ✅
-→ C7 (M7, user decision) → D1–D4 → F1–F8
+→ C1 (M1) ✅ → C5 (M5) ✅ → C6 (M6) ✅ → C3 (M3) ✅ → C4 (M4) ✅ → C2 (M2) ✅ → C7 (M7) ✅
+→ D1–D4 ✅ → F1–F8
 ```
 
-- Phase A + B complete; Phase C complete except **C7/M7** (stop tracking `backend/dfir.db` — needs user decision).
-- Keep every commit green: `pytest` + `ruff` per task.
+- Phases A + B + C + D **complete** (D3/D4 in `9ae3c33`, D1 in `af5b401`, D2 in `132b873`). Next: F1–F8 (Future, Phases 4–5).
+- Keep every commit green: `pytest` + `ruff` + `mypy` per task.
 - Update `.ai/*` memory files after every completed task (Phase 5 refresh).

@@ -10,7 +10,9 @@
 >
 > **Phase 4 progress (same session):** C1 ✅ (leaked `detection/.env.txt` + `backend/.env.txt` deleted, user-approved; rotate keys on provider dashboards). B1/H3 ✅ (`SETUP_GUIDE.md` committed + `PROJECT_SUMMARY.md` refreshed, commit `b2094f0`). B2/H1 ✅ (enrollment token returned once on first enroll, commit `6113fc6`; backend now 55 tests). B3/H2 ✅ (agent daemon honors backend `collectors` + `interval_seconds`, commit `96a5d04`; collector 9 tests). B4/H4 ✅ (`/ingest` body cap → 413 middleware, `RATE_LIMIT_ENABLED` decoupled from auth, commits `c25ee12` + `50e8a34`; backend 60 tests). A2 ✅ (startup rejects placeholder secrets when auth enabled, commit `50e8a34`). **Phases A + B of the roadmap complete.**
 >
-> **Phase C progress (same session, M-series):** M1 ✅ YARA severity from rule meta (commit `520750c`, backend 61). M5 ✅ stale docs fixed + README rewritten (commit `1f72448`). M6 ✅ heartbeat/offline detection (`_touch_endpoint` + `mark_offline_stale` + `offline_sweep` job, commit `200e639`, backend 64). M3 ✅ SQL GROUP BY aggregation for summary/metrics (commit `77abbd2`, backend 65). M4 ✅ `before_id` cursor pagination on /artifacts /detections /detection-runs (commit `17bb884`, backend 67). M2 ✅ URLhaus/OTX live lookups + Feodo blocklist refresh into `iocs/feodo_ips.txt` + `intel_refresh` scheduler job (commit `917006b`, backend 73). **Remaining: M7 (user decision: stop tracking `backend/dfir.db`), then D1–D4, F1–F8.**
+> **Phase C progress (same session, M-series):** M1 ✅ YARA severity from rule meta (commit `520750c`, backend 61). M5 ✅ stale docs fixed + README rewritten (commit `1f72448`). M6 ✅ heartbeat/offline detection (`_touch_endpoint` + `mark_offline_stale` + `offline_sweep` job, commit `200e639`, backend 64). M3 ✅ SQL GROUP BY aggregation for summary/metrics (commit `77abbd2`, backend 65). M4 ✅ `before_id` cursor pagination on /artifacts /detections /detection-runs (commit `17bb884`, backend 67). M2 ✅ URLhaus/OTX live lookups + Feodo blocklist refresh into `iocs/feodo_ips.txt` + `intel_refresh` scheduler job (commit `917006b`, backend 73). M7 ✅ `git rm --cached backend/dfir.db` (file stays on disk, now gitignored; commit `8879160`).
+>
+> **Phase D progress (same session, D-series / Low):** D1/L1 ✅ mypy gradual typing + pip-audit CI hard gates (commit `af5b401`; backend 73 tests, ruff + mypy clean). D2/L2 ✅ `Dockerfile.agent` + CI `agent-e2e` job (build images, enroll + one-shot collect, verify `/artifacts`); also fixed backend Dockerfile entrypoint chmod order and a real `push_folder` data-loss bug (folder-level batch id collapsed runs to the first file) — commit `132b873`, validated locally with Docker (16 artifacts ingested). D3+D4/L3+L4 ✅ dashboard scheduler status box (`#scheduler-box` via `/scheduler/status`) + 15s overview auto-refresh (commit `9ae3c33`). **Phases A–D of the roadmap complete — only F1–F8 (Phases 4–5) remain.**
 
 ## Project name
 DFIR Threat Hunting Framework (repo: `dfir-threat-hunting-frameworkV3`, remote: `youssefbouaouina/dfir-threat-hunting-framework` — private).
@@ -19,9 +21,9 @@ DFIR Threat Hunting Framework (repo: `dfir-threat-hunting-frameworkV3`, remote: 
 A lightweight, offline-first DFIR threat-hunting platform: lightweight collector agents run on endpoints and ship artifact batches to a FastAPI backend, which stores them and runs a multi-engine detection pipeline (Sigma-style behavioral rules, embedded YARA results, known-bad hash matching, network IOC correlation) with MITRE ATT&CK enrichment. An analyst dashboard (`/dashboard`) provides endpoint management, manual collection/detection triggers, detection run history, triage, audit log, and metrics. Built as a capstone ("stage ... esprit in NEXTSTEP", README).
 
 ## Current maturity
-- Phases 1–3 of the 5-phase roadmap **implemented and committed on `youssef`**; roadmap Phases A + B (critical/high hardening) and C (medium) are complete except **M7** (user decision).
-- 73 backend pytest tests + 9 collector pytest tests; ruff clean; CI (GitHub Actions) gates lint+test+gitleaks.
-- Opt-in auth (disabled by default = open-lab demo mode), SQLite default (Postgres ready), containerized backend + compose stack, GHCR build/push on `v*` tags. Enabling auth now refuses placeholder secrets; `/ingest` enforces a 10 MB body cap; rate limiting works independent of auth.
+- Phases 1–3 of the 5-phase roadmap **implemented and committed on `youssef`**; roadmap Phases A + B (critical/high hardening), C (medium), and D (low) are **complete**. Only F1–F8 (Phases 4–5) remain.
+- 73 backend pytest tests + 9 collector pytest tests; ruff clean; mypy clean (gradual); CI (GitHub Actions) gates lint+mypy+pytest+pip-audit+gitleaks, plus a containerized agent→backend e2e job.
+- Opt-in auth (disabled by default = open-lab demo mode), SQLite default (Postgres ready), containerized backend + agent + compose stack, GHCR build/push on `v*` tags. Enabling auth now refuses placeholder secrets; `/ingest` enforces a 10 MB body cap; rate limiting works independent of auth.
 - No production deployment, no queueing, no incident correlation (Phases 4–5).
 
 ## Repository version
@@ -73,7 +75,6 @@ Collector: `collector_agent.py`, `agent_client.py`, `modules/{common,processes,n
 - **Per-endpoint config `collectors`:** stored and served by backend, and now honored by the agent daemon (B3/H2). `--only` also applies in one-shot CLI mode.
 - **Enrollment token:** generated + stored hashed, and now returned once to the agent on first enroll (B2/H1).
 - **Threat intel:** AbuseIPDB + URLhaus + OTX live lookups implemented (all fail-soft); Feodo blocklist auto-refreshed into `iocs/feodo_ips.txt` (M2). Keys rotate on provider dashboards (user action pending).
-- **Run-history/rescan:** delivered (`detection_runs` row per cycle, `rescan=true`); `Dockerfile.agent` still outstanding.
 
 ## Not started features
 - Phase 4: async ingest queue (Redis/RabbitMQ), correlation engine (incidents), storage retention, RBAC, notifications.
@@ -89,8 +90,7 @@ Collector: `collector_agent.py`, `agent_client.py`, `modules/{common,processes,n
 - Strong docstring habit; rule validation/dedup prevents duplicate detections.
 
 ## Current weaknesses
-- Docs drift: `PROJECT_SUMMARY.md` stale (Phase 1 only); `README.md` is a 1-line stub; some docstrings reference deleted files (`SCHEMA.md`, `detection/`).
-- Auth not verified end-to-end; default creds (`change-me-admin-key`) are placeholders.
+- Auth not re-verified end-to-end after the agent-key changes; default creds (`change-me-admin-key`) are placeholders (refused on startup only when auth enabled).
 - No correlation/incidents, no real intel feeds, no retention/pagination for scale.
 - YARA only runs at collection time on the agent (no backend re-scan); embedded results only.
 - Scheduler is in-process (single point of failure; no distributed workers).
@@ -102,17 +102,18 @@ Collector: `collector_agent.py`, `agent_client.py`, `modules/{common,processes,n
 - `security.py` token uses stdlib HMAC (fine) but no JWT library; no token revocation/refresh.
 - `_hits` rate-limit state is in-memory (lost on restart), keyed on X-Forwarded-For (untrusted unless proxied).
 - `models.py` legacy `Host` table kept for backwards compat (dead-ish duplication with `Endpoint`).
-- Metrics/health do repeated full-table counts (SQLite) — fine at demo scale, not at scale. *(→ M3)*
-- YARA embedded-match detection hardcodes `severity="high"` regardless of rule meta. *(→ M1)*
+- Metrics/health do repeated full-table counts (SQLite) — fine at demo scale, not at scale.
+- YARA embedded-match detection still hardcodes severity on some paths. *(M1 covers meta severity)*
+- `docker-compose.yml` doesn't yet include the agent service (intentionally native per endpoint; the containerized agent exists for CI e2e).
 
 ## Current risks
 - Default `AUTH_ENABLED=false` + placeholder admin key means a deployed-open instance is unprotected.
 - Real leaked keys on disk (`detection/.env.txt`) — rotation pending; gitleaks only scans git history.
 - 48 MB STIX JSON is committed; repo size growth on every resync.
 - Single-process scheduler + SQLite means no HA; concurrent `/detect` and scheduler cycles could race (mitigated by `max_instances=1` but manual POST is not gated).
-- `dfir.db` is a tracked binary artifact — merges will conflict frequently.
 
 ## Recent architectural changes
+- Phase D (commits `af5b401`, `132b873`, `9ae3c33`): mypy gradual typing + pip-audit CI gates; `Dockerfile.agent` + CI agent→backend e2e job; `push_folder` per-file batch ids (fixes silent multi-file data loss); backend Dockerfile entrypoint chmod ordering fix; dashboard scheduler status box + 15s overview auto-refresh; `backend/dfir.db` untracked (M7, `8879160`).
 - Phase 3 (commit `af77469`): added `audit_logs` + `pending_commands` tables and triage columns (migration `ca41c1ba0e02`); added `services/{audit,metrics}_service.py`; `/dashboard` static mount; `/metrics` + `/audit-logs` endpoints; structured JSON logging; triage lifecycle; in-repo STIX path; removed `detection/` tree, `yara_engine.py`, dead files.
 - Phase 2 (commit `37144db`): Alembic migrations replaced `create_all`; `Endpoint` model replaced passive host tracking; agent daemon/enroll/batch-id; Docker/compose/CI.
 - Phase 1: services layer extraction (`72acd89`), rule hygiene (`0873d43`), run history (`98fc6b4`), test net (`578d34d`).
