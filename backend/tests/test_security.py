@@ -121,3 +121,53 @@ def test_rate_limit_disabled_explicitly(monkeypatch):
 
     for _ in range(5):  # no 429 expected
         security.rate_limit(FakeRequest())
+
+
+def test_auth_startup_guard_rejects_default_secrets(monkeypatch):
+    """A2: enabling auth with placeholder secrets must refuse to start."""
+    import importlib
+    import sys
+
+    with monkeypatch.context() as m:
+        m.setenv("AUTH_ENABLED", "true")
+        m.setenv("ADMIN_API_KEY", "change-me-admin-key")
+        m.setenv("AUTH_SECRET", "change-me-auth-secret")
+        m.setenv("AGENT_API_KEYS", "real-key-1")
+        with pytest.raises(RuntimeError, match="refusing to start"):
+            importlib.reload(sys.modules["security"])
+
+    # Restore a functional security module so later tests are unaffected.
+    with monkeypatch.context() as m:
+        m.setenv("AUTH_ENABLED", "false")
+        m.setenv("ADMIN_API_KEY", "admin-key")
+        m.setenv("AUTH_SECRET", "test-secret")
+        m.setenv("AGENT_API_KEYS", "agent-key")
+        importlib.import_module("security")
+
+        # Re-bind so this module's reference points at the fresh object.
+        m.setattr(security, "AUTH_ENABLED", True)
+        m.setattr(security, "ADMIN_API_KEY", "admin-key")
+        m.setattr(security, "AGENT_API_KEYS", {"agent-key": "agent-01"})
+        m.setattr(security, "_RATE_LIMIT_ENABLED", True)
+
+
+def test_auth_startup_guard_accepts_strong_config(monkeypatch):
+    """A2: strong secrets + at least one agent key allow startup."""
+    import importlib
+    import sys
+
+    with monkeypatch.context() as m:
+        m.setenv("AUTH_ENABLED", "true")
+        m.setenv("ADMIN_API_KEY", "a-strong-admin-key-42")
+        m.setenv("AUTH_SECRET", "a-strong-secret-42")
+        m.setenv("AGENT_API_KEYS", "real-agent-key-1")
+        mod = importlib.reload(sys.modules["security"])
+        assert mod.AUTH_ENABLED is True
+        assert mod.require_admin(_creds("a-strong-admin-key-42")) == "admin"
+
+    with monkeypatch.context() as m:
+        m.setenv("AUTH_ENABLED", "false")
+        m.setenv("ADMIN_API_KEY", "admin-key")
+        m.setenv("AUTH_SECRET", "test-secret")
+        m.setenv("AGENT_API_KEYS", "agent-key")
+        importlib.reload(sys.modules["security"])

@@ -48,8 +48,19 @@ for _key in os.getenv("AGENT_API_KEYS", "").split(","):
 
 _bearer = HTTPBearer(auto_error=False)
 
-if AUTH_ENABLED and AUTH_SECRET in ("", "change-me-auth-secret"):
-    logger.warning("AUTH_ENABLED=true but AUTH_SECRET is the default — set a strong secret")
+if AUTH_ENABLED:
+    _DEFAULTS = ("change-me-admin-key", "change-me-auth-secret", "")
+    if ADMIN_API_KEY in _DEFAULTS or AUTH_SECRET in _DEFAULTS:
+        raise RuntimeError(
+            "AUTH_ENABLED=true but ADMIN_API_KEY/AUTH_SECRET are still the default "
+            "placeholder values — refusing to start with a broken security config. "
+            "Set strong secrets in the environment (see backend/.env.example)."
+        )
+    if not AGENT_API_KEYS:
+        raise RuntimeError(
+            "AUTH_ENABLED=true but AGENT_API_KEYS is empty — no agent keys configured, "
+            "so /ingest and /endpoints would reject every agent. Set at least one key."
+        )
 
 
 def _reject() -> HTTPException:
