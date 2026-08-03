@@ -5,14 +5,14 @@ Source: `ROADMAP.md` (the authoritative 5-phase plan). Phases 1–3 are done; Ph
 ## Status summary
 
 | Phase | Theme | Status | Completion estimate |
-|---|---|---|---|
+|---|---|---|---|---|
 | 1 | Harden & Stabilize (security + testability) | ✅ DONE (committed on `youssef`) | ~95% |
 | 2 | Containers, Postgres, CI/CD, agent automation | ✅ DONE (committed on `youssef`) | ~90% |
 | 3 | Dashboard, endpoint mgmt, manual triggers | ✅ DONE (committed `af77469`) | ~95% |
-| 4 | Scale, correlation, enterprise features | Not started (proposal) | ~5% |
+| 4 | Scale, correlation, enterprise features | In progress (F1–F3 done) | ~45% |
 | 5 | Advanced detection, intel automation, HA | Not started (proposal) | ~0% |
 
-**Overall roadmap completion: ≈ 50%** (3 of 5 phases done; Phases 4–5 are the bulk of remaining effort). The per-task completion roadmap (`.ai/COMPLETION_ROADMAP.md`) Phases A–D are all done; only its F-series (Phases 4–5) remains.
+**Overall roadmap completion: ≈ 60%** (3 of 5 phases done, Phase 4 items F1–F3 complete). The per-task completion roadmap (`.ai/COMPLETION_ROADMAP.md`) Phases A–D are all done; of the F-series (Phases 4–5), **F1 (async queue), F2 (correlation), and F3 (retention) are done; F4–F8 remain.**
 
 ## Phase 1 — Harden & Stabilize
 
@@ -56,11 +56,17 @@ Source: `ROADMAP.md` (the authoritative 5-phase plan). Phases 1–3 are done; Ph
 
 ## Phase 4 — Scale, Correlation, Enterprise
 
-**Not started.** Work items: async ingest queue (Redis/RabbitMQ) + containerized workers; correlation engine (`incidents` + `incident_detections` tables, same-rule-across-hosts, ATT&CK chain, severity scoring); storage retention/archival; RBAC/team scoping; notifications (webhook/email/Slack). **Estimate: 5%** (design only).
+**F1 done (commit `5afca4d`):** async ingest queue via Redis (`backend/ingest_queue.py` fail-soft enqueue/dequeue; `/ingest` → 202 + `accepted=true,queued=N` when `INGEST_QUEUE_URL` set, sync 200 default; `workers/ingest_worker.py` drains via `ingest_service.ingest_artifacts`, batch_id idempotency preserved; docker-compose redis + worker; CI `agent-e2e` exercises the full async loop). 9 backend + 1 collector tests.
+
+**F2 done (commit `46310fb`):** correlation engine — `Incident` + `IncidentDetection` models (migration `e19d4f2a7c10`), `services/correlation_service.py` (campaigns = same rule ≥2 hosts, chains = ≥2 techniques one host, severity escalation, idempotent signature-keyed `recompute_incidents` preserving triage, stale cleanup), `/incidents` routes (list/summary/detail/recompute/PATCH). `run_detection_job` recomputes after each run. 10 tests. Router wiring leftover fixed in `b260b55`.
+
+**F3 done (commit `ccf62a8`):** storage retention — `services/retention_service.py` ages out rows per `RETENTION_*_DAYS` (artifacts/detections/detection_runs/audit_logs) into monthly JSONL archives under `RETENTION_ARCHIVE_DIR` + optional OpenSearch sink (`OPENSEARCH_URL`, fail-soft) + batch delete (idempotent, per-batch commits); `retention_sweep` scheduler job; `GET /retention/status` + `POST /retention/run` (audited). Off by default. 9 tests.
+
+**Remaining:** RBAC/team scoping + immutable audit (F4); notifications webhook/email/Slack (F5). **Estimate: 45%.**
 
 ## Phase 5 — Advanced Detection, Intel Automation, HA
 
-**Not started.** Work items: pySigma backend; SigmaHQ rule update pipeline; IOC feed automation (MalwareBazaar/Feodo/URLhaus/OTX) + STIX/TAXII export; k8s/HA, autoscaling, circuit breakers; performance (pagination, matviews, pooling). **Estimate: 0%.**
+**Not started.** Work items: pySigma backend; SigmaHQ rule update pipeline; IOC feed automation (MalwareBazaar/Feodo/URLhaus/OTX) + STIX/TAXII export; k8s/HA, autoscaling, circuit breakers; performance (pagination, matviews, pooling). **Estimate: 0%.** *(Some groundwork already exists: URLhaus/OTX/Feodo live lookups + `intel_refresh` from C2/M2.)*
 
 ## Cross-cutting work
 

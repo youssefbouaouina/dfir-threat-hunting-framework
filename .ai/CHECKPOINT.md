@@ -12,7 +12,9 @@
 >
 > **Phase C progress (same session, M-series):** M1 ✅ YARA severity from rule meta (commit `520750c`, backend 61). M5 ✅ stale docs fixed + README rewritten (commit `1f72448`). M6 ✅ heartbeat/offline detection (`_touch_endpoint` + `mark_offline_stale` + `offline_sweep` job, commit `200e639`, backend 64). M3 ✅ SQL GROUP BY aggregation for summary/metrics (commit `77abbd2`, backend 65). M4 ✅ `before_id` cursor pagination on /artifacts /detections /detection-runs (commit `17bb884`, backend 67). M2 ✅ URLhaus/OTX live lookups + Feodo blocklist refresh into `iocs/feodo_ips.txt` + `intel_refresh` scheduler job (commit `917006b`, backend 73). M7 ✅ `git rm --cached backend/dfir.db` (file stays on disk, now gitignored; commit `8879160`).
 >
-> **Phase D progress (same session, D-series / Low):** D1/L1 ✅ mypy gradual typing + pip-audit CI hard gates (commit `af5b401`; backend 73 tests, ruff + mypy clean). D2/L2 ✅ `Dockerfile.agent` + CI `agent-e2e` job (build images, enroll + one-shot collect, verify `/artifacts`); also fixed backend Dockerfile entrypoint chmod order and a real `push_folder` data-loss bug (folder-level batch id collapsed runs to the first file) — commit `132b873`, validated locally with Docker (16 artifacts ingested). D3+D4/L3+L4 ✅ dashboard scheduler status box (`#scheduler-box` via `/scheduler/status`) + 15s overview auto-refresh (commit `9ae3c33`). **Phases A–D of the roadmap complete — only F1–F8 (Phases 4–5) remain.**
+> **Phase D progress (same session, D-series / Low):** D1/L1 ✅ mypy gradual typing + pip-audit CI hard gates (commit `af5b401`; backend 73 tests, ruff + mypy clean). D2/L2 ✅ `Dockerfile.agent` + CI `agent-e2e` job (build images, enroll + one-shot collect, verify `/artifacts`); also fixed backend Dockerfile entrypoint chmod order and a real `push_folder` data-loss bug (folder-level batch id collapsed runs to the first file) — commit `132b873`, validated locally with Docker (16 artifacts ingested). D3+D4/L3+L4 ✅ dashboard scheduler status box (`#scheduler-box` via `/scheduler/status`) + 15s overview auto-refresh (commit `9ae3c33`). **Phases A–D of the roadmap complete.**
+>
+> **F-series progress (same session, Phases 4–5):** F1 ✅ async Redis ingest queue (commit `5afca4d`): `backend/ingest_queue.py` fail-soft enqueue/dequeue; `/ingest` returns 202 + `accepted=true,queued=N` when `INGEST_QUEUE_URL` set (sync 200 default); `workers/ingest_worker.py` drains via the same `ingest_service.ingest_artifacts` (batch_id idempotency preserved); docker-compose redis + worker services; CI `agent-e2e` now exercises the full async loop. 9 backend + 1 collector tests. F2 ✅ correlation engine (commit `46310fb`): `Incident` + `IncidentDetection` models (migration `e19d4f2a7c10`), `services/correlation_service.py` (campaigns = same rule ≥2 hosts; chains = ≥2 techniques one host; severity escalation; idempotent signature-keyed `recompute_incidents` preserving triage), `/incidents` router (list/summary/detail/recompute/PATCH), `run_detection_job` recomputes after every run. 10 tests. (Also fixed a leftover: `app.include_router(incident_router)` wiring commit `b260b55`.) F3 ✅ retention/archival (commit `ccf62a8`): `services/retention_service.py` ages out rows per `RETENTION_*_DAYS` into monthly JSONL under `RETENTION_ARCHIVE_DIR` + optional OpenSearch sink (`OPENSEARCH_URL`, fail-soft) + batch delete; `retention_sweep` scheduler job; `GET /retention/status` + `POST /retention/run` (audited). 9 tests. **Backend now 101 tests, ruff + mypy clean (44 files). F4 (RBAC/team scoping + immutable audit) is next.**
 
 ## Project name
 DFIR Threat Hunting Framework (repo: `dfir-threat-hunting-frameworkV3`, remote: `youssefbouaouina/dfir-threat-hunting-framework` — private).
@@ -21,14 +23,13 @@ DFIR Threat Hunting Framework (repo: `dfir-threat-hunting-frameworkV3`, remote: 
 A lightweight, offline-first DFIR threat-hunting platform: lightweight collector agents run on endpoints and ship artifact batches to a FastAPI backend, which stores them and runs a multi-engine detection pipeline (Sigma-style behavioral rules, embedded YARA results, known-bad hash matching, network IOC correlation) with MITRE ATT&CK enrichment. An analyst dashboard (`/dashboard`) provides endpoint management, manual collection/detection triggers, detection run history, triage, audit log, and metrics. Built as a capstone ("stage ... esprit in NEXTSTEP", README).
 
 ## Current maturity
-- Phases 1–3 of the 5-phase roadmap **implemented and committed on `youssef`**; roadmap Phases A + B (critical/high hardening), C (medium), and D (low) are **complete**. Only F1–F8 (Phases 4–5) remain.
-- 73 backend pytest tests + 9 collector pytest tests; ruff clean; mypy clean (gradual); CI (GitHub Actions) gates lint+mypy+pytest+pip-audit+gitleaks, plus a containerized agent→backend e2e job.
+- Phases 1–3 of the 5-phase roadmap **implemented and committed on `youssef`**; roadmap Phases A + B (critical/high hardening), C (medium), D (low), and F1–F3 (Phase 4: async queue, correlation, retention) are **complete**. F4–F8 (RBAC/audit, notifications, pySigma, IOC feeds, k8s/HA) remain.
+- 101 backend pytest tests + 9 collector pytest tests; ruff clean; mypy clean (gradual); CI (GitHub Actions) gates lint+mypy+pytest+pip-audit+gitleaks, plus a containerized agent→backend e2e job.
 - Opt-in auth (disabled by default = open-lab demo mode), SQLite default (Postgres ready), containerized backend + agent + compose stack, GHCR build/push on `v*` tags. Enabling auth now refuses placeholder secrets; `/ingest` enforces a 10 MB body cap; rate limiting works independent of auth.
 - No production deployment, no queueing, no incident correlation (Phases 4–5).
 
 ## Repository version
-- Backend API version: `0.5.0` (FastAPI `app` version).
-- Collector agent version string: `3.0` (passed at enroll).
+- Backend API version: `0.5.0` (FastAPI `app` version).- Collector agent version string: `3.0` (passed at enroll).
 - No unified repo-level version/tag yet. CI tags images `v*` from git tags.
 
 ## Major technologies
@@ -77,8 +78,8 @@ Collector: `collector_agent.py`, `agent_client.py`, `modules/{common,processes,n
 - **Threat intel:** AbuseIPDB + URLhaus + OTX live lookups implemented (all fail-soft); Feodo blocklist auto-refreshed into `iocs/feodo_ips.txt` (M2). Keys rotate on provider dashboards (user action pending).
 
 ## Not started features
-- Phase 4: async ingest queue (Redis/RabbitMQ), correlation engine (incidents), storage retention, RBAC, notifications.
-- Phase 5: pySigma backend, SigmaHQ update pipeline, IOC feed automation, STIX/TAXII export, k8s/HA, pagination/matview performance work.
+- Phase 4: RBAC/team scoping + immutable audit (F4), notifications (F5).
+- Phase 5: pySigma backend, SigmaHQ update pipeline, IOC feed automation, STIX/TAXII export, k8s/HA, pagination/matview performance work (F6–F8).
 - Agent packaging as a CI artifact; collector cross-platform packaging (PyInstaller etc.).
 
 ## Current strengths

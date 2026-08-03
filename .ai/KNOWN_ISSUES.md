@@ -4,14 +4,14 @@
 
 ## Bugs / correctness
 
-- **B1. ~~Enrollment token never returned to the agent~~ → FIXED (H1, commit `6113fc6`).** `enroll_endpoint()` now returns a one-time `enrollment_token` on first enrollment only (hash stored; re-enroll omits token). New `EnrollResponse` schema.
-- **B2. ~~Per-endpoint `collectors` config has no effect~~ → FIXED (H2, commit `96a5d04`).** Agent daemon now polls the backend config and runs the `collectors` subset + `interval_seconds`; `--only` still applies in one-shot CLI mode.
+- **B1. ~~Enrollment token never returned to the agent~~ → FIXED (H1, commit `6113fc6`).** `enroll_endpoint()` now returns a one-time `enrollment_token` on first enrollment only (hash stored; re-enroll omits token). New `EnrollResponse` schema.- **B2. ~~Per-endpoint `collectors` config has no effect~~ → FIXED (H2, commit `96a5d04`).** Agent daemon now polls the backend config and runs the `collectors` subset + `interval_seconds`; `--only` still applies in one-shot CLI mode.
 - **B3. ~~`detections/summary` and `/metrics` scan entire tables~~ → FIXED (M3, commit `77abbd2`).** `detections_summary()` and `metrics_service._summary_counts()` now use SQL `GROUP BY` (`func.count`) — no full-table Python loads.
 - **B4. ~~YARA severity hardcoded `high`~~ → FIXED (M1, commit `520750c`).** Embedded YARA matches now take `meta.severity || meta.level || "high"`.
 - **B5. ~~Endpoint status never goes `offline`~~ → FIXED (M6, commit `200e639`).** `mark_offline_stale()` + `offline_sweep` scheduler job flip stale endpoints to offline; the config poll acts as a heartbeat that restores `online`.
 - **B6. Manual `POST /detect` is not concurrency-gated.** APScheduler is `max_instances=1`, but a manual POST can race a scheduled cycle (SQLite write locking is the only practical guard). *(Phase 4 queue fixes)*
 - **B7. `poll_pending_commands` marks all pending commands picked_up on return**, regardless of whether the agent actually executed them (a crash between poll and complete leaves commands stuck in `picked_up`). *(acceptable first-call-wins tradeoff; add timeout-based requeue later)*
 - **B8. ~~Agent `push_folder` used one folder-level `batch_id`~~ → FIXED (D2, commit `132b873`).** Backend dedups per `(host, batch_id)`, so a folder-level id collapsed a multi-file run to the first file only (data loss). Now per-file ids (`<batch_id>/<filename>`) keep re-push idempotency while storing every file. Verified in the containerized e2e.
+- **B9. Retention re-archival edge case (F3, commit `ccf62a8`).** `retention_service.run_retention` appends to JSONL before the DB delete commits. If the process crashes between the append and the commit, the same rows are appended again on the next sweep (duplicate JSONL lines for that batch). The JSONL archive is append-only by design, so this is a known tradeoff, not data loss — the archived record is identical and harmless. OpenSearch dedups via `_id = {table}-{row_id}`.
 
 ## Architectural weaknesses
 

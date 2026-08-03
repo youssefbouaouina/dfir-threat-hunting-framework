@@ -73,10 +73,10 @@ Priorities: **Critical** (security/blocking), **High** (correctness/required), *
 
 ## Future (Phases 4–5)
 
-- **F1** Async ingest queue (Redis/RabbitMQ) + workers; `/ingest` returns 202. *(Phase 4)*
-- **F2** Correlation engine: `incidents` + `incident_detections`, same-rule-across-hosts, ATT&CK chain, severity scoring. *(Phase 4)*
-- **F3** Retention/archival (JSONL) + optional OpenSearch sink. *(Phase 4)*
-- **F4** RBAC/team scoping + immutable audit extension. *(Phase 4)*
+- **F1** ~~Async ingest queue (Redis/RabbitMQ) + workers; `/ingest` returns 202~~ ✅ DONE (commit `5afca4d`) — Redis queue + worker, 202 path, compose redis/worker, CI e2e covers the async loop.
+- **F2** ~~Correlation engine: `incidents` + `incident_detections`, same-rule-across-hosts, ATT&CK chain, severity scoring~~ ✅ DONE (commit `46310fb`; router wiring fix `b260b55`).
+- **F3** ~~Retention/archival (JSONL) + optional OpenSearch sink~~ ✅ DONE (commit `ccf62a8`) — monthly JSONL + fail-soft OpenSearch bulk index, per-table windows, scheduler sweep, /retention/run + /retention/status.
+- **F4** RBAC/team scoping + immutable audit extension. *(Phase 4 — next)*
 - **F5** Notifications (webhook/email/Slack/Teams). *(Phase 4)*
 - **F6** pySigma backend swap + SigmaHQ update pipeline. *(Phase 5)*
 - **F7** IOC feed automation + STIX/TAXII export. *(Phase 5)*
@@ -85,6 +85,6 @@ Priorities: **Critical** (security/blocking), **High** (correctness/required), *
 ## Suggested implementation order
 
 ```
-C1 ✅ → C2 ✅ → H1 ✅ → H2 ✅ → H3 ✅ → H4 ✅ (+ A2) → M1 ✅ → M2 ✅ → M3 ✅ → M4 ✅ → M5 ✅ → M6 ✅ → M7 ✅ (dfir.db untracked, commit `8879160`) → L1 ✅ (D1) → L2 ✅ (D2) → L3 ✅ (D3) → L4 ✅ (D4) → F1..F8
+C1 ✅ → C2 ✅ → H1 ✅ → H2 ✅ → H3 ✅ → H4 ✅ (+ A2) → M1 ✅ → M2 ✅ → M3 ✅ → M4 ✅ → M5 ✅ → M6 ✅ → M7 ✅ (dfir.db untracked, commit `8879160`) → L1 ✅ (D1) → L2 ✅ (D2) → L3 ✅ (D3) → L4 ✅ (D4) → F1 ✅ → F2 ✅ → F3 ✅ → F4..F8
 ```
-All Critical + High items done; Phase C (M-series) done; Phase D (Low) L1–L4 done. **The full roadmap (Phases A–D) is complete** — only F1–F8 (Phases 4–5) remain, plus the user-side key rotation on provider dashboards.
+All Critical + High items done; Phase C (M-series) done; Phase D (Low) L1–L4 done; **F-series: F1–F3 done (Phase 4: queue, correlation, retention). Remaining: F4 RBAC/audit, F5 notifications (Phase 4); F6–F8 (Phase 5); plus the user-side key rotation on provider dashboards.**
