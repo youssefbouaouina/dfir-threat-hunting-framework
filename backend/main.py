@@ -29,11 +29,12 @@ import sys
 from contextlib import asynccontextmanager
 from typing import List, Optional
 
-from fastapi import Depends, FastAPI, HTTPException, Query, Request
+from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
+import ingest_queue
 import schemas
 from database import get_db
 from detection_routes import router as detection_router
@@ -177,9 +178,27 @@ def list_audit_logs(
 )
 def ingest_artifacts(
     artifacts: List[schemas.ArtifactIn],
+    response: Response,
     batch_id: Optional[str] = Query(default=None, description="Idempotency key for agent uploads"),
     db: Session = Depends(get_db),
 ):
+    """Accepts a batch of artifacts. Synchronous by default; when the async
+    ingest queue is enabled (INGEST_QUEUE_URL set) the batch is queued and
+    this returns 202 Accepted instead of persisting inline."""
+    if ingest_queue.queue_enabled():
+        if ingest_queue.enqueue_artifacts(
+            [a.model_dump(mode="json") for a in artifacts], batch_id=batch_id
+        ):
+            response.status_code = 202
+            return schemas.IngestResponse(
+                ingested=0,
+                host=artifacts[0].host if artifacts else "",
+                artifact_types=[a.artifact_type for a in artifacts],
+                deduplicated=0,
+                batch_id=batch_id,
+                accepted=True,
+                queued=len(artifacts),
+            )
     try:
         return ingest_service.ingest_artifacts(db, artifacts, batch_id=batch_id)
     except ValueError as exc:

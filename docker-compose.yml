@@ -7,6 +7,10 @@
 # (open-lab demo); set AUTH_ENABLED=true + ADMIN_API_KEY/AGENT_API_KEYS in
 # the environment or a .env file to enable it.
 #
+# Async ingest (Phase 4/F1): set INGEST_QUEUE_URL=redis://redis:6379/0 in the
+# backend environment to route /ingest through Redis (returns 202); the
+# `worker` service drains the queue. Leave it unset for synchronous ingest.
+#
 # The collector agent is intentionally NOT containerized here: in production
 # it is a lightweight native agent on each endpoint. See the CI workflow for
 # how the backend image is built and pushed.
@@ -28,6 +32,14 @@ services:
     ports:
       - "5432:5432"
 
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   backend:
     build:
       context: .
@@ -40,11 +52,33 @@ services:
       AGENT_API_KEYS: ${AGENT_API_KEYS:-}
       DETECTION_INTERVAL_SECONDS: "30"
       ABUSEIPDB_API_KEY: ${ABUSEIPDB_API_KEY:-}
+      # Uncomment to enable async ingest (the worker below must also run):
+      # INGEST_QUEUE_URL: redis://redis:6379/0
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     ports:
       - "8000:8000"
+
+  worker:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: ["python", "-m", "workers.ingest_worker"]
+    environment:
+      DATABASE_URL: postgresql+psycopg2://dfir:dfir@db:5432/dfir
+      AUTH_ENABLED: "false"
+      # Uncomment to enable async ingest (the backend must set the same URL):
+      # INGEST_QUEUE_URL: redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
 
 volumes:
   pgdata:

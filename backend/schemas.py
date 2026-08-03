@@ -43,6 +43,11 @@ class IngestResponse(BaseModel):
     artifact_types: List[str]
     deduplicated: int = 0
     batch_id: Optional[str] = None
+    # Phase 4 (F1): when the async ingest queue is enabled, /ingest returns
+    # HTTP 202 and these two fields describe the accepted (not yet persisted)
+    # upload. When the queue is disabled they are left at defaults.
+    accepted: bool = False
+    queued: int = 0
 
 
 class EndpointEnrollRequest(BaseModel):

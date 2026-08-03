@@ -162,8 +162,9 @@ def push_folder(folder_path: str, api_url: str, api_key: str = None, batch_id: s
             timeout=60,
         )
         summary["files"] += 1
-        if status == 200 and isinstance(body, dict):
-            summary["ingested"] += body.get("ingested", 0)
+        # 202 = accepted into the async ingest queue (F1); 200 = persisted inline.
+        if status in (200, 202) and isinstance(body, dict):
+            summary["ingested"] += body.get("ingested", 0) or body.get("queued", 0)
             summary["deduplicated"] += body.get("deduplicated", 0)
         else:
             summary["errors"] += 1

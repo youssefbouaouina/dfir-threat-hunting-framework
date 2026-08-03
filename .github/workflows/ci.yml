@@ -71,10 +71,15 @@ jobs:
       - name: Build agent image
         run: docker build -f Dockerfile.agent -t dfir-agent:e2e .
 
-      - name: Start backend
+      - name: Start Redis
+        run: docker run -d --name dfir-redis -p 6379:6379 redis:7-alpine
+
+      - name: Start backend (async ingest via Redis, shared DB volume)
         run: |
           docker run -d --name dfir-backend -p 8000:8000 \
-            -e DATABASE_URL=sqlite:///./dfir.db \
+            -v dfir-e2e-db:/data \
+            -e DATABASE_URL=sqlite:////data/dfir.db \
+            -e INGEST_QUEUE_URL=redis://127.0.0.1:6379/0 \
             dfir-backend:e2e
           for i in $(seq 1 30); do
             if curl -fsS http://127.0.0.1:8000/health >/dev/null 2>&1; then
@@ -83,23 +88,34 @@ jobs:
             sleep 1
           done
 
+      - name: Start ingest worker (drains the queue, same DB volume)
+        run: |
+          docker run -d --name dfir-worker --network host \
+            -v dfir-e2e-db:/data \
+            -e DATABASE_URL=sqlite:////data/dfir.db \
+            -e INGEST_QUEUE_URL=redis://127.0.0.1:6379/0 \
+            dfir-backend:e2e python -m workers.ingest_worker
+
       - name: Enroll agent + run one-shot collection
         run: |
           docker run --rm --network host --name dfir-agent dfir-agent:e2e \
             --api-url http://127.0.0.1:8000 --enroll \
             --only processes,network
 
-      - name: Verify artifacts reached the backend
+      - name: Wait for worker to drain the queue
+        run: sleep 5
+
+      - name: Verify artifacts reached the backend (async path)
         run: |
           curl -fsS "http://127.0.0.1:8000/artifacts?limit=50" > artifacts.json
           python -c "
           import json, sys
           rows = json.load(open('artifacts.json'))
           types = {a['artifact_type'] for a in rows}
-          assert rows, 'no artifacts ingested from agent'
+          assert rows, 'no artifacts ingested from agent (async worker failed)'
           print('e2e OK — ingested artifacts:', sorted(types))
           "
-          docker stop dfir-backend
+          docker stop dfir-backend dfir-worker dfir-redis
 
   build-and-push:
     name: Build & push backend image (GHCR)

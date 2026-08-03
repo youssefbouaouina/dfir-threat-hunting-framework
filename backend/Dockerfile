@@ -37,7 +37,9 @@ WORKDIR /app
 # Copy application code (backend modules + migrations).
 COPY backend/ /app/
 
-RUN chown -R dfir:dfir /app && mkdir -p /app/iocs && chown -R dfir:dfir /app/iocs
+RUN chown -R dfir:dfir /app \
+    && mkdir -p /app/iocs && chown -R dfir:dfir /app/iocs \
+    && mkdir -p /data && chown dfir:dfir /data
 
 # Entrypoint applies pending Alembic migrations, then starts the API.
 # (Copied + made executable while still root, before switching USER.)

@@ -47,6 +47,23 @@ def test_push_folder_sends_per_file_batch_id(monkeypatch, tmp_path):
     assert calls["url"].endswith("/ingest")
 
 
+def test_push_folder_accepts_202_async_ingest(monkeypatch, tmp_path):
+    """F1: a 202 (queued async ingest) is a success, counted via 'queued'."""
+    calls = {}
+
+    def fake_post_json(url, headers=None, data=None, params=None, timeout=None):
+        calls["params"] = params
+        return 202, {"ingested": 0, "queued": 2, "accepted": True, "host": "agent-host"}
+
+    monkeypatch.setattr("agent_client._post_json", fake_post_json)
+    folder = _write_batch(tmp_path)
+    summary = push_folder(folder, "http://backend:8000")
+
+    assert summary["ingested"] == 2  # counted from queued when accepted
+    assert summary["errors"] == 0
+    assert calls["params"] == {"batch_id": "batch-abc/processes.json"}
+
+
 def test_push_folder_skips_non_json(tmp_path):
     folder = tmp_path / "mixed"
     folder.mkdir()
