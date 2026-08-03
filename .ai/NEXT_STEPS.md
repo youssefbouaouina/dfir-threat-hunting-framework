@@ -20,29 +20,16 @@ Priorities: **Critical** (security/blocking), **High** (correctness/required), *
 
 ## High
 
-### H1. Return the enrollment token to the agent (or remove the feature)
-- **Reason:** `enroll_endpoint()` generates + hashes an enrollment token but **never returns it**; the agent has no way to use it. Vestigial / misleading.
-- **Benefit:** Real per-endpoint credential issuance, or less confusing code if removed.
-- **Dependencies:** C2 (decide auth model). **Complexity:** small.
-- **Order:** 3.
+### H1. ~~Return the enrollment token to the agent~~ ✅ DONE (commit `6113fc6`)
+- First enrollment returns `enrollment_token` (once); hash stored, no rotation on re-enroll. `EnrollResponse` schema; agent `--enroll` prints the token. 2 new tests.
 
-### H2. Honor per-endpoint `collectors` config on the agent
-- **Reason:** `PUT /endpoints/{id}/config` stores a `collectors` list that the agent ignores (it always runs the fixed set; `--only` only applies in one-shot CLI mode). Dashboard "Edit config" therefore can't actually restrict collection.
-- **Benefit:** Config edits become functional; dashboard control is truthful.
-- **Dependencies:** none. **Complexity:** small–medium (config poll → restrict run_collection targets).
-- **Order:** 4.
+### H2. ~~Honor per-endpoint `collectors` config on the agent~~ ✅ DONE (commit `96a5d04`)
+- Agent daemon now polls backend config and runs the `collectors` subset + `interval_seconds`; one-shot `--only` still filters. 2 new collector tests (9 total).
 
-### H3. Commit `SETUP_GUIDE.md` (+ update `PROJECT_SUMMARY.md` for Phases 2–3)
-- **Reason:** The requested new-user setup/run guide (Windows host + VMware + 2 VMs) is complete but **untracked**; `PROJECT_SUMMARY.md` describes only Phase 1 and is stale/misleading for reviewers.
-- **Benefit:** Deliverable lands in repo; doc consistency for the evaluation committee.
-- **Dependencies:** none. **Complexity:** trivial (commit + push with user's PAT).
-- **Order:** 5.
+### H3. ~~Commit `SETUP_GUIDE.md` (+ update `PROJECT_SUMMARY.md` for Phases 2–3)~~ ✅ DONE (commit `b2094f0`)
 
-### H4. Enforce request-size limit + keep rate limit active independently of auth
-- **Reason:** `/ingest` has no body-size cap; rate limiting is silently disabled when `AUTH_ENABLED=false`, so an open-lab instance is trivially floodable.
-- **Benefit:** Baseline DoS resistance.
-- **Dependencies:** C2. **Complexity:** small (size middleware + split rate-limit enable flag).
-- **Order:** 6.
+### H4. ~~Enforce request-size limit + keep rate limit active independently of auth~~ ✅ DONE (commits `c25ee12`, `50e8a34`)
+- `enforce_ingest_size` middleware → 413 over `MAX_INGEST_BYTES` (default 10 MB); `RATE_LIMIT_ENABLED` decoupled from `AUTH_ENABLED` (defaults to the auth value). 3 new tests. Also A2: startup now raises on placeholder secrets + empty `AGENT_API_KEYS` when auth enabled.
 
 ## Medium
 
@@ -124,6 +111,6 @@ Priorities: **Critical** (security/blocking), **High** (correctness/required), *
 ## Suggested implementation order
 
 ```
-C1 → C2 → H1 → H2 → H3 → H4 → M1 → M2 → M3 → M4 → M5 → M6 → M7 → L1 → L2 → L3 → L4 → F1..F8
+C1 ✅ → C2 ✅ → H1 ✅ → H2 ✅ → H3 ✅ → H4 ✅ (+ A2) → M1 → M2 → M3 → M4 → M5 → M6 → M7 → L1 → L2 → L3 → L4 → F1..F8
 ```
-Do all Critical + High items before starting Phase 4 work.
+All Critical + High items are done. Next: Phase C, starting with **M1** (YARA severity from rule meta).

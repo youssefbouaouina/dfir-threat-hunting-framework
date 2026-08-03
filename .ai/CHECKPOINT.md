@@ -7,6 +7,8 @@
 > **Phase 2 validation (same session):** Auth path verified live end-to-end with `AUTH_ENABLED=true` (login → token, admin 401s, agent-key 401s, enroll+config work). `.ai/` committed (docs commit). Full analysis in `.ai/CURRENT_ANALYSIS.md`. Remaining priorities: C1 (delete/rotate keys), H1 (return enrollment token), H2 (honor collectors config), H3 (commit SETUP_GUIDE + fix PROJECT_SUMMARY), H4 (ingest size limit + split rate-limit flag), then M1–M7.
 >
 > **Phase 3 (same session):** completion roadmap created in `.ai/COMPLETION_ROADMAP.md` — A (critical), B (high), C (medium), D (low), F (future Phases 4–5), each with files/deps/risk/validation. Execution order locked: A1 → B1(H3) → B2(H1) → B3(H2) → B4(H4) → C1(M1) → C5(M5) → …
+>
+> **Phase 4 progress (same session):** C1 ✅ (leaked `detection/.env.txt` + `backend/.env.txt` deleted, user-approved; rotate keys on provider dashboards). B1/H3 ✅ (`SETUP_GUIDE.md` committed + `PROJECT_SUMMARY.md` refreshed, commit `b2094f0`). B2/H1 ✅ (enrollment token returned once on first enroll, commit `6113fc6`; backend now 55 tests). B3/H2 ✅ (agent daemon honors backend `collectors` + `interval_seconds`, commit `96a5d04`; collector 9 tests). B4/H4 ✅ (`/ingest` body cap → 413 middleware, `RATE_LIMIT_ENABLED` decoupled from auth, commits `c25ee12` + `50e8a34`; backend 60 tests). **Phases A + B of the roadmap are now complete.** Next: Phase C starting with **C1/M1** (YARA severity from rule meta).
 
 ## Project name
 DFIR Threat Hunting Framework (repo: `dfir-threat-hunting-frameworkV3`, remote: `youssefbouaouina/dfir-threat-hunting-framework` — private).
@@ -15,9 +17,9 @@ DFIR Threat Hunting Framework (repo: `dfir-threat-hunting-frameworkV3`, remote: 
 A lightweight, offline-first DFIR threat-hunting platform: lightweight collector agents run on endpoints and ship artifact batches to a FastAPI backend, which stores them and runs a multi-engine detection pipeline (Sigma-style behavioral rules, embedded YARA results, known-bad hash matching, network IOC correlation) with MITRE ATT&CK enrichment. An analyst dashboard (`/dashboard`) provides endpoint management, manual collection/detection triggers, detection run history, triage, audit log, and metrics. Built as a capstone ("stage ... esprit in NEXTSTEP", README).
 
 ## Current maturity
-- Phases 1–3 of the 5-phase roadmap **implemented and committed on `youssef`**.
-- 53 backend pytest tests + 7 collector pytest tests; ruff clean; CI (GitHub Actions) gates lint+test+gitleaks.
-- Opt-in auth (disabled by default = open-lab demo mode), SQLite default (Postgres ready), containerized backend + compose stack, GHCR build/push on `v*` tags.
+- Phases 1–3 of the 5-phase roadmap **implemented and committed on `youssef`**; roadmap Phases A + B (critical/high hardening) complete.
+- 60 backend pytest tests + 9 collector pytest tests; ruff clean; CI (GitHub Actions) gates lint+test+gitleaks.
+- Opt-in auth (disabled by default = open-lab demo mode), SQLite default (Postgres ready), containerized backend + compose stack, GHCR build/push on `v*` tags. Enabling auth now refuses placeholder secrets; `/ingest` enforces a 10 MB body cap; rate limiting works independent of auth.
 - No production deployment, no queueing, no incident correlation (Phases 4–5).
 
 ## Repository version
@@ -65,10 +67,10 @@ Collector: `collector_agent.py`, `agent_client.py`, `modules/{common,processes,n
 - **Phase 3:** `/dashboard` static SPA (overview/endpoints/detections/runs/artifacts/audit); endpoint management (`PUT /endpoints/{id}/config`, add-endpoint enroll); manual triggers (`run-collection` via `pending_commands`, `POST /detect?host=&rescan=`, `GET /detection-runs`); detection triage lifecycle (new→acknowledged→fp/tp/reviewed + notes); ops hardening (JSON logging `LOG_FORMAT=json`, `/metrics`, `/audit-logs`); ATT&CK enrichment from in-repo STIX; repo cleanup (removed `detection/`, dead code, duplicate rules, empty placeholders).
 
 ## Partially completed features
-- **Auth end-to-end:** implemented and unit-tested but opt-in (`AUTH_ENABLED=false` default). Agent-key path (`--api-key`, `AGENT_API_KEYS`) not exercised in this session; only the admin JWT path was smoke-tested.
-- **Per-endpoint config `collectors`:** stored and served by backend, but the agent ignores it (agent always runs its fixed collector set; `--only` only applies in one-shot CLI mode).
-- **Enrollment token:** generated + stored hashed, but never returned to the agent (vestigial).
-- **Threat intel:** only AbuseIPDB live lookup implemented (soft-fail); OTX/URLhaus/Feodo are env keys only, no code.
+- **Auth end-to-end:** implemented, unit-tested, verified live (login → token, 401s) and hardened — placeholder secrets now refuse startup, rate limiting is decoupled from auth. Agent-key path (`--api-key`, `AGENT_API_KEYS`) not re-exercised this session; admin JWT path was smoke-tested earlier.
+- **Per-endpoint config `collectors`:** stored and served by backend, and now honored by the agent daemon (B3/H2). `--only` also applies in one-shot CLI mode.
+- **Enrollment token:** generated + stored hashed, and now returned once to the agent on first enroll (B2/H1).
+- **Threat intel:** only AbuseIPDB live lookup implemented (soft-fail); OTX/URLhaus/Feodo are env keys only, no code. *(→ M2)*
 - **Run-history/rescan:** delivered (`detection_runs` row per cycle, `rescan=true`); `Dockerfile.agent` still outstanding.
 
 ## Not started features
@@ -92,16 +94,14 @@ Collector: `collector_agent.py`, `agent_client.py`, `modules/{common,processes,n
 - Scheduler is in-process (single point of failure; no distributed workers).
 
 ## Current blockers
-- None blocking. `SETUP_GUIDE.md` (new-user setup/run guide) is written but **uncommitted** (`?? SETUP_GUIDE.md`) — pending commit+push.
-- Pushing to the private remote requires a GitHub PAT (no embedded credential in repo config).
+- None blocking. Pushing to the private remote requires a GitHub PAT (no embedded credential in repo config).
 
 ## Current technical debt
-- `detection/.env.txt` with real leaked API keys still on disk under gitignored `detection/` dir — needs deletion/rotation.
 - `security.py` token uses stdlib HMAC (fine) but no JWT library; no token revocation/refresh.
 - `_hits` rate-limit state is in-memory (lost on restart), keyed on X-Forwarded-For (untrusted unless proxied).
 - `models.py` legacy `Host` table kept for backwards compat (dead-ish duplication with `Endpoint`).
-- Metrics/health do repeated full-table counts (SQLite) — fine at demo scale, not at scale.
-- YARA embedded-match detection hardcodes `severity="high"` regardless of rule meta.
+- Metrics/health do repeated full-table counts (SQLite) — fine at demo scale, not at scale. *(→ M3)*
+- YARA embedded-match detection hardcodes `severity="high"` regardless of rule meta. *(→ M1)*
 
 ## Current risks
 - Default `AUTH_ENABLED=false` + placeholder admin key means a deployed-open instance is unprotected.

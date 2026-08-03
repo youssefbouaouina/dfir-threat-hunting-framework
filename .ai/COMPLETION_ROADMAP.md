@@ -24,12 +24,12 @@
 - **Result:** no live credentials on disk; only `.env.example` placeholders remain.
 - **Validation:** `Test-Path` both files → false; `git status` shows no tracked change.
 
-### A2. Reject startup with default secrets when auth is enabled
+### A2. Reject startup with default secrets when auth is enabled — ✅ DONE (commit `50e8a34`)
 - **Why:** `AUTH_ENABLED=true` + default `change-me-*` secrets silently deploys an unprotected instance (S2).
 - **Files:** `backend/security.py`; possibly `.env.example` comment.
 - **Deps:** none. **Difficulty:** trivial. **Risk:** none.
-- **Result:** app refuses to start (or logs a hard error) when `AUTH_ENABLED=true` and `ADMIN_API_KEY`/`AUTH_SECRET` are defaults or empty.
-- **Validation:** unit test asserting startup failure/exception; manual run with defaults → blocked.
+- **Result:** app refuses to start when `AUTH_ENABLED=true` and `ADMIN_API_KEY`/`AUTH_SECRET` are defaults or empty (also rejects empty `AGENT_API_KEYS`). Raises at import instead of log-warning.
+- **Validation:** 2 unit tests reload the module with placeholder vs strong config and restore a working module afterwards; backend 60 tests pass; ruff clean.
 
 ---
 
@@ -49,19 +49,19 @@
 - **Result:** first-time enroll returns `enrollment_token`; subsequent re-enrolls omit it (idempotent).
 - **Validation:** pytest for enroll-twice behavior; manual curl shows token only on first call.
 
-### B3 (H2). Honor per-endpoint `collectors` config on the agent
+### B3 (H2). Honor per-endpoint `collectors` config on the agent — ✅ DONE (commit `96a5d04`)
 - **Why:** dashboard "edit config" is currently a lie — agent ignores the `collectors` list (B2).
 - **Files:** `collector/agent_client.py` (`daemon_loop`, `get_endpoint_config`), `collector/collector_agent.py` (`run_collection`/CLI plumbing to pass `only`), `collector/tests/test_agent_client.py`.
 - **Deps:** none. **Difficulty:** small–medium. **Risk:** low (agent-side behavior only; fail-soft if config empty).
 - **Result:** daemon uses backend-provided `collectors` subset instead of the fixed full set.
 - **Validation:** collector unit test simulating config response → asserts `run_collection` called with the subset.
 
-### B4 (H4). Enforce `/ingest` request-size limit + make rate limiting independent of auth
+### B4 (H4). Enforce `/ingest` request-size limit + make rate limiting independent of auth — ✅ DONE (commit `c25ee12`)
 - **Why:** open-lab instance is trivially floodable; no body cap (S3).
 - **Files:** `backend/main.py` (middleware or per-route size check), `backend/security.py` (split `RATE_LIMIT_ENABLED`), `backend/.env.example`, `backend/tests/test_security.py`.
 - **Deps:** none. **Difficulty:** small. **Risk:** low (new 413 on oversized body; rate-limit flag defaults to auth state to preserve behavior).
-- **Result:** requests > cap (e.g. 10 MB) → 413; `RATE_LIMIT_ENABLED` works without auth.
-- **Validation:** pytest 413 + rate-limit-on test; ruff clean.
+- **Result:** requests > cap (default 10 MB) → 413 via `enforce_ingest_size` middleware; `RATE_LIMIT_ENABLED` works without auth (defaults to the `AUTH_ENABLED` value).
+- **Validation:** pytest 413 + rate-limit-on-without-auth + rate-limit-off-when-disabled tests (3 new, backend 58 at that commit); ruff clean.
 
 ---
 
@@ -154,10 +154,10 @@
 ## Suggested execution order (within this continuation effort)
 
 ```
-A1 (pending user approval) → B1 (H3) → B2 (H1) → B3 (H2) → B4 (H4) → C1 (M1) → C5 (M5)
-→ C6 (M6) → C3 (M3) → C4 (M4) → C2 (M2) → C7 (M7, user decision) → D1–D4 → F1–F8
+A1 ✅ (user-approved, delete+rotate) → B1 (H3) ✅ → B2 (H1) ✅ → B3 (H2) ✅ → B4 (H4) ✅ → A2 ✅
+→ C1 (M1) → C5 (M5) → C6 (M6) → C3 (M3) → C4 (M4) → C2 (M2) → C7 (M7, user decision) → D1–D4 → F1–F8
 ```
 
-- Do **A + B** before any Phase 4 work (per NEXT_STEPS).
+- Phase A + B are complete; the next active work is Phase C starting with **C1 (M1)**.
 - Keep every commit green: `pytest` + `ruff` per task.
 - Update `.ai/*` memory files after every completed task (Phase 5 refresh).

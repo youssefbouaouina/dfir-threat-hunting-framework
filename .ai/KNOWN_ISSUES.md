@@ -4,8 +4,8 @@
 
 ## Bugs / correctness
 
-- **B1. Enrollment token never returned to the agent.** `enroll_endpoint()` (endpoint_service.py) generates `secrets.token_urlsafe(32)` and stores only its SHA-256 hash; the returned payload omits the token. Feature is vestigial. *(→ NEXT_STEPS H1)*
-- **B2. Per-endpoint `collectors` config has no effect.** Backend stores/serves it, but `collector_agent.py`/`daemon_loop` always run the full collector set; `--only` is CLI-only. Dashboard "Edit config" is misleading. *(→ H2)*
+- **B1. ~~Enrollment token never returned to the agent~~ → FIXED (H1, commit `6113fc6`).** `enroll_endpoint()` now returns a one-time `enrollment_token` on first enrollment only (hash stored; re-enroll omits token). New `EnrollResponse` schema.
+- **B2. ~~Per-endpoint `collectors` config has no effect~~ → FIXED (H2, commit `96a5d04`).** Agent daemon now polls the backend config and runs the `collectors` subset + `interval_seconds`; `--only` still applies in one-shot CLI mode.
 - **B3. `detections/summary` and `/metrics` scan entire tables.** `detections_summary()` loads all `Detection` rows; `metrics_text()`/`health_payload()` issue full counts (and `summary` re-loads detections). O(n) per call. *(→ M3)*
 - **B4. YARA severity hardcoded `high`.** Embedded YARA matches ignore `meta.severity`/`meta.level` in the ruleset. *(→ M1)*
 - **B5. Endpoint status never goes `offline`.** Only ever set `online` at enroll. *(→ M6)*
@@ -29,9 +29,9 @@
 
 ## Security issues
 
-- **S1. Leaked API keys on disk.** `detection/.env.txt` (gitignored dir) contains real AbuseIPDB/OTX/URLhaus keys; also present in git history. **Needs deletion + rotation.** *(Critical)*
-- **S2. Default credentials.** `ADMIN_API_KEY=change-me-admin-key`, `AUTH_SECRET=change-me-auth-secret` — a deployed-open or misconfigured instance is unprotected; auth is OFF by default. *(→ C2)*
-- **S3. No `/ingest` body-size cap;** rate limit inactive when `AUTH_ENABLED=false`. *(→ H4)*
+- **S1. Leaked API keys on disk.** ~~`detection/.env.txt`~~ (deleted, user-approved) and ~~`backend/.env.txt`~~ (deleted) contained real AbuseIPDB/OTX/URLhaus keys; also present in git history. **Deletion done; key rotation on provider dashboards is a user action still required.** *(Critical)*
+- **S2. Default credentials.** ~~`AUTH_ENABLED=true` + placeholder `ADMIN_API_KEY`/`AUTH_SECRET`~~ → FIXED (A2, commit `50e8a34`): startup now raises on placeholder secrets or empty `AGENT_API_KEYS` when auth is enabled. Auth is still OFF by default (`AUTH_ENABLED=false`) for open-lab demo mode.
+- **S3. No `/ingest` body-size cap; rate limit inactive when `AUTH_ENABLED=false`.** → FIXED (H4, commits `c25ee12` + `50e8a34`): `enforce_ingest_size` middleware returns 413 over `MAX_INGEST_BYTES` (default 10 MB); `RATE_LIMIT_ENABLED` is now independent of auth (defaults to the auth value).
 - **S4. Rate-limit key uses X-Forwarded-For** (untrusted unless behind a proxy) and the store is in-memory (reset on restart).
 - **S5. Agent keys are a flat env list** (`AGENT_API_KEYS`) — no per-endpoint key binding, no rotation workflow. *(→ C2/H1)*
 - **S6. Tokens are HMAC-signed (stdlib)** — no revocation list, no refresh; fine for demo, weak for production.
@@ -58,7 +58,7 @@
 
 ## Missing tests
 
-- **T1.** Auth: no tests for `AUTH_ENABLED=true` JWT flow, agent-key auth, rate limiting (429), or 401 paths. → **Partially addressed:** verified live this session (manual smoke); no committed automated test yet — add `test_auth_live.py` or extend `test_security.py` to cover the enabled path (H4/C2 follow-up).
+- **T1.** Auth: no committed automated test for the `AUTH_ENABLED=true` JWT flow, agent-key auth, or 401 paths (verified live earlier; rate limiting + startup guard now covered in `test_security.py`). Consider `test_auth_live.py` for the enabled-path HTTP flow.
 - **T2.** No tests for `attck_mapper.enrich_technique` with the real STIX file (mitreattack lazy import path).
 - **T3.** No tests for `ioc_correlation` live-feed layer (AbuseIPDB mocked) — only local blocklist is covered.
 - **T4.** No tests for the scheduler job body (`_scheduled_detection_run`).
