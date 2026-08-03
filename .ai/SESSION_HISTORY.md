@@ -2,7 +2,7 @@
 
 Accomplishments, decisions, and lessons across the work on the `youssef` branch, summarized for context recovery.
 
-## Continuation session (2026-08-03) — Phase 1 restore + validation
+## Continuation session (2026-08-03) — Phases 1–3 (restore, validate, roadmap)
 
 ### Context recovery
 - Re-read all `.ai/*` memory files + `PROJECT_OVERVIEW.md`, `ROADMAP.md`, `AI_RULES.md`, `PROJECT_SUMMARY.md`, `SETUP_GUIDE.md`, `README.md`.
@@ -21,6 +21,16 @@ Accomplishments, decisions, and lessons across the work on the `youssef` branch,
 
 ### Decisions
 - Working env for this session = `%TEMP%\dfir_venv`; document in AI_HANDOVER so the next session does not re-derive it.
+
+### Phase 2 — validation (commit `c21cca6`)
+- Re-ran full baseline on Windows: backend 53 + collector 7 tests green, ruff clean, alembic at `ca41c1ba0e02`.
+- **Verified auth live end-to-end** with `AUTH_ENABLED=true` (login→token, admin 401s, agent-key 401s, enroll+config) — C2 substantively done; no committed automated test yet (add later).
+- Confirmed documented gaps still true: B1 (token vestigial), B2 (collectors ignored by agent), S1 (keys on disk), S3 (no ingest size cap), doc drift.
+- Wrote `.ai/CURRENT_ANALYSIS.md`; refreshed CHECKPOINT/ROADMAP_STATUS/KNOWN_ISSUES/AI_HANDOVER.
+
+### Phase 3 — completion roadmap
+- Wrote `.ai/COMPLETION_ROADMAP.md` (A critical → B high → C medium → D low → F future), each task with files/deps/difficulty/risk/result/validation.
+- Execution order locked: A1 → B1(H3) → B2(H1) → B3(H2) → B4(H4) → C1(M1) → C5(M5) → C6(M6) → C3(M3) → C4(M4) → C2(M2) → C7(M7) → D1–D4 → F1–F8.
 
 ## What has been accomplished
 

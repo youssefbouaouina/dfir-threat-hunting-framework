@@ -1,5 +1,7 @@
 # Engineering Backlog / Next Steps
 
+> **2026-08-03 continuation:** the authoritative execution plan is now `.ai/COMPLETION_ROADMAP.md` (per-task files/deps/risk/validation). This backlog is the source list it was derived from. Progress notes: C2 (auth path) verified live this session — see `.ai/CURRENT_ANALYSIS.md`; `.ai/` memory committed to git.
+
 Priorities: **Critical** (security/blocking), **High** (correctness/required), **Medium** (quality/scale), **Low** (polish), **Future** (roadmap Phases 4–5).
 
 ## Critical

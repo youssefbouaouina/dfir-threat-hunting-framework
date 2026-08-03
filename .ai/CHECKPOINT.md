@@ -5,6 +5,8 @@
 > **Session update (2026-08-03, continuation):** Baseline re-validated on Windows (Python 3.12, deps in `%TEMP%\dfir_venv`): backend 53 tests pass, collector 7 pass, ruff clean on both, DB at head migration `ca41c1ba0e02`. **Critical finding: the entire `.ai/` directory (all AI memory files) is untracked in git** — never committed. This session commits it as the top priority. Leaked keys still on disk in `detection/.env.txt` + `backend/.env.txt` (gitignored).
 >
 > **Phase 2 validation (same session):** Auth path verified live end-to-end with `AUTH_ENABLED=true` (login → token, admin 401s, agent-key 401s, enroll+config work). `.ai/` committed (docs commit). Full analysis in `.ai/CURRENT_ANALYSIS.md`. Remaining priorities: C1 (delete/rotate keys), H1 (return enrollment token), H2 (honor collectors config), H3 (commit SETUP_GUIDE + fix PROJECT_SUMMARY), H4 (ingest size limit + split rate-limit flag), then M1–M7.
+>
+> **Phase 3 (same session):** completion roadmap created in `.ai/COMPLETION_ROADMAP.md` — A (critical), B (high), C (medium), D (low), F (future Phases 4–5), each with files/deps/risk/validation. Execution order locked: A1 → B1(H3) → B2(H1) → B3(H2) → B4(H4) → C1(M1) → C5(M5) → …
 
 ## Project name
 DFIR Threat Hunting Framework (repo: `dfir-threat-hunting-frameworkV3`, remote: `youssefbouaouina/dfir-threat-hunting-framework` — private).
