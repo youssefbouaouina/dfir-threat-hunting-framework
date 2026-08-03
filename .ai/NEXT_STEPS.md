@@ -33,43 +33,25 @@ Priorities: **Critical** (security/blocking), **High** (correctness/required), *
 
 ## Medium
 
-### M1. Enrich YARA severity from rule meta instead of hardcoding `high`
-- **Reason:** `detection_service.py` hardcodes `severity="high"` for all embedded YARA matches, ignoring each rule's `meta.severity`.
-- **Benefit:** More accurate risk display.
-- **Dependencies:** none. **Complexity:** small.
-- **Order:** 7.
+### M1. ~~Enrich YARA severity from rule meta instead of hardcoding `high`~~ ✅ DONE (commit `520750c`)
+- `severity = meta.severity || meta.level || "high"`; 1 new test. Backend 61.
 
-### M2. Real live-IOC coverage (OTX/URLhaus/Feodo) + scheduled feed refresh
-- **Reason:** Only AbuseIPDB is implemented; the other keys in `.env.example` are dead config. Roadmap (Phase 5) wants automated feed refresh into `iocs/`.
-- **Benefit:** Stronger network detection; makes the blocklists current.
-- **Dependencies:** none (can reuse `check_abuseipdb` pattern). **Complexity:** medium.
-- **Order:** 8.
+### M2. ~~Real live-IOC coverage (OTX/URLhaus/Feodo) + scheduled feed refresh~~ ✅ DONE (commit `917006b`)
+- URLhaus (keyless) + OTX live checks added; `refresh_feodo_blocklist()` writes `iocs/feodo_ips.txt`; scheduler `intel_refresh` job (default 12h); correlation merges curated + feodo lists. 6 new tests. Backend 73.
 
-### M3. Replace full-table scans in metrics/summary with aggregate queries
-- **Reason:** `metrics_service` and `detections_summary` load/count entire tables — fine at demo scale, bad at 100s of endpoints.
-- **Benefit:** Cheap `/metrics`, `/health`, `/detections/summary` under load.
-- **Dependencies:** none. **Complexity:** small (SQL `count`/`group_by`, or SQLAlchemy `func.count`).
-- **Order:** 9.
+### M3. ~~Replace full-table scans in metrics/summary with aggregate queries~~ ✅ DONE (commit `77abbd2`)
+- `detections_summary()` + `_summary_counts()` now use `func.count` + `group_by`. Backend 65.
 
-### M4. Add pagination + cursor for `/artifacts`, `/detections`, `/detection-runs`
-- **Reason:** All list endpoints use `limit` with `ORDER BY id DESC`; no cursor/offset → page drift and full scans at scale.
-- **Benefit:** Usable with large artifact volumes.
-- **Dependencies:** M3. **Complexity:** medium.
-- **Order:** 10.
+### M4. ~~Add pagination + cursor for `/artifacts`, `/detections`, `/detection-runs`~~ ✅ DONE (commit `17bb884`)
+- Additive `before_id` cursor (id < before_id); response shape unchanged. 2 new tests. Backend 67.
 
-### M5. Fix stale doc references (AI_RULES, docstrings, README)
-- **Reason:** `AI_RULES.md` still references removed files (`detection/`, `yara_engine.py`) and old service names (`services/detection.py` vs `detection_service.py`); `common.py` docstring cites deleted `SCHEMA.md`; `collector_agent.py` usage block shows old `..\detection\yara_rules`; `README.md` is a 1-line stub.
-- **Benefit:** Trustworthy documentation for the next engineer.
-- **Dependencies:** none. **Complexity:** trivial.
-- **Order:** 11.
+### M5. ~~Fix stale doc references (AI_RULES, docstrings, README)~~ ✅ DONE (commit `1f72448`)
+- README rewritten; AI_RULES service names fixed; common.py/collector_agent.py/PROJECT_OVERVIEW §7.1 de-staled; MODULE_INDEX refreshed.
 
-### M6. Heartbeat/offline detection for endpoints
-- **Reason:** `status` flips to `online` on enroll but nothing ever sets `offline`; dashboard "status" is optimistic.
-- **Benefit:** Honest endpoint health; enables Phase 4 "endpoint offline" notifications.
-- **Dependencies:** none. **Complexity:** medium (scheduler sweep comparing `last_seen`).
-- **Order:** 12.
+### M6. ~~Heartbeat/offline detection for endpoints~~ ✅ DONE (commit `200e639`)
+- Config poll = heartbeat (`_touch_endpoint` restores online); `mark_offline_stale()` + `offline_sweep` job; env knobs. 3 new tests. Backend 64.
 
-### M7. Reduce repo size / stop tracking `backend/dfir.db`
+### M7. Reduce repo size / stop tracking `backend/dfir.db` — **pending user decision**
 - **Reason:** A tracked binary DB (now with test/demo data) causes merge conflicts and repo bloat; `*.db` is gitignored but `backend/dfir.db` is force-tracked.
 - **Benefit:** Cleaner history; avoids binary churn.
 - **Dependencies:** user decision (it also serves as demo data). **Complexity:** small.
@@ -111,6 +93,6 @@ Priorities: **Critical** (security/blocking), **High** (correctness/required), *
 ## Suggested implementation order
 
 ```
-C1 ✅ → C2 ✅ → H1 ✅ → H2 ✅ → H3 ✅ → H4 ✅ (+ A2) → M1 → M2 → M3 → M4 → M5 → M6 → M7 → L1 → L2 → L3 → L4 → F1..F8
+C1 ✅ → C2 ✅ → H1 ✅ → H2 ✅ → H3 ✅ → H4 ✅ (+ A2) → M1 ✅ → M2 ✅ → M3 ✅ → M4 ✅ → M5 ✅ → M6 ✅ → M7 (user decision) → L1 → L2 → L3 → L4 → F1..F8
 ```
-All Critical + High items are done. Next: Phase C, starting with **M1** (YARA severity from rule meta).
+All Critical + High items done; Phase C (M-series) done except **M7** (user decision on `backend/dfir.db`). Next: M7 decision, then D1–D4 (Low), then F1–F8 (Future).

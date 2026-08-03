@@ -67,42 +67,42 @@
 
 ## Phase C — Medium (quality / scale)
 
-### C1 (M1). YARA severity from rule meta instead of hardcoded `high`
+### C1 (M1). YARA severity from rule meta instead of hardcoded `high` — ✅ DONE (commit `520750c`)
 - **Files:** `backend/services/detection_service.py`, `backend/tests/test_detection_service.py` (+ a rule with meta.severity fixture).
 - **Deps:** none. **Difficulty:** small. **Risk:** low.
 - **Result:** `severity = meta.get("severity") or meta.get("level") or "high"`.
-- **Validation:** pytest asserting severity per rule meta.
+- **Validation:** pytest asserting severity per rule meta (3 cases: severity, level, bare-rule default). Backend 61 tests.
 
-### C2 (M2). Real live-IOC coverage (OTX/URLhaus/Feodo) + scheduled feed refresh
+### C2 (M2). Real live-IOC coverage (OTX/URLhaus/Feodo) + scheduled feed refresh — ✅ DONE (commit `917006b`)
 - **Why:** env keys are dead config; roadmap Phase 5 wants automated feeds into `iocs/`.
 - **Files:** `backend/ioc_correlation.py`, `backend/requirements.txt` (no new dep needed — requests), `backend/services/` new `intel_service.py` or extend `ioc_correlation`, `backend/.env.example`, tests.
 - **Deps:** none; reuse `check_abuseipdb` pattern. **Difficulty:** medium. **Risk:** medium (new network calls must fail soft).
-- **Result:** OTX/URLhaus/Feodo checks + a scheduler-adjacent refresh job writing `iocs/*`.
-- **Validation:** mocked-feed pytest; manual run with a real key.
+- **Result:** URLhaus (keyless) + OTX live checks; `refresh_feodo_blocklist()` writes `iocs/feodo_ips.txt`; scheduler `intel_refresh` job every `INTEL_REFRESH_INTERVAL_SECONDS` (default 12h); correlation merges curated + feodo lists.
+- **Validation:** 6 new mocked tests (URLhaus/OTX hits, checker order, feodo write + fail-soft, merge). Backend 73 tests.
 
-### C3 (M3). Aggregate queries for metrics/summary (drop full-table scans)
+### C3 (M3). Aggregate queries for metrics/summary (drop full-table scans) — ✅ DONE (commit `77abbd2`)
 - **Files:** `backend/services/metrics_service.py`, `backend/services/detection_service.py::detections_summary`, tests.
 - **Deps:** none. **Difficulty:** small (SQLAlchemy `func.count`/`group_by`). **Risk:** low.
-- **Result:** `/health`, `/metrics`, `/detections/summary` use SQL aggregation.
-- **Validation:** pytest counts match; dashboard summary still renders.
+- **Result:** `/health`, `/metrics`, `/detections/summary` use SQL aggregation (no full-table Python loads).
+- **Validation:** pytest counts match; dashboard summary still renders. 1 new test. Backend 65 tests.
 
-### C4 (M4). Pagination + cursor for list endpoints
+### C4 (M4). Pagination + cursor for list endpoints — ✅ DONE (commit `17bb884`)
 - **Files:** `backend/main.py` (`/artifacts`), `backend/services/query_service.py`, `backend/services/detection_service.py`, `backend/detection_routes.py` (`/detections`, `/detection-runs`), tests.
-- **Deps:** C3. **Difficulty:** medium. **Risk:** low (additive `cursor`/`before_id` param; keep `limit`).
-- **Result:** stable cursor pagination; no page drift.
-- **Validation:** pytest stepping through pages.
+- **Deps:** C3. **Difficulty:** medium. **Risk:** low (additive `before_id` cursor; `limit` kept; response shape unchanged).
+- **Result:** stable cursor pagination (`id < before_id`); no page drift.
+- **Validation:** pytest walking pages of /artifacts + /detections. Backend 67 tests.
 
-### C5 (M5). Fix stale doc references (AI_RULES, docstrings, README)
+### C5 (M5). Fix stale doc references (AI_RULES, docstrings, README) — ✅ DONE (commit `1f72448`)
 - **Files:** `AI_RULES.md` (service names, removed files), `README.md` (rewrite stub), `collector/modules/common.py`, `collector/collector_agent.py`, `PROJECT_OVERVIEW.md` §7.1, `backend/schemas.py` docstring.
 - **Deps:** none. **Difficulty:** trivial. **Risk:** none.
 - **Result:** docs reference only existing files/services; README useful.
-- **Validation:** grep for removed paths (`detection/`, `yara_engine.py`, `services/detection.py`, `SCHEMA.md`).
+- **Validation:** grep for removed paths (`detection/`, `yara_engine.py`, `services/detection.py`, `SCHEMA.md`) → no stale hits in active docs; `.ai/MODULE_INDEX.md` refreshed.
 
-### C6 (M6). Heartbeat/offline detection for endpoints
-- **Files:** `backend/services/endpoint_service.py` (new `mark_offline_stale`/sweep), `backend/scheduler.py` or new periodic job, `backend/services/metrics_service.py`, tests.
+### C6 (M6). Heartbeat/offline detection for endpoints — ✅ DONE (commit `200e639`)
+- **Files:** `backend/services/endpoint_service.py` (`_touch_endpoint`, `mark_offline_stale`), `backend/scheduler.py` (`offline_sweep` job), `.env.example` (`OFFLINE_SWEEP_INTERVAL_SECONDS`, `OFFLINE_STALE_AFTER_SECONDS`), tests.
 - **Deps:** none. **Difficulty:** medium. **Risk:** low (read-only sweep; status flip only).
-- **Result:** endpoints with `last_seen` older than threshold (e.g. 3× interval) → `offline`.
-- **Validation:** pytest flipping status; dashboard shows offline.
+- **Result:** config poll refreshes `last_seen` + restores `online`; endpoints stale > `OFFLINE_STALE_AFTER_SECONDS` (default 900s) → `offline`.
+- **Validation:** 3 new tests (heartbeat, sweep flips stale, poll restores offline). Backend 64 tests.
 
 ### C7 (M7). Stop tracking `backend/dfir.db` (user decision)
 - **Why:** binary tracked artifact → merge conflicts + bloat (W4).
@@ -155,9 +155,10 @@
 
 ```
 A1 ✅ (user-approved, delete+rotate) → B1 (H3) ✅ → B2 (H1) ✅ → B3 (H2) ✅ → B4 (H4) ✅ → A2 ✅
-→ C1 (M1) → C5 (M5) → C6 (M6) → C3 (M3) → C4 (M4) → C2 (M2) → C7 (M7, user decision) → D1–D4 → F1–F8
+→ C1 (M1) ✅ → C5 (M5) ✅ → C6 (M6) ✅ → C3 (M3) ✅ → C4 (M4) ✅ → C2 (M2) ✅
+→ C7 (M7, user decision) → D1–D4 → F1–F8
 ```
 
-- Phase A + B are complete; the next active work is Phase C starting with **C1 (M1)**.
+- Phase A + B complete; Phase C complete except **C7/M7** (stop tracking `backend/dfir.db` — needs user decision).
 - Keep every commit green: `pytest` + `ruff` per task.
 - Update `.ai/*` memory files after every completed task (Phase 5 refresh).

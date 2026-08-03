@@ -8,7 +8,9 @@
 >
 > **Phase 3 (same session):** completion roadmap created in `.ai/COMPLETION_ROADMAP.md` — A (critical), B (high), C (medium), D (low), F (future Phases 4–5), each with files/deps/risk/validation. Execution order locked: A1 → B1(H3) → B2(H1) → B3(H2) → B4(H4) → C1(M1) → C5(M5) → …
 >
-> **Phase 4 progress (same session):** C1 ✅ (leaked `detection/.env.txt` + `backend/.env.txt` deleted, user-approved; rotate keys on provider dashboards). B1/H3 ✅ (`SETUP_GUIDE.md` committed + `PROJECT_SUMMARY.md` refreshed, commit `b2094f0`). B2/H1 ✅ (enrollment token returned once on first enroll, commit `6113fc6`; backend now 55 tests). B3/H2 ✅ (agent daemon honors backend `collectors` + `interval_seconds`, commit `96a5d04`; collector 9 tests). B4/H4 ✅ (`/ingest` body cap → 413 middleware, `RATE_LIMIT_ENABLED` decoupled from auth, commits `c25ee12` + `50e8a34`; backend 60 tests). **Phases A + B of the roadmap are now complete.** Next: Phase C starting with **C1/M1** (YARA severity from rule meta).
+> **Phase 4 progress (same session):** C1 ✅ (leaked `detection/.env.txt` + `backend/.env.txt` deleted, user-approved; rotate keys on provider dashboards). B1/H3 ✅ (`SETUP_GUIDE.md` committed + `PROJECT_SUMMARY.md` refreshed, commit `b2094f0`). B2/H1 ✅ (enrollment token returned once on first enroll, commit `6113fc6`; backend now 55 tests). B3/H2 ✅ (agent daemon honors backend `collectors` + `interval_seconds`, commit `96a5d04`; collector 9 tests). B4/H4 ✅ (`/ingest` body cap → 413 middleware, `RATE_LIMIT_ENABLED` decoupled from auth, commits `c25ee12` + `50e8a34`; backend 60 tests). A2 ✅ (startup rejects placeholder secrets when auth enabled, commit `50e8a34`). **Phases A + B of the roadmap complete.**
+>
+> **Phase C progress (same session, M-series):** M1 ✅ YARA severity from rule meta (commit `520750c`, backend 61). M5 ✅ stale docs fixed + README rewritten (commit `1f72448`). M6 ✅ heartbeat/offline detection (`_touch_endpoint` + `mark_offline_stale` + `offline_sweep` job, commit `200e639`, backend 64). M3 ✅ SQL GROUP BY aggregation for summary/metrics (commit `77abbd2`, backend 65). M4 ✅ `before_id` cursor pagination on /artifacts /detections /detection-runs (commit `17bb884`, backend 67). M2 ✅ URLhaus/OTX live lookups + Feodo blocklist refresh into `iocs/feodo_ips.txt` + `intel_refresh` scheduler job (commit `917006b`, backend 73). **Remaining: M7 (user decision: stop tracking `backend/dfir.db`), then D1–D4, F1–F8.**
 
 ## Project name
 DFIR Threat Hunting Framework (repo: `dfir-threat-hunting-frameworkV3`, remote: `youssefbouaouina/dfir-threat-hunting-framework` — private).
@@ -17,8 +19,8 @@ DFIR Threat Hunting Framework (repo: `dfir-threat-hunting-frameworkV3`, remote: 
 A lightweight, offline-first DFIR threat-hunting platform: lightweight collector agents run on endpoints and ship artifact batches to a FastAPI backend, which stores them and runs a multi-engine detection pipeline (Sigma-style behavioral rules, embedded YARA results, known-bad hash matching, network IOC correlation) with MITRE ATT&CK enrichment. An analyst dashboard (`/dashboard`) provides endpoint management, manual collection/detection triggers, detection run history, triage, audit log, and metrics. Built as a capstone ("stage ... esprit in NEXTSTEP", README).
 
 ## Current maturity
-- Phases 1–3 of the 5-phase roadmap **implemented and committed on `youssef`**; roadmap Phases A + B (critical/high hardening) complete.
-- 60 backend pytest tests + 9 collector pytest tests; ruff clean; CI (GitHub Actions) gates lint+test+gitleaks.
+- Phases 1–3 of the 5-phase roadmap **implemented and committed on `youssef`**; roadmap Phases A + B (critical/high hardening) and C (medium) are complete except **M7** (user decision).
+- 73 backend pytest tests + 9 collector pytest tests; ruff clean; CI (GitHub Actions) gates lint+test+gitleaks.
 - Opt-in auth (disabled by default = open-lab demo mode), SQLite default (Postgres ready), containerized backend + compose stack, GHCR build/push on `v*` tags. Enabling auth now refuses placeholder secrets; `/ingest` enforces a 10 MB body cap; rate limiting works independent of auth.
 - No production deployment, no queueing, no incident correlation (Phases 4–5).
 
@@ -70,7 +72,7 @@ Collector: `collector_agent.py`, `agent_client.py`, `modules/{common,processes,n
 - **Auth end-to-end:** implemented, unit-tested, verified live (login → token, 401s) and hardened — placeholder secrets now refuse startup, rate limiting is decoupled from auth. Agent-key path (`--api-key`, `AGENT_API_KEYS`) not re-exercised this session; admin JWT path was smoke-tested earlier.
 - **Per-endpoint config `collectors`:** stored and served by backend, and now honored by the agent daemon (B3/H2). `--only` also applies in one-shot CLI mode.
 - **Enrollment token:** generated + stored hashed, and now returned once to the agent on first enroll (B2/H1).
-- **Threat intel:** only AbuseIPDB live lookup implemented (soft-fail); OTX/URLhaus/Feodo are env keys only, no code. *(→ M2)*
+- **Threat intel:** AbuseIPDB + URLhaus + OTX live lookups implemented (all fail-soft); Feodo blocklist auto-refreshed into `iocs/feodo_ips.txt` (M2). Keys rotate on provider dashboards (user action pending).
 - **Run-history/rescan:** delivered (`detection_runs` row per cycle, `rescan=true`); `Dockerfile.agent` still outstanding.
 
 ## Not started features
