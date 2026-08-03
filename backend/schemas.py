@@ -97,6 +97,12 @@ class DetectionTriageIn(BaseModel):
     notes: Optional[str] = None
 
 
+class IncidentTriageIn(BaseModel):
+    """Analyst decision on a correlated incident (F2)."""
+
+    status: str  # open | acknowledged | resolved | false_positive
+
+
 class AuditLogOut(BaseModel):
     id: int
     actor: Optional[str] = None

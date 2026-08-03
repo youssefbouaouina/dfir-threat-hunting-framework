@@ -153,3 +153,39 @@ class PendingCommand(Base):
     picked_up_at = Column(DateTime(timezone=True), nullable=True)
     completed_at = Column(DateTime(timezone=True), nullable=True)
     result = Column(Text, nullable=True)                   # JSON-encoded result/report
+
+
+class Incident(Base):
+    """A correlated set of detections (Phase 4 / F2 correlation engine).
+
+    Two grouping strategies feed incidents:
+      * same rule_id across multiple hosts  -> "campaign" incident
+      * multiple techniques on one host     -> "attack chain" incident
+    Each incident carries an ATT&CK technique list (the chain), a severity
+    derived from its members (escalated for spread), and its constituent
+    detections via the IncidentDetection link table.
+    """
+    __tablename__ = "incidents"
+
+    id = Column(Integer, primary_key=True, index=True)
+    signature = Column(String, unique=True, index=True, nullable=False)  # deterministic group key
+    title = Column(String, nullable=False)
+    severity = Column(String, nullable=True)               # info|low|medium|high|critical
+    status = Column(String, default="open")  # open | acknowledged | resolved | false_positive
+    host_count = Column(Integer, default=0)
+    detection_count = Column(Integer, default=0)
+    technique_ids = Column(Text, nullable=True)            # JSON array of ATT&CK ids (the chain)
+    tactic = Column(String, nullable=True)                 # most severe member's tactic
+    hosts = Column(Text, nullable=True)                    # JSON array of hostnames
+    first_seen = Column(DateTime(timezone=True), nullable=True)
+    last_seen = Column(DateTime(timezone=True), nullable=True)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+
+class IncidentDetection(Base):
+    """Link row between an Incident and its member Detections (F2)."""
+    __tablename__ = "incident_detections"
+
+    id = Column(Integer, primary_key=True, index=True)
+    incident_id = Column(Integer, index=True, nullable=False)
+    detection_id = Column(Integer, index=True, nullable=False)

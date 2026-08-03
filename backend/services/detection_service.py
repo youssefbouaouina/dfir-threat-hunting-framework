@@ -8,6 +8,7 @@ persisted with ATT&CK enrichment, and scanned artifacts are marked
 processed so a re-run does not duplicate work.
 """
 import json
+import logging
 import os
 from datetime import datetime, timezone
 from typing import Optional
@@ -19,8 +20,11 @@ from attck_mapper import enrich_technique
 from hash_checker import check_file_scan_artifacts
 from ioc_correlation import correlate_network_artifacts
 from services.audit_service import log_action
+from services.correlation_service import recompute_incidents
 from sigma_matcher import evaluate as evaluate_sigma
 from sigma_matcher import load_rules as load_sigma_rules
+
+logger = logging.getLogger(__name__)
 
 SIGMA_RULES_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "sigma_rules"
@@ -128,6 +132,16 @@ def run_detection_job(
         run.status = "completed"
         run.finished_at = datetime.now(timezone.utc)
         db.commit()
+
+        # Phase 4 (F2): refresh the correlation view so new detections are
+        # grouped into campaign / attack-chain incidents immediately.
+        try:
+            recompute_incidents(db, actor=f"detection:{trigger}")
+        except Exception:  # noqa: BLE001 — correlation must never fail a detection run
+            logger.warning(
+                "Incident correlation failed; detections are still persisted", exc_info=True
+            )
+            db.rollback()
 
         log_action(
             db,
