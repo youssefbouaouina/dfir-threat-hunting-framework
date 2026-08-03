@@ -174,6 +174,10 @@ if __name__ == "__main__":
             )
         else:
             cfg = get_endpoint_config(args.api_url, get_hostname(), args.api_key)
+            # Honor the backend per-endpoint collector list unless --only was given.
+            if only_list is None and isinstance(cfg, dict) and cfg.get("collectors"):
+                only_list = cfg["collectors"]
+                print(f"[*] Using backend collector config: {only_list}")
             run_dir = run_collection(
                 output_dir=args.output, only=only_list, yara_rules_dir=args.yara_rules
             )

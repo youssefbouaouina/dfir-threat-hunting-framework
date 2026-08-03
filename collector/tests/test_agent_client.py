@@ -1,6 +1,8 @@
 """Tests for the Phase 2/3 collector agent client (push/enroll/daemon/commands)."""
 import json
 
+import pytest
+
 from agent_client import complete_command, make_batch_id, poll_pending_commands, push_folder
 
 
@@ -103,6 +105,69 @@ def test_complete_command_reports_result(monkeypatch):
     assert out["status"] == "completed"
     assert captured["url"].endswith("/endpoints/commands/1/complete")
     assert captured["json"] == {"status": "completed", "result": {"files": 6}}
+
+
+def test_get_endpoint_config_returns_collectors(monkeypatch):
+    captured = {}
+
+    def fake_get(url, params=None, headers=None, timeout=None):
+        captured["url"] = url
+        captured["params"] = params
+        return _FakeResp(
+            {
+                "hostname": "edge-01",
+                "interval_seconds": 120,
+                "collectors": ["processes", "network"],
+            }
+        )
+
+    monkeypatch.setattr("agent_client.requests.get", fake_get)
+    from agent_client import get_endpoint_config
+
+    cfg = get_endpoint_config("http://backend:8000", "edge-01", api_key="k")
+    assert cfg["interval_seconds"] == 120
+    assert cfg["collectors"] == ["processes", "network"]
+    assert captured["url"].endswith("/endpoints/config")
+
+
+def test_daemon_loop_honors_backend_collectors_and_interval(monkeypatch, tmp_path):
+    """H2: the daemon passes the backend's collector list to run_collection and
+    sleeps for the backend's interval instead of the CLI default."""
+    import collector_agent  # noqa: F401  (module must be importable for daemon_loop)
+
+    calls = {"only": None, "intervals": []}
+
+    def fake_config(api_url, hostname, api_key=None):
+        return {"interval_seconds": 42, "collectors": ["processes", "network"]}
+
+    def fake_run_collection(output_dir="output", only=None, yara_rules_dir=None):
+        calls["only"] = only
+        return str(tmp_path / "run")
+
+    def fake_push_folder(folder, api_url, api_key=None):
+        return {"files": 1, "ingested": 1}
+
+    def fake_poll(api_url, hostname, api_key=None):
+        return []
+
+    def fake_sleep(seconds):
+        calls["intervals"].append(seconds)
+        raise KeyboardInterrupt  # stop the infinite daemon loop after one cycle
+
+    monkeypatch.setattr("agent_client.get_endpoint_config", fake_config)
+    monkeypatch.setattr("agent_client.poll_pending_commands", fake_poll)
+    monkeypatch.setattr("collector_agent.run_collection", fake_run_collection)
+    monkeypatch.setattr("agent_client.push_folder", fake_push_folder)
+    monkeypatch.setattr("time.sleep", fake_sleep)
+    monkeypatch.setattr("socket.gethostname", lambda: "edge-01")
+
+    from agent_client import daemon_loop
+
+    with pytest.raises(KeyboardInterrupt):
+        daemon_loop("http://backend:8000", interval=300)
+
+    assert calls["only"] == ["processes", "network"]
+    assert calls["intervals"] == [42]
 
 
 class _FakeResp:

@@ -178,6 +178,11 @@ def daemon_loop(
     Also polls the backend for manual-trigger commands ("run collection now"
     queued from the dashboard) so an analyst can force a collection between
     scheduled cycles.
+
+    The per-endpoint config is honored: the backend-provided ``collectors``
+    list restricts which collectors run, and ``interval_seconds`` from the
+    config overrides the CLI default. If the config poll fails (fail-soft) the
+    daemon falls back to the full collector set and the CLI interval.
     """
     import socket
 
@@ -185,15 +190,31 @@ def daemon_loop(
 
     hostname = socket.gethostname()
     logger.info(
-        "Agent daemon started — collecting + pushing every %s seconds to %s", interval, api_url
+        "Agent daemon started — collecting + pushing to %s (base interval %s s)", api_url, interval
     )
     while True:
+        effective_interval = interval
+        only = None
+        try:
+            cfg = get_endpoint_config(api_url, hostname, api_key)
+            collectors = cfg.get("collectors") if isinstance(cfg, dict) else None
+            if collectors:
+                only = collectors
+                logger.info("Using backend collectors config: %s", only)
+            cfg_interval = cfg.get("interval_seconds") if isinstance(cfg, dict) else None
+            if cfg_interval:
+                effective_interval = int(cfg_interval)
+        except Exception as exc:  # noqa: BLE001 — config is best-effort
+            logger.warning("Config poll failed, using defaults: %s", exc)
+
         try:
             for cmd in poll_pending_commands(api_url, hostname, api_key):
                 logger.info("Manual trigger picked up: %s", cmd)
                 if cmd.get("command") == "run_collection":
                     try:
-                        run_dir = run_collection(output_dir="output", yara_rules_dir=yara_rules_dir)
+                        run_dir = run_collection(
+                            output_dir="output", only=only, yara_rules_dir=yara_rules_dir
+                        )
                         summary = push_folder(run_dir, api_url, api_key)
                         complete_command(
                             api_url, cmd["id"], api_key, status="completed", result=summary
@@ -204,12 +225,14 @@ def daemon_loop(
                         )
                         logger.error("Manual collection failed: %s", exc)
 
-            run_dir = run_collection(output_dir="output", yara_rules_dir=yara_rules_dir)
+            run_dir = run_collection(
+                output_dir="output", only=only, yara_rules_dir=yara_rules_dir
+            )
             summary = push_folder(run_dir, api_url, api_key)
             logger.info("Push summary: %s", summary)
         except Exception as exc:  # noqa: BLE001 — daemon must survive any collector failure
             logger.error("Collection/push cycle failed: %s", exc)
-        time.sleep(max(interval, 10))
+        time.sleep(max(effective_interval, 10))
 
 
 def make_batch_id() -> str:
