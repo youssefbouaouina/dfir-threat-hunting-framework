@@ -11,6 +11,7 @@ import json
 import logging
 import secrets
 from datetime import datetime, timedelta, timezone
+from typing import Optional
 
 import models
 from services.audit_service import log_action
@@ -27,7 +28,9 @@ def _hash_token(token: str) -> str:
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
 
 
-def enroll_endpoint(db, hostname: str, os_name: str, agent_version: str = None) -> dict:
+def enroll_endpoint(
+    db, hostname: str, os_name: str, agent_version: Optional[str] = None
+) -> dict:
     """Registers (or refreshes) an endpoint and returns its id + agent config.
 
     Re-enrollment with the same hostname updates os/version/status and returns
@@ -78,12 +81,16 @@ def enroll_endpoint(db, hostname: str, os_name: str, agent_version: str = None) 
 
 
 def update_endpoint_config(
-    db, endpoint_id: int, collectors: list = None, interval_seconds: int = None
-) -> dict:
+    db,
+    endpoint_id: int,
+    collectors: Optional[list] = None,
+    interval_seconds: Optional[int] = None,
+) -> Optional[dict]:
     """Admin edits a single endpoint's agent config (Phase 3 dashboard control).
 
     Only the provided fields change; unset fields keep their current value
-    (which defaults to DEFAULT_CONFIG for a fresh endpoint).
+    (which defaults to DEFAULT_CONFIG for a fresh endpoint). Returns None if
+    the endpoint id is unknown.
     """
     endpoint = db.query(models.Endpoint).filter(models.Endpoint.id == endpoint_id).first()
     if endpoint is None:
@@ -119,11 +126,12 @@ def update_endpoint_config(
     }
 
 
-def queue_collection(db, endpoint_id: int, actor: str = "admin") -> dict:
+def queue_collection(db, endpoint_id: int, actor: str = "admin") -> Optional[dict]:
     """Queues a 'run_collection' pending command for an endpoint (Phase 3).
 
     The dashboard's "Run collection now" button calls this; the agent picks
     the command up on its next poll and reports back via complete_command().
+    Returns None if the endpoint id is unknown.
     """
     endpoint = db.query(models.Endpoint).filter(models.Endpoint.id == endpoint_id).first()
     if endpoint is None:
@@ -183,8 +191,13 @@ def poll_pending_commands(db, hostname: str) -> list:
     ]
 
 
-def complete_command(db, command_id: int, status: str = "completed", result: dict = None) -> dict:
-    """Agent reports the outcome of a picked-up command (marks it done)."""
+def complete_command(
+    db, command_id: int, status: str = "completed", result: Optional[dict] = None
+) -> Optional[dict]:
+    """Agent reports the outcome of a picked-up command (marks it done).
+
+    Returns None if the command id is unknown.
+    """
     row = db.query(models.PendingCommand).filter(models.PendingCommand.id == command_id).first()
     if row is None:
         return None

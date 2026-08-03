@@ -6,6 +6,8 @@ scheduler and this route share one implementation. Reads delegate to the
 same service module. Auth (admin/analyst) is enforced when AUTH_ENABLED=true.
 Phase 3 adds the triage lifecycle endpoints (PATCH /detections/{id}).
 """
+from typing import Optional
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
@@ -19,7 +21,7 @@ router = APIRouter()
 
 @router.post("/detect", dependencies=[Depends(require_admin)])
 def run_detection(
-    host: str = None,
+    host: Optional[str] = None,
     rescan: bool = False,
     db: Session = Depends(get_db),
 ):
@@ -29,7 +31,7 @@ def run_detection(
 
 @router.get("/detection-runs", dependencies=[Depends(require_admin)])
 def list_detection_runs(
-    status: str = None,
+    status: Optional[str] = None,
     limit: int = 50,
     before_id: int = Query(default=None, gt=0, description="cursor: only ids < before_id"),
     db: Session = Depends(get_db),
@@ -42,8 +44,8 @@ def list_detection_runs(
 
 @router.get("/detections", dependencies=[Depends(require_admin)])
 def list_detections(
-    host: str = None,
-    severity: str = None,
+    host: Optional[str] = None,
+    severity: Optional[str] = None,
     limit: int = 100,
     before_id: int = Query(default=None, gt=0, description="cursor: only ids < before_id"),
     db: Session = Depends(get_db),

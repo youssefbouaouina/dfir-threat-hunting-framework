@@ -16,3 +16,16 @@ ignore = ["UP006", "UP035", "B008"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+
+[tool.mypy]
+# Gradual typing (D1): new code is checked strictly, existing unannotated
+# modules are tolerated. No unreachable/import errors, no unused ignores.
+python_version = "3.12"
+plugins = ["sqlalchemy.ext.mypy.plugin"]
+warn_unused_ignores = true
+ignore_missing_imports = true
+check_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+check_untyped_defs = true

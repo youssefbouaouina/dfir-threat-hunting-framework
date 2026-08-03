@@ -21,6 +21,7 @@ the pipeline overall stays usable.
 import ipaddress
 import os
 from datetime import datetime, timezone
+from typing import Dict
 
 import requests
 from dotenv import load_dotenv
@@ -35,7 +36,8 @@ FEODO_BLOCKLIST_PATH = os.path.join(IOC_DIR, "feodo_ips.txt")
 
 FEODO_CSV_URL = "https://feodotracker.abuse.ch/downloads/ipblocklist.csv"
 
-_ip_cache = {}  # simple in-process cache so repeated IPs in one /detect run don't re-query
+# in-process cache so repeated IPs in one /detect run don't re-query
+_ip_cache: Dict[str, dict] = {}
 
 # Live lookup order: first hit wins (checked left-to-right).
 LIVE_CHECKERS = ("check_abuseipdb", "check_urlhaus", "check_otx")
@@ -128,7 +130,7 @@ def check_abuseipdb(ip: str) -> dict:
     try:
         resp = requests.get(
             "https://api.abuseipdb.com/api/v2/check",
-            params={"ipAddress": ip, "maxAgeInDays": 90},
+            params={"ipAddress": ip, "maxAgeInDays": 90},  # type: ignore[arg-type]
             headers={"Key": ABUSEIPDB_API_KEY, "Accept": "application/json"},
             timeout=5,
         )

@@ -13,6 +13,7 @@ extra clone step:
 Override with the STIX_PATH env var if you keep it elsewhere.
 """
 import os
+from typing import Dict
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_STIX_PATH = os.getenv(
@@ -20,7 +21,7 @@ DEFAULT_STIX_PATH = os.getenv(
     os.path.join(_REPO_ROOT, "dfir-refs", "cti", "enterprise-attack", "enterprise-attack.json"),
 )
 
-_cache = {}
+_cache: Dict[str, dict] = {}
 
 
 def _get_attack_data(stix_path: str):

@@ -80,11 +80,11 @@ def _matches_condition(data: dict, condition: dict) -> bool:
             if not any(str(term).lower() in value for term in terms):
                 return False
         else:
-            value = data.get(field)
+            actual = data.get(field)
             if isinstance(expected, list):
-                if value not in expected:
+                if actual not in expected:
                     return False
-            elif value != expected:
+            elif actual != expected:
                 return False
     return True
 

@@ -10,12 +10,15 @@ ingested, the re-post is a no-op and the response reports `deduplicated`.
 """
 import json
 from collections import Counter
+from typing import Optional
 
 import models
 import schemas
 
 
-def ingest_artifacts(db, artifacts: list, batch_id: str = None) -> schemas.IngestResponse:
+def ingest_artifacts(
+    db, artifacts: list, batch_id: Optional[str] = None
+) -> schemas.IngestResponse:
     """Stores a batch of artifacts, upserting the reporting host in one commit.
 
     batch_id: optional idempotency key. When provided, a previous ingestion of
@@ -50,7 +53,7 @@ def ingest_artifacts(db, artifacts: list, batch_id: str = None) -> schemas.Inges
     else:
         host_row.os = os_name  # keep it current in case the OS field ever changes
 
-    type_counter = Counter()
+    type_counter: Counter = Counter()
     for artifact in artifacts:
         db.add(
             models.Artifact(

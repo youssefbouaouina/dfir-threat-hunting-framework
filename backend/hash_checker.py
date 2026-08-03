@@ -10,10 +10,11 @@ File format (iocs/known_bad_hashes.txt):
     # lines starting with # are comments
 """
 import os
+from typing import Dict
 
 DEFAULT_HASH_LIST = os.path.join(os.path.dirname(__file__), "iocs", "known_bad_hashes.txt")
 
-_cache = {}
+_cache: Dict[str, dict] = {}
 
 
 def load_known_bad_hashes(path: str = DEFAULT_HASH_LIST) -> dict:

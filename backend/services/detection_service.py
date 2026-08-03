@@ -10,6 +10,7 @@ processed so a re-run does not duplicate work.
 import json
 import os
 from datetime import datetime, timezone
+from typing import Optional
 
 from sqlalchemy import func
 
@@ -54,7 +55,9 @@ def _persist_detection(db, d: dict) -> models.Detection:
     return row
 
 
-def run_detection_job(db, host: str = None, rescan: bool = False, trigger: str = "manual") -> dict:
+def run_detection_job(
+    db, host: Optional[str] = None, rescan: bool = False, trigger: str = "manual"
+) -> dict:
     """
     Runs the full detection pipeline against unprocessed artifacts.
 
@@ -157,7 +160,7 @@ def run_detection_job(db, host: str = None, rescan: bool = False, trigger: str =
 
 
 def _count_by(detections: list, field: str) -> dict:
-    counts = {}
+    counts: dict = {}
     for d in detections:
         key = d.get(field) or "unknown"
         counts[key] = counts.get(key, 0) + 1
@@ -165,7 +168,11 @@ def _count_by(detections: list, field: str) -> dict:
 
 
 def list_detections(
-    db, host: str = None, severity: str = None, limit: int = 100, before_id: int = None
+    db,
+    host: Optional[str] = None,
+    severity: Optional[str] = None,
+    limit: int = 100,
+    before_id: Optional[int] = None,
 ) -> list:
     """Returns detections newest-first, optionally filtered by host/severity.
 
@@ -207,13 +214,18 @@ TRIAGE_STATUSES = ("new", "acknowledged", "false_positive", "true_positive", "re
 
 
 def triage_detection(
-    db, detection_id: int, status: str, notes: str = None, actor: str = None
-) -> dict:
+    db,
+    detection_id: int,
+    status: str,
+    notes: Optional[str] = None,
+    actor: Optional[str] = None,
+) -> Optional[dict]:
     """Records an analyst's triage decision on a detection (Phase 3).
 
     Moves the detection through the lifecycle: new -> acknowledged ->
     false_positive | true_positive | reviewed. Re-triaging is allowed (an
-    analyst may change their mind); every change is audited.
+    analyst may change their mind); every change is audited. Returns None
+    if the detection id is unknown.
     """
     if status not in TRIAGE_STATUSES:
         raise ValueError(f"Invalid triage status '{status}' — must be one of {TRIAGE_STATUSES}")
@@ -245,7 +257,7 @@ def triage_detection(
 
 
 def list_detection_runs(
-    db, limit: int = 50, status: str = None, before_id: int = None
+    db, limit: int = 50, status: Optional[str] = None, before_id: Optional[int] = None
 ) -> list:
     """Returns detection-run history (newest first), optionally filtered by status.
 

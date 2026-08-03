@@ -6,6 +6,7 @@ the service layer so the trail is complete regardless of which HTTP route or
 background job caused it. Reads are admin-only.
 """
 import json
+from typing import Optional
 
 import models
 
@@ -20,7 +21,9 @@ KNOWN_ACTIONS = {
 }
 
 
-def log_action(db, action: str, actor: str = None, detail: dict = None) -> models.AuditLog:
+def log_action(
+    db, action: str, actor: Optional[str] = None, detail: Optional[dict] = None
+) -> models.AuditLog:
     """Appends one immutable audit row. Best-effort: never raises for the caller.
 
     detail is JSON-encoded before storage so complex context (ids, counts,
@@ -38,7 +41,7 @@ def log_action(db, action: str, actor: str = None, detail: dict = None) -> model
     return row
 
 
-def list_audit_logs(db, limit: int = 100, action: str = None) -> list:
+def list_audit_logs(db, limit: int = 100, action: Optional[str] = None) -> list:
     """Returns the audit trail, newest first, optionally filtered by action."""
     query = db.query(models.AuditLog)
     if action:
