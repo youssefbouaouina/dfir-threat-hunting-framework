@@ -62,6 +62,16 @@ class EndpointOut(BaseModel):
     config: Optional[Dict[str, Any]] = None
 
 
+class EnrollResponse(EndpointOut):
+    """Enrollment response — includes the one-time token issued on first enroll.
+
+    The token is present only when this call actually issued it (first
+    enrollment); re-enrollments omit it (the backend stores only its hash).
+    """
+
+    enrollment_token: Optional[str] = None
+
+
 class EndpointConfigUpdateIn(BaseModel):
     """Admin-updatable agent config: which collectors run and how often."""
 

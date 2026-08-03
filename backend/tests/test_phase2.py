@@ -25,6 +25,38 @@ def test_enroll_is_idempotent_per_hostname(client):
     assert len(client.get("/endpoints").json()) == 1
 
 
+def test_enroll_returns_token_once_only(client):
+    payload = {"hostname": "edge-tok", "os": "linux", "agent_version": "3.0"}
+    first = client.post("/endpoints/enroll", json=payload).json()
+    token = first.get("enrollment_token")
+    assert isinstance(token, str) and len(token) > 20
+
+    second = client.post("/endpoints/enroll", json=payload).json()
+    assert second.get("enrollment_token") is None
+    assert second["id"] == first["id"]
+
+
+def test_enroll_token_stored_hashed(db_session):
+    import hashlib
+
+    from services import endpoint_service
+
+    result = endpoint_service.enroll_endpoint(db_session, "edge-hash", "linux")
+    token = result["enrollment_token"]
+
+    from models import Endpoint
+
+    row = db_session.query(Endpoint).filter(Endpoint.hostname == "edge-hash").first()
+    assert row is not None
+    assert row.enrollment_token_hash == hashlib.sha256(token.encode("utf-8")).hexdigest()
+    assert row.enrollment_token_hash != token
+
+    # Re-enrollment does not rotate the stored hash.
+    endpoint_service.enroll_endpoint(db_session, "edge-hash", "linux")
+    db_session.refresh(row)
+    assert row.enrollment_token_hash == hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
 def test_endpoint_config_poll(client):
     client.post(
         "/endpoints/enroll",

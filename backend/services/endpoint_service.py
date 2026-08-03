@@ -29,8 +29,14 @@ def enroll_endpoint(db, hostname: str, os_name: str, agent_version: str = None) 
 
     Re-enrollment with the same hostname updates os/version/status and returns
     the same endpoint id — the flow is idempotent.
+
+    A one-time enrollment token is issued **only on first enrollment** (when no
+    hash is stored yet) and returned in the payload; the backend keeps only the
+    SHA-256 hash, so a lost token cannot be recovered and requires re-enrollment.
     """
     endpoint = db.query(models.Endpoint).filter(models.Endpoint.hostname == hostname).first()
+    is_first = endpoint is None or not endpoint.enrollment_token_hash
+
     if endpoint is None:
         endpoint = models.Endpoint(hostname=hostname, os=os_name, agent_version=agent_version)
         db.add(endpoint)
@@ -38,7 +44,8 @@ def enroll_endpoint(db, hostname: str, os_name: str, agent_version: str = None) 
         endpoint.os = os_name
         endpoint.agent_version = agent_version or endpoint.agent_version
 
-    if not endpoint.enrollment_token_hash:
+    token = None
+    if is_first:
         token = secrets.token_urlsafe(32)
         endpoint.enrollment_token_hash = _hash_token(token)
 
@@ -52,7 +59,7 @@ def enroll_endpoint(db, hostname: str, os_name: str, agent_version: str = None) 
         db,
         "endpoint_enroll",
         actor=hostname,
-        detail={"endpoint_id": endpoint.id, "os": endpoint.os},
+        detail={"endpoint_id": endpoint.id, "os": endpoint.os, "issued_token": bool(token)},
     )
 
     return {
@@ -63,6 +70,7 @@ def enroll_endpoint(db, hostname: str, os_name: str, agent_version: str = None) 
         "status": endpoint.status,
         "last_seen": endpoint.last_seen,
         "config": config,
+        "enrollment_token": token,
     }
 
 

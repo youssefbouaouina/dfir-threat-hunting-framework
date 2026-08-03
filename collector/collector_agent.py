@@ -157,9 +157,16 @@ if __name__ == "__main__":
         from modules.common import get_os
 
         if args.enroll:
-            enroll(
+            result = enroll(
                 args.api_url, get_hostname(), get_os(), args.api_key, agent_version="3.0"
             )
+            token = result.get("enrollment_token") if isinstance(result, dict) else None
+            if token:
+                print(f"[+] Enrollment token issued (store securely): {token}")
+            elif result:
+                print("[*] Endpoint already enrolled — no new token issued.")
+            else:
+                print("[!] Enrollment failed or backend unreachable.")
 
         if args.daemon:
             daemon_loop(

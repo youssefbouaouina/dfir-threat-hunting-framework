@@ -20,12 +20,20 @@ from services import endpoint_service
 router = APIRouter(prefix="/endpoints", tags=["endpoints"])
 
 
-@router.post("/enroll", response_model=schemas.EndpointOut, dependencies=[Depends(require_agent)])
+@router.post(
+    "/enroll",
+    response_model=schemas.EnrollResponse,
+    dependencies=[Depends(require_agent)],
+)
 def enroll(
     body: schemas.EndpointEnrollRequest,
     db: Session = Depends(get_db),
 ):
-    """Agent self-registration — idempotent per hostname. Returns id + config."""
+    """Agent self-registration — idempotent per hostname.
+
+    Returns id + config + a one-time enrollment token (token only on the first
+    enrollment for a given hostname).
+    """
     return endpoint_service.enroll_endpoint(db, body.hostname, body.os, body.agent_version)
 
 
