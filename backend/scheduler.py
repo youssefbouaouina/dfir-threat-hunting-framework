@@ -23,6 +23,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 
 from database import SessionLocal
+from ioc_correlation import refresh_feodo_blocklist
 from services.detection_service import run_detection_job
 from services.endpoint_service import mark_offline_stale
 
@@ -31,6 +32,7 @@ logger = logging.getLogger("dfir.scheduler")
 DETECTION_INTERVAL_SECONDS = int(os.getenv("DETECTION_INTERVAL_SECONDS", "30"))
 OFFLINE_SWEEP_INTERVAL_SECONDS = int(os.getenv("OFFLINE_SWEEP_INTERVAL_SECONDS", "60"))
 OFFLINE_STALE_AFTER_SECONDS = int(os.getenv("OFFLINE_STALE_AFTER_SECONDS", "900"))
+INTEL_REFRESH_INTERVAL_SECONDS = int(os.getenv("INTEL_REFRESH_INTERVAL_SECONDS", "43200"))
 
 scheduler = BackgroundScheduler()
 
@@ -65,6 +67,15 @@ def _scheduled_offline_sweep():
         db.close()
 
 
+def _scheduled_intel_refresh():
+    """M2: refreshes the Feodo blocklist into iocs/feodo_ips.txt (fail-soft)."""
+    n = refresh_feodo_blocklist()
+    if n:
+        logger.info("Intel refresh: wrote %d Feodo IP(s) to iocs/feodo_ips.txt", n)
+    else:
+        logger.warning("Intel refresh produced no update (offline or no new entries)")
+
+
 def start_scheduler():
     if scheduler.running:
         return
@@ -80,6 +91,14 @@ def start_scheduler():
         _scheduled_offline_sweep,
         trigger=IntervalTrigger(seconds=OFFLINE_SWEEP_INTERVAL_SECONDS),
         id="offline_sweep",
+        max_instances=1,
+        coalesce=True,
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        _scheduled_intel_refresh,
+        trigger=IntervalTrigger(seconds=INTEL_REFRESH_INTERVAL_SECONDS),
+        id="intel_refresh",
         max_instances=1,
         coalesce=True,
         replace_existing=True,
