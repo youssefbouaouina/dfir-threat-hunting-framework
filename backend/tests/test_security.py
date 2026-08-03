@@ -15,6 +15,7 @@ def _enable_auth(monkeypatch):
     monkeypatch.setattr(security, "AUTH_ENABLED", True)
     monkeypatch.setattr(security, "ADMIN_API_KEY", "admin-key")
     monkeypatch.setattr(security, "AGENT_API_KEYS", {"agent-key": "agent-01"})
+    monkeypatch.setattr(security, "_RATE_LIMIT_ENABLED", True)
 
 
 def _creds(token):
@@ -84,3 +85,39 @@ def test_rate_limit_blocks_after_max(monkeypatch):
     with pytest.raises(HTTPException) as exc:
         security.rate_limit(FakeRequest())
     assert exc.value.status_code == 429
+
+
+def test_rate_limit_active_without_auth(monkeypatch):
+    """H4: rate limiting is decoupled from AUTH_ENABLED."""
+    from collections import defaultdict, deque
+
+    monkeypatch.setattr(security, "AUTH_ENABLED", False)
+    monkeypatch.setattr(security, "_RATE_LIMIT_ENABLED", True)
+    monkeypatch.setattr(security, "_RATE_MAX_REQUESTS", 1)
+    monkeypatch.setattr(security, "_hits", defaultdict(deque))
+
+    class FakeRequest:
+        client = type("C", (), {"host": "5.6.7.8"})()
+        headers = {}
+
+    security.rate_limit(FakeRequest())  # first request passes
+    with pytest.raises(HTTPException) as exc:
+        security.rate_limit(FakeRequest())
+    assert exc.value.status_code == 429
+
+
+def test_rate_limit_disabled_explicitly(monkeypatch):
+    """H4: RATE_LIMIT_ENABLED=false disables the limiter even with auth on."""
+    from collections import defaultdict, deque
+
+    monkeypatch.setattr(security, "AUTH_ENABLED", True)
+    monkeypatch.setattr(security, "_RATE_LIMIT_ENABLED", False)
+    monkeypatch.setattr(security, "_RATE_MAX_REQUESTS", 1)
+    monkeypatch.setattr(security, "_hits", defaultdict(deque))
+
+    class FakeRequest:
+        client = type("C", (), {"host": "9.9.9.9"})()
+        headers = {}
+
+    for _ in range(5):  # no 429 expected
+        security.rate_limit(FakeRequest())

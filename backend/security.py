@@ -132,6 +132,13 @@ def authenticate_login(api_key: str) -> bool:
 
 _RATE_WINDOW_SECONDS: int = int(os.getenv("RATE_WINDOW_SECONDS", "60"))
 _RATE_MAX_REQUESTS: int = int(os.getenv("RATE_MAX_REQUESTS", "300"))
+# Independent of AUTH_ENABLED so an open-lab instance is still flood-resistant.
+# Defaults to the auth state to preserve the pre-split behavior.
+_RATE_LIMIT_ENABLED: bool = os.getenv("RATE_LIMIT_ENABLED", str(AUTH_ENABLED).lower()) in (
+    "1",
+    "true",
+    "yes",
+)
 _hits: Dict[str, Deque[float]] = defaultdict(deque)
 
 
@@ -145,8 +152,12 @@ def _client_key(request: Request) -> str:
 
 
 def rate_limit(request: Request) -> None:
-    """Sliding-window rate limiter per client; active only when auth is enabled."""
-    if not AUTH_ENABLED:
+    """Sliding-window rate limiter per client.
+
+    Active when RATE_LIMIT_ENABLED (default: same as AUTH_ENABLED) — deliberately
+    decoupled from auth so an open-lab instance still gets basic DoS resistance.
+    """
+    if not _RATE_LIMIT_ENABLED:
         return
     key = _client_key(request)
     now = time.time()

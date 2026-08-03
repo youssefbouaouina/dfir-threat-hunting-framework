@@ -54,6 +54,24 @@ def test_ingest_empty_rejected(client):
     assert resp.status_code == 400
 
 
+def test_ingest_oversized_body_rejected(client, monkeypatch):
+    """H4: /ingest enforces a body-size cap (413) via Content-Length."""
+    import main as app_module
+
+    monkeypatch.setattr(app_module, "_MAX_INGEST_BYTES", 100)
+    resp = client.post(
+        "/ingest",
+        content=b"x" * 10_000,
+        headers={"Content-Type": "application/json"},
+    )
+    assert resp.status_code == 413
+
+    # Under the cap it still passes through to normal validation (400 for bad JSON/empty).
+    monkeypatch.setattr(app_module, "_MAX_INGEST_BYTES", 1024 * 1024)
+    resp = client.post("/ingest", json=[])
+    assert resp.status_code == 400
+
+
 def test_detect_endpoint_round_trip(client, rules_dir):
     client.post("/ingest", json=[PROCESS_ARTIFACT])
 

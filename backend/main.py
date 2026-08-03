@@ -29,7 +29,8 @@ import sys
 from contextlib import asynccontextmanager
 from typing import List, Optional
 
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Query, Request
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
@@ -88,6 +89,40 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="DFIR Ingest & Detection API", version="0.5.0", lifespan=lifespan)
 app.include_router(detection_router)
 app.include_router(endpoint_router)
+
+# Baseline DoS resistance: cap the /ingest request body (H4). Applies even when
+# auth is off so an open-lab instance cannot be flooded with oversized payloads.
+_MAX_INGEST_BYTES = int(os.getenv("MAX_INGEST_BYTES", str(10 * 1024 * 1024)))
+_INGEST_PATHS = {"/ingest"}
+
+
+@app.middleware("http")
+async def enforce_ingest_size(request: Request, call_next):
+    """Rejects /ingest bodies larger than MAX_INGEST_BYTES with a 413.
+
+    Uses the Content-Length header when present (no body read for oversized
+    uploads); otherwise reads the body to measure it (Starlette caches the read
+    so downstream handlers still see the body).
+    """
+    if request.method == "POST" and request.url.path in _INGEST_PATHS:
+        length = request.headers.get("content-length")
+        if length is not None:
+            try:
+                if int(length) > _MAX_INGEST_BYTES:
+                    return JSONResponse(
+                        status_code=413,
+                        content={"detail": f"Request body exceeds {_MAX_INGEST_BYTES} bytes"},
+                    )
+            except ValueError:
+                pass
+        else:
+            body = await request.body()
+            if len(body) > _MAX_INGEST_BYTES:
+                return JSONResponse(
+                    status_code=413,
+                    content={"detail": f"Request body exceeds {_MAX_INGEST_BYTES} bytes"},
+                )
+    return await call_next(request)
 
 # Phase 3: analyst dashboard — a lightweight server-rendered static app.
 _STATIC_DIR = os.path.join(_BACKEND_DIR, "static")
