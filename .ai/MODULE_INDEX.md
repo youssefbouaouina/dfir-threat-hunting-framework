@@ -172,16 +172,15 @@ Backend code lives in `backend/`, collector in `collector/`. Per AI_RULES: thin 
 - **Purpose:** CLI orchestrator (v3). One-shot or `--daemon`.
 - **Functions:** `_extract_exe_paths(process, persistence)` → candidate exe paths; `run_collection(output_dir, only, yara_rules_dir)` → runs collectors, writes per-type JSON, file_scan after processes/persistence.
 - **Args:** `--output`, `--only`, `--yara-rules`, `--api-url`, `--api-key`, `--enroll`, `--daemon`, `--interval`.
-- **Status:** Current. **Note:** docstring usage block still shows old `--yara-rules ..\detection\yara_rules` (stale).
+- **Status:** Current.
 
 ### `collector/agent_client.py`
 - **Purpose:** agent↔backend HTTP client; all calls fail-soft.
 - **Functions:** `_post_json`, `get_endpoint_config`, `poll_pending_commands` (returns + backend marks picked_up), `complete_command`, `enroll`, `push_folder` (batch_id = folder name), `daemon_loop` (collect+push cadence + command poll), `make_batch_id`.
-- **Status:** Current. **Note:** daemon hard-codes `output_dir="output"`; uses CLI `interval` not backend config.
+- **Status:** Current. Daemon honors backend `collectors` subset + `interval_seconds` (H2).
 
 ### `collector/modules/common.py`
 - **Purpose:** shared helpers. `get_hostname`, `get_os`, `now_iso`, `wrap_artifact` (envelope builder — single source of truth), `write_json`.
-- **Note:** module docstring references deleted `SCHEMA.md`.
 - **Status:** Current.
 
 ### `collector/modules/processes.py`

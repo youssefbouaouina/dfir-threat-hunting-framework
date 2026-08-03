@@ -608,12 +608,10 @@ Now a clean UTF-8 file of top-level packages (see the **Known Issues #4** histor
 | requests | >=2.31 | ioc_correlation.py, push_samples.py |
 | python-dotenv | >=1 | ioc_correlation.py (`load_dotenv`) |
 | python-multipart | >=0.0.9 | (FastAPI form support) |
+| yara-python | >=4.5 | used by the collector's `file_scan.py` (installed in the backend image so both sides can share the rules tree); the pipeline consumes YARA results embedded in `file_scan` artifacts, no in-process scanning |
+| mitreattack-python | >=3.0 | `backend/attck_mapper.py` (lazy import) |
 
 **`requirements-dev.txt`** — pytest + ruff (+ psycopg2-binary for Postgres tests).
-
-**Missing from backend requirements (present in `detection/requirements.txt`):**
-- `yara-python>=4.5.0` — used by the collector's `file_scan.py`; the backend pipeline consumes YARA results embedded in `file_scan` artifacts (no in-process scanning).
-- `mitreattack-python>=3.0.0` — required by `backend/attck_mapper.py` (lazy import).
 
 **External, not pip-installable:**
 - MITRE ATT&CK STIX dataset (`enterprise-attack.json`) — **bundled in this repo** at `dfir-refs/cti/enterprise-attack/enterprise-attack.json` (Phase 3). `attck_mapper.py` resolves it relative to the repo root by default (`STIX_PATH` env overrides). See Known Issues #8.

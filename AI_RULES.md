@@ -36,7 +36,7 @@ These rules are **mandatory** for any AI agent (or human) modifying this reposit
 ## 5. Keep functions under 50 lines where practical
 
 - If a function approaches ~50 lines, extract cohesive sub-steps into private helpers (`_helper()`).
-- `collector_agent.py::run_collection` and `detection_routes.py::run_detection_job` are the current upper bounds and should shrink as features are added.
+- `collector_agent.py::run_collection` and `services/detection_service.py::run_detection_job` are the current upper bounds and should shrink as features are added.
 - Readability beats brevity; the 50-line limit is a target, not a hard cap.
 
 ## 6. Use Python typing
@@ -65,7 +65,7 @@ These rules are **mandatory** for any AI agent (or human) modifying this reposit
 
 ## 10. Put business logic into services
 
-- Backend business logic belongs in a `backend/services/` package (e.g. `services/detection.py`, `services/ingest.py`, `services/endpoints.py`), not inside route handlers.
+- Backend business logic belongs in a `backend/services/` package (e.g. `services/detection_service.py`, `services/ingest_service.py`, `services/endpoint_service.py`), not inside route handlers.
 - Routes (`backend/main.py`, `backend/detection_routes.py`) stay thin; keep the existing pattern where `run_detection_job` is a plain function callable by both the route and the scheduler.
 - Collector business logic belongs in `collector/modules/`; the orchestrator stays in `collector_agent.py`.
 
@@ -90,7 +90,7 @@ These rules are **mandatory** for any AI agent (or human) modifying this reposit
 ## 14. Ask before deleting files
 
 - **Never delete a file without explicit user approval.** Present the proposed deletion, the reason, and any referenced code, and wait for confirmation.
-- This includes files identified as dead in PROJECT_OVERVIEW.md (e.g. `detection/`, `backend/yara_engine.py`, empty placeholders) — they may be removed during Phase 1, but only after approval.
+- Historical removals (approved earlier): the `detection/` duplicate tree, `backend/yara_engine.py`, and empty placeholders were deleted in Phase 3. Any further deletions still require approval.
 
 ---
 

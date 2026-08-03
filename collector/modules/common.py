@@ -1,6 +1,7 @@
 """
 Shared helpers for all collector modules.
-Every artifact gets wrapped in the standard schema defined in SCHEMA.md:
+Every artifact gets wrapped in the standard schema envelope (see
+backend/schemas.py ArtifactIn):
     {
         "host": "...",
         "os": "windows" | "linux",

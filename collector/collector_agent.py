@@ -12,7 +12,7 @@ uniform loop as the others.
 Usage:
     python collector_agent.py
     python collector_agent.py --output C:\\temp\\dfir_out
-    python collector_agent.py --yara-rules ..\\detection\\yara_rules
+    python collector_agent.py --yara-rules ..\\backend\\yara_rules
     python collector_agent.py --only processes,network
     python collector_agent.py --api-url http://127.0.0.1:8000 --api-key <key>
     python collector_agent.py --api-url http://127.0.0.1:8000 --api-key <key> \
