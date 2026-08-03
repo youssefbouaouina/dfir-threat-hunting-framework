@@ -18,6 +18,7 @@ KNOWN_ACTIONS = {
     "update_endpoint_config",
     "queue_collection",
     "endpoint_enroll",
+    "run_retention",
 }
 
 

@@ -26,6 +26,7 @@ from database import SessionLocal
 from ioc_correlation import refresh_feodo_blocklist
 from services.detection_service import run_detection_job
 from services.endpoint_service import mark_offline_stale
+from services.retention_service import run_retention
 
 logger = logging.getLogger("dfir.scheduler")
 
@@ -33,6 +34,7 @@ DETECTION_INTERVAL_SECONDS = int(os.getenv("DETECTION_INTERVAL_SECONDS", "30"))
 OFFLINE_SWEEP_INTERVAL_SECONDS = int(os.getenv("OFFLINE_SWEEP_INTERVAL_SECONDS", "60"))
 OFFLINE_STALE_AFTER_SECONDS = int(os.getenv("OFFLINE_STALE_AFTER_SECONDS", "900"))
 INTEL_REFRESH_INTERVAL_SECONDS = int(os.getenv("INTEL_REFRESH_INTERVAL_SECONDS", "43200"))
+RETENTION_SWEEP_INTERVAL_SECONDS = int(os.getenv("RETENTION_SWEEP_INTERVAL_SECONDS", "3600"))
 
 scheduler = BackgroundScheduler()
 
@@ -76,6 +78,20 @@ def _scheduled_intel_refresh():
         logger.warning("Intel refresh produced no update (offline or no new entries)")
 
 
+def _scheduled_retention_sweep():
+    """F3: archives + deletes rows past their retention window (no-op when disabled)."""
+    db = SessionLocal()
+    try:
+        summary = run_retention(db)
+        total = sum(t["deleted"] for t in summary.values())
+        if total:
+            logger.info("Retention sweep: archived/deleted %d row(s)", total)
+    except Exception:
+        logger.exception("Retention sweep failed")
+    finally:
+        db.close()
+
+
 def start_scheduler():
     if scheduler.running:
         return
@@ -99,6 +115,14 @@ def start_scheduler():
         _scheduled_intel_refresh,
         trigger=IntervalTrigger(seconds=INTEL_REFRESH_INTERVAL_SECONDS),
         id="intel_refresh",
+        max_instances=1,
+        coalesce=True,
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        _scheduled_retention_sweep,
+        trigger=IntervalTrigger(seconds=RETENTION_SWEEP_INTERVAL_SECONDS),
+        id="retention_sweep",
         max_instances=1,
         coalesce=True,
         replace_existing=True,

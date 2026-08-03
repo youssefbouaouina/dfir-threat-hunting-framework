@@ -41,6 +41,7 @@ from detection_routes import router as detection_router
 from endpoint_routes import router as endpoint_router
 from incident_routes import router as incident_router
 from logging_config import configure_logging
+from retention_routes import router as retention_router
 from scheduler import get_status, start_scheduler, stop_scheduler
 from security import (
     TOKEN_TTL_SECONDS,
@@ -92,6 +93,7 @@ app = FastAPI(title="DFIR Ingest & Detection API", version="0.5.0", lifespan=lif
 app.include_router(detection_router)
 app.include_router(endpoint_router)
 app.include_router(incident_router)
+app.include_router(retention_router)
 
 # Baseline DoS resistance: cap the /ingest request body (H4). Applies even when
 # auth is off so an open-lab instance cannot be flooded with oversized payloads.

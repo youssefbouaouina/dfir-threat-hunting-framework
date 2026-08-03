@@ -162,6 +162,9 @@ venv.bak/
 *.db
 *.db-journal
 
+# Retention JSONL archives (F3): exported rows are runtime data, not source
+backend/retention_archive/
+
 # Spyder project settings
 .spyderproject
 .spyproject
