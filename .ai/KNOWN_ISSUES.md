@@ -12,6 +12,8 @@
 - **B7. `poll_pending_commands` marks all pending commands picked_up on return**, regardless of whether the agent actually executed them (a crash between poll and complete leaves commands stuck in `picked_up`). *(acceptable first-call-wins tradeoff; add timeout-based requeue later)*
 - **B8. ~~Agent `push_folder` used one folder-level `batch_id`~~ → FIXED (D2, commit `132b873`).** Backend dedups per `(host, batch_id)`, so a folder-level id collapsed a multi-file run to the first file only (data loss). Now per-file ids (`<batch_id>/<filename>`) keep re-push idempotency while storing every file. Verified in the containerized e2e.
 - **B9. Retention re-archival edge case (F3, commit `ccf62a8`).** `retention_service.run_retention` appends to JSONL before the DB delete commits. If the process crashes between the append and the commit, the same rows are appended again on the next sweep (duplicate JSONL lines for that batch). The JSONL archive is append-only by design, so this is a known tradeoff, not data loss — the archived record is identical and harmless. OpenSearch dedups via `_id = {table}-{row_id}`.
+- **B10. Legacy audit rows lack hash-chain fields (F4, commit `c503503`).** `AuditLog` rows written before the F4 migration have NULL `prev_hash`/`record_hash`. `verify_audit_chain` deliberately skips legacy NULL-hash rows (chain validated only from the first hashed row onward); tamper-detection on pre-F4 history is therefore unavailable.
+- **B11. Team scoping returns 403/empty results when a role's team has no endpoints (F4).** A viewer/analyst whose team matches no `Endpoint.team` sees zero hosts/detections/incidents (empty allow-list is treated as "nothing visible", not "everything"). This is correct but may confuse if a team name is mistyped in `ANALYST_API_KEYS`/`VIEWER_API_KEYS`.
 
 ## Architectural weaknesses
 
@@ -36,6 +38,7 @@
 - **S4. Rate-limit key uses X-Forwarded-For** (untrusted unless behind a proxy) and the store is in-memory (reset on restart).
 - **S5. Agent keys are a flat env list** (`AGENT_API_KEYS`) — no per-endpoint key binding, no rotation workflow. *(→ C2/H1)*
 - **S6. Tokens are HMAC-signed (stdlib)** — no revocation list, no refresh; fine for demo, weak for production.
+- **S7. Human role keys are a flat env list (F4).** `ANALYST_API_KEYS`/`VIEWER_API_KEYS` map one key → one role+team; no per-user identity, no key rotation/lifecycle, no per-key expiry. Team is embedded in the issued token (30 min TTL), so a team change requires re-login.
 
 ## Missing documentation
 

@@ -9,10 +9,10 @@ Source: `ROADMAP.md` (the authoritative 5-phase plan). Phases 1–3 are done; Ph
 | 1 | Harden & Stabilize (security + testability) | ✅ DONE (committed on `youssef`) | ~95% |
 | 2 | Containers, Postgres, CI/CD, agent automation | ✅ DONE (committed on `youssef`) | ~90% |
 | 3 | Dashboard, endpoint mgmt, manual triggers | ✅ DONE (committed `af77469`) | ~95% |
-| 4 | Scale, correlation, enterprise features | In progress (F1–F3 done) | ~45% |
+| 4 | Scale, correlation, enterprise features | In progress (F1–F4 done) | ~60% |
 | 5 | Advanced detection, intel automation, HA | Not started (proposal) | ~0% |
 
-**Overall roadmap completion: ≈ 60%** (3 of 5 phases done, Phase 4 items F1–F3 complete). The per-task completion roadmap (`.ai/COMPLETION_ROADMAP.md`) Phases A–D are all done; of the F-series (Phases 4–5), **F1 (async queue), F2 (correlation), and F3 (retention) are done; F4–F8 remain.**
+**Overall roadmap completion: ≈ 65%** (3 of 5 phases done, Phase 4 items F1–F4 complete). The per-task completion roadmap (`.ai/COMPLETION_ROADMAP.md`) Phases A–D are all done; of the F-series (Phases 4–5), **F1 (async queue), F2 (correlation), F3 (retention), and F4 (RBAC/team scoping + immutable audit) are done; F5–F8 remain.**
 
 ## Phase 1 — Harden & Stabilize
 
@@ -62,7 +62,9 @@ Source: `ROADMAP.md` (the authoritative 5-phase plan). Phases 1–3 are done; Ph
 
 **F3 done (commit `ccf62a8`):** storage retention — `services/retention_service.py` ages out rows per `RETENTION_*_DAYS` (artifacts/detections/detection_runs/audit_logs) into monthly JSONL archives under `RETENTION_ARCHIVE_DIR` + optional OpenSearch sink (`OPENSEARCH_URL`, fail-soft) + batch delete (idempotent, per-batch commits); `retention_sweep` scheduler job; `GET /retention/status` + `POST /retention/run` (audited). Off by default. 9 tests.
 
-**Remaining:** RBAC/team scoping + immutable audit (F4); notifications webhook/email/Slack (F5). **Estimate: 45%.**
+**F4 done (commit `c503503`):** RBAC/team scoping + tamper-evident audit — roles `admin`/`analyst`/`viewer` (`ADMIN_API_KEY` + `ANALYST_API_KEYS`/`VIEWER_API_KEYS` env in `key@team` form), `issue_token`/`current_user`/`require_role` in `security.py`; team scoping via `Endpoint.team` (migration `4a1f2c9d3b70`) + `scoped_hosts` helper applied to artifacts/detections/runs/summary/incidents/endpoints (empty team host list now correctly hides everything); immutable audit via SHA-256 hash chain `prev_hash`/`record_hash` in `audit_service.log_action` + `verify_audit_chain` + `GET /audit-logs/verify` (legacy NULL-hash rows skipped). 14 tests. Validation: 115 backend + 10 collector tests, ruff clean, mypy clean.
+
+**Remaining:** notifications webhook/email/Slack (F5). **Estimate: 60%.**
 
 ## Phase 5 — Advanced Detection, Intel Automation, HA
 
