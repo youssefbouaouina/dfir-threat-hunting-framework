@@ -10,7 +10,7 @@ Backend code lives in `backend/`, collector in `collector/`. Per AI_RULES: thin 
 - **Dependencies:** `database`, `detection_routes`, `endpoint_routes`, `incident_routes`, `retention_routes`, `security`, `scheduler`, `logging_config`, `services.{audit,ingest,metrics,query}_service`.
 - **Inputs:** HTTP requests. **Outputs:** JSON responses; Prometheus text.
 - **Key functions:** `migrate_to_head()`, `lifespan(app)`, `health()`, `metrics()`, `ingest_artifacts()`.
-- **Status:** Current (v0.5.0). **Future:** add notifications routes (F5).
+- **Status:** Current (v0.5.0). **Future:** notifications fully wired into dashboard (F5 landed: service + hooks + env).
 
 ### `backend/database.py`
 - **Purpose:** engine + session factory + Base.

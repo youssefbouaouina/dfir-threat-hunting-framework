@@ -25,6 +25,11 @@ INCIDENT_STATUSES = ("open", "acknowledged", "resolved", "false_positive")
 _SEVERITY_RANK = {"info": 0, "low": 1, "medium": 2, "high": 3, "critical": 4}
 _RANK_TO_SEVERITY = {v: k for k, v in _SEVERITY_RANK.items()}
 
+# Phase 4 (F5): asset criticality is a severity amplifier. A detection on a
+# critical host matters more than the same hit on a low-value box, so an
+# incident's severity is bumped up to the criticality rank of its worst host.
+_CRITICALITY_RANK = {"low": 0, "standard": 0, "important": 1, "critical": 2}
+
 
 def _severity_rank(severity: Optional[str]) -> int:
     if not severity:
@@ -36,6 +41,12 @@ def _max_severity(detections: list) -> str:
     return _RANK_TO_SEVERITY[max(_severity_rank(d.get("severity")) for d in detections)]
 
 
+def _host_criticality_map(db) -> dict:
+    """hostname -> criticality label for every enrolled endpoint (F5)."""
+    rows = db.query(models.Endpoint.hostname, models.Endpoint.criticality).all()
+    return {hostname: (criticality or "standard") for hostname, criticality in rows}
+
+
 def _escalate(severity: str, hosts: int, techniques: int) -> str:
     """Escalates severity for spread (many hosts) or depth (long chain)."""
     rank = _SEVERITY_RANK.get(severity.lower(), 0)
@@ -43,6 +54,23 @@ def _escalate(severity: str, hosts: int, techniques: int) -> str:
         rank += 1  # lateral movement across 3+ hosts is more serious
     if techniques >= 3:
         rank += 1  # a 3+ technique chain suggests active hands-on-keyboard
+    return _RANK_TO_SEVERITY[min(rank, _SEVERITY_RANK["critical"])]
+
+
+def _amplify_for_criticality(severity: str, hosts: List[str], criticality_map: dict) -> str:
+    """Raises an incident's severity to the highest criticality of its hosts.
+
+    F5: an incident touching an 'important' host gets a +1 rank bump and one
+    touching a 'critical' host gets +2 (capped at critical). Low/standard hosts
+    do not amplify.
+    """
+    bump = max(
+        (_CRITICALITY_RANK.get(criticality_map.get(h, "standard"), 0) for h in hosts),
+        default=0,
+    )
+    if bump == 0:
+        return severity
+    rank = _SEVERITY_RANK.get(severity.lower(), 0) + bump
     return _RANK_TO_SEVERITY[min(rank, _SEVERITY_RANK["critical"])]
 
 
@@ -89,12 +117,17 @@ def _chain_groups(detections: List[dict]) -> Dict[str, List[dict]]:
     }
 
 
-def _build_incidents(detections: List[dict]) -> List[dict]:
-    """Derives incident definitions (signature, members, aggregates) from detections."""
+def _build_incidents(detections: List[dict], criticality_map: Optional[dict] = None) -> List[dict]:
+    """Derives incident definitions (signature, members, aggregates) from detections.
+
+    `criticality_map` (F5) maps hostname -> criticality label so incident
+    severity can be amplified for important/critical hosts.
+    """
+    criticality_map = criticality_map or {}
     incidents: List[dict] = []
 
     for rid, members in _campaign_groups(detections).items():
-        incidents.append(_derive_incident("campaign", rid, members))
+        incidents.append(_derive_incident("campaign", rid, members, criticality_map))
 
     chain_members = {m["id"] for inc in incidents for m in inc["members"]}
     for host, members in _chain_groups(detections).items():
@@ -102,13 +135,16 @@ def _build_incidents(detections: List[dict]) -> List[dict]:
         # chain incident — keep the member sets disjoint for clean grouping.
         unclaimed = [m for m in members if m["id"] not in chain_members]
         if len({m.get("technique_id") for m in unclaimed if m.get("technique_id")}) >= 2:
-            incidents.append(_derive_incident("chain", host, unclaimed))
+            incidents.append(_derive_incident("chain", host, unclaimed, criticality_map))
 
     return incidents
 
 
-def _derive_incident(kind: str, key: str, members: List[dict]) -> dict:
+def _derive_incident(
+    kind: str, key: str, members: List[dict], criticality_map: Optional[dict] = None
+) -> dict:
     """Turns a correlated member list into an incident definition dict."""
+    criticality_map = criticality_map or {}
     hosts = sorted({m["host"] for m in members})
     techniques = [
         m["technique_id"]
@@ -117,6 +153,7 @@ def _derive_incident(kind: str, key: str, members: List[dict]) -> dict:
     ]
     base_severity = _max_severity(members)
     severity = _escalate(base_severity, len(hosts), len(set(techniques)))
+    severity = _amplify_for_criticality(severity, hosts, criticality_map)
 
     if kind == "campaign":
         title = f"{members[0]['rule_title'] or members[0]['rule_id']} across {len(hosts)} hosts"
@@ -161,7 +198,8 @@ def recompute_incidents(db, actor: str = "system") -> dict:
     rows are rebuilt each time so the grouping always matches current state.
     """
     detections = _detections_to_dicts(db)
-    definitions = _build_incidents(detections)
+    criticality_map = _host_criticality_map(db)
+    definitions = _build_incidents(detections, criticality_map)
 
     existing = {i.signature: i for i in db.query(models.Incident).all()}
     new_signatures = {d["signature"] for d in definitions}

@@ -9,10 +9,10 @@ Source: `ROADMAP.md` (the authoritative 5-phase plan). Phases 1–3 are done; Ph
 | 1 | Harden & Stabilize (security + testability) | ✅ DONE (committed on `youssef`) | ~95% |
 | 2 | Containers, Postgres, CI/CD, agent automation | ✅ DONE (committed on `youssef`) | ~90% |
 | 3 | Dashboard, endpoint mgmt, manual triggers | ✅ DONE (committed `af77469`) | ~95% |
-| 4 | Scale, correlation, enterprise features | In progress (F1–F4 done) | ~60% |
-| 5 | Advanced detection, intel automation, HA | Not started (proposal) | ~0% |
+| 4 | Scale, correlation, enterprise features | In progress (F1–F5 done) | ~80% |
+| 5 | Advanced detection, intel automation, HA | Partial groundwork (detection worker) | ~10% |
 
-**Overall roadmap completion: ≈ 65%** (3 of 5 phases done, Phase 4 items F1–F4 complete). The per-task completion roadmap (`.ai/COMPLETION_ROADMAP.md`) Phases A–D are all done; of the F-series (Phases 4–5), **F1 (async queue), F2 (correlation), F3 (retention), and F4 (RBAC/team scoping + immutable audit) are done; F5–F8 remain.**
+**Overall roadmap completion: ≈ 75%** (3 of 5 phases done, Phase 4 items F1–F5 complete). The per-task completion roadmap (`.ai/COMPLETION_ROADMAP.md`) Phases A–D are all done; of the F-series (Phases 4–5), **F1 (async queue), F2 (correlation), F3 (retention), F4 (RBAC/team scoping + immutable audit), and F5 (notifications + host criticality) are done; F6–F8 remain.**
 
 ## Phase 1 — Harden & Stabilize
 
@@ -64,11 +64,13 @@ Source: `ROADMAP.md` (the authoritative 5-phase plan). Phases 1–3 are done; Ph
 
 **F4 done (commit `c503503`):** RBAC/team scoping + tamper-evident audit — roles `admin`/`analyst`/`viewer` (`ADMIN_API_KEY` + `ANALYST_API_KEYS`/`VIEWER_API_KEYS` env in `key@team` form), `issue_token`/`current_user`/`require_role` in `security.py`; team scoping via `Endpoint.team` (migration `4a1f2c9d3b70`) + `scoped_hosts` helper applied to artifacts/detections/runs/summary/incidents/endpoints (empty team host list now correctly hides everything); immutable audit via SHA-256 hash chain `prev_hash`/`record_hash` in `audit_service.log_action` + `verify_audit_chain` + `GET /audit-logs/verify` (legacy NULL-hash rows skipped). 14 tests. Validation: 115 backend + 10 collector tests, ruff clean, mypy clean.
 
-**Remaining:** notifications webhook/email/Slack (F5). **Estimate: 60%.**
+**F5 done (2026-08-04 session):** notifications — `services/notification_service.py` (webhook + SMTP email, `NOTIFY_*` env, fail-soft), fired from `run_detection_job` (severity threshold) and `mark_offline_stale` (endpoint offline); **host criticality** severity factor — `Endpoint.criticality` (`low`/`standard`/`important`/`critical`, migration `5f0a1c2d9b73`) amplified into correlation severity scoring (`important` → +1, `critical` → +2 rank bump, capped); **queue-driven detection worker** (`workers/detection_worker.py`) so detection can run as a containerized consumer alongside the scheduler; `POST /endpoints/scan-all` (audited) + per-endpoint report `GET /endpoints/{id}/report` (artifacts/detections/incidents/run-history aggregates); dashboard rewritten as a **brutalist technical report** (incidents + per-endpoint report views, scan-all, criticality badges); collector enroll helpers `scripts/enroll_agent.sh`/`.ps1`. 18 tests → backend **133 passed**, collector **10 passed**, ruff + mypy clean. Docker build + compose stack re-verified.
+
+**Remaining:** (Phase 5) pySigma backend + SigmaHQ update pipeline; IOC feed automation + STIX/TAXII export; k8s/HA, autoscaling, circuit breakers, pooling, matviews. **Estimate: 80%.**
 
 ## Phase 5 — Advanced Detection, Intel Automation, HA
 
-**Not started.** Work items: pySigma backend; SigmaHQ rule update pipeline; IOC feed automation (MalwareBazaar/Feodo/URLhaus/OTX) + STIX/TAXII export; k8s/HA, autoscaling, circuit breakers; performance (pagination, matviews, pooling). **Estimate: 0%.** *(Some groundwork already exists: URLhaus/OTX/Feodo live lookups + `intel_refresh` from C2/M2.)*
+**Partial groundwork (this session):** `workers/detection_worker.py` provides the containerized, queue-adjacent detection consumer (pairs with the F1 ingest worker for distributed processing). **Not started:** pySigma backend; SigmaHQ rule update pipeline; IOC feed automation (MalwareBazaar/Feodo/URLhaus/OTX) + STIX/TAXII export; k8s/HA, autoscaling, circuit breakers; performance (pagination, matviews, pooling). **Estimate: 10%.** *(Some groundwork already exists: URLhaus/OTX/Feodo live lookups + `intel_refresh` from C2/M2.)*
 
 ## Cross-cutting work
 

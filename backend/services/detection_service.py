@@ -133,6 +133,16 @@ def run_detection_job(
         run.finished_at = datetime.now(timezone.utc)
         db.commit()
 
+        # Phase 4 (F5): alert on high/critical detections (fail-soft, opt-in).
+        from services.notification_service import notify_detections
+
+        try:
+            notify_detections(all_detections)
+        except Exception:  # noqa: BLE001 — notifications must never fail a detection run
+            logger.warning(
+                "Notification dispatch failed; detections are still persisted", exc_info=True
+            )
+
         # Phase 4 (F2): refresh the correlation view so new detections are
         # grouped into campaign / attack-chain incidents immediately.
         try:

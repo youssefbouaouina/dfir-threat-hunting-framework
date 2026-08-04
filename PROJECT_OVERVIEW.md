@@ -31,11 +31,11 @@ A three-tier, offline-first **DFIR (Digital Forensics & Incident Response) threa
 - **Backend** (`backend/`) — a FastAPI service with two halves:
   - *Ingest API:* receives artifact JSON, validates the envelope, and stores it (SQLite by default; Postgres via `DATABASE_URL`). Ingestion is idempotent when a `batch_id` is supplied.
   - *Detection engine:* periodically (scheduler) or on-demand (`POST /detect`) sweeps unprocessed artifacts through four detection layers (Sigma-style behavioral rules, embedded YARA matches, known-bad hash matching, network IOC correlation), enriches findings with MITRE ATT&CK technique metadata from a local STIX dataset, persists them, and exposes them for querying.
-- **SQLite/Postgres** (`backend/dfir.db` by default) — managed by **Alembic migrations** (see `backend/migrations/`): tables `hosts`, `artifacts`, `detections`, plus new `endpoints`, `detection_runs`, `incidents` + `incident_detections` (F2), `pending_commands` and new artifact columns `analyzed_at`, `source_run_id`, `agent_batch_id`; `endpoints.team` + `audit_logs` hash-chain columns (F4).
+- **SQLite/Postgres** (`backend/dfir.db` by default) — managed by **Alembic migrations** (see `backend/migrations/`): tables `hosts`, `artifacts`, `detections`, plus new `endpoints`, `detection_runs`, `incidents` + `incident_detections` (F2), `pending_commands` and new artifact columns `analyzed_at`, `source_run_id`, `agent_batch_id`; `endpoints.team` + `audit_logs` hash-chain columns (F4); `endpoints.criticality` (F5).
 
 Detection is **deliberately decoupled from ingest**: ingest just stores; a background scheduler (APScheduler, every 30 s by default) picks up whatever is unprocessed. This mirrors real EDR/SIEM backend design and keeps ingest fast.
 
-Current state: the pipeline is proven end-to-end on real VM data. The local `dfir.db` contains the demo VM data (2,742 artifacts from 2 hosts — `DESKTOP-A5E108P` Windows 10, `ns-ubuntu-server` Ubuntu — and 4 detections) and is **untracked** (regenerate via migrations + `push_samples.py`). Agents can now **enroll** (`POST /endpoints/enroll`), poll a **config** (`GET /endpoints/config`), and **auto-push** collected data with idempotent batches (`collector/agent_client.py`, `collector_agent.py --daemon`). Phase 4 added async ingest via an optional Redis queue + worker, incident correlation, retention/archival, and RBAC with team scoping.
+Current state: the pipeline is proven end-to-end on real VM data. The local `dfir.db` contains the demo VM data (2,742 artifacts from 2 hosts — `DESKTOP-A5E108P` Windows 10, `ns-ubuntu-server` Ubuntu — and 4 detections) and is **untracked** (regenerate via migrations + `push_samples.py`). Agents can now **enroll** (`POST /endpoints/enroll`), poll a **config** (`GET /endpoints/config`), and **auto-push** collected data with idempotent batches (`collector/agent_client.py`, `collector_agent.py --daemon`; one-liner helpers in `scripts/enroll_agent.sh`/`.ps1`). Phase 4 added async ingest via an optional Redis queue + worker, incident correlation, retention/archival, RBAC with team scoping, and (F5) webhook/email notifications, a host-criticality severity factor, a queue-driven detection worker, per-endpoint reports, and a scan-all control.
 
 ---
 
@@ -66,26 +66,29 @@ dfir-threat-hunting-frameworkV3/
 │   ├── push_samples.py          # CLI: push sample_data/ folders into /ingest
 │   ├── ingest_service.py        # ingest_artifacts() incl. batch_id idempotency + dedup
 │   ├── services/
-│   │   ├── endpoint_service.py  # enroll_endpoint, list_endpoints (team-filtered), get_endpoint_config, update_endpoint_config, queue_collection, poll_pending_commands, complete_command, mark_offline_stale
+│   │   ├── endpoint_service.py  # enroll_endpoint, list_endpoints (team-filtered), get_endpoint_config, update_endpoint_config, queue_collection, queue_collection_all, get_endpoint_report, poll_pending_commands, complete_command, mark_offline_stale
 │   │   ├── detection_service.py # run_detection_job, list_detections, triage_detection, detections_summary, list_detection_runs
-│   │   ├── correlation_service.py # recompute_incidents, list_incidents, incidents_summary, get_incident, triage_incident — Phase 4 F2
+│   │   ├── correlation_service.py # recompute_incidents, list_incidents, incidents_summary, get_incident, triage_incident — Phase 4 F2 (+ host criticality amplification, F5)
 │   │   ├── retention_service.py # run_retention (JSONL archival + optional OpenSearch sink), retention_status — Phase 4 F3
+│   │   ├── notification_service.py # notify_detections, notify_endpoint_offline (webhook + SMTP email) — Phase 4 F5
 │   │   ├── audit_service.py     # log_action (hash-chained), list_audit_logs, verify_audit_chain
 │   │   ├── metrics_service.py   # Prometheus /metrics text + /health payload
 │   │   ├── ingest_service.py    # artifact ingest (batch idempotency + dedup)
 │   │   └── query_service.py     # artifact/host queries + scoped_hosts (team scoping, F4)
-│   ├── workers/                 # Phase 4 F1
-│   │   └── ingest_worker.py     # drains the Redis queue → ingest_service
-│   ├── static/                  # Phase 3 analyst dashboard (served at /dashboard)
+│   ├── workers/                 # Phase 4 F1 / F5
+│   │   ├── ingest_worker.py     # drains the Redis queue → ingest_service (F1)
+│   │   └── detection_worker.py  # queue-driven detection sweep → run_detection_job (F5)
+│   ├── static/                  # Phase 3 analyst dashboard (served at /dashboard) — brutalist technical report redesign (F5)
 │   │   ├── index.html           # single-page app shell
-│   │   ├── style.css            # dashboard styling
-│   │   └── app.js               # overview/endpoints/detections/runs/artifacts/audit views
+│   │   ├── style.css            # dashboard styling (near-black print + #d7263d accent)
+│   │   └── app.js               # overview/endpoints/incidents/detections/runs/artifacts/audit + per-endpoint report views
 │   ├── alembic.ini              # Alembic config (sqlite default; DATABASE_URL overrides)
 │   ├── migrations/              # Alembic env + versions/
 │   │   ├── versions/4823f807fcd2_initial_schema_endpoints_artifacts_.py
 │   │   ├── versions/ca41c1ba0e02_phase3_triage_lifecycle_audit_logs_.py
 │   │   ├── versions/e19d4f2a7c10_phase4_correlation_engine_incidents_.py
-│   │   └── versions/4a1f2c9d3b70_phase4_rbac_endpoint_team_audit_.py
+│   │   ├── versions/4a1f2c9d3b70_phase4_rbac_endpoint_team_audit_.py
+│   │   └── versions/5f0a1c2d9b73_phase4_host_criticality_.py   # endpoints.criticality (F5)
 │   ├── Dockerfile               # multi-stage, python:3.12-slim, non-root, healthcheck
 │   ├── docker-entrypoint.sh     # alembic upgrade head, then exec "$@"
 │   ├── tests/                   # pytest suite (115 tests incl. test_phase2.py, test_phase3.py, test_phase4.py, test_retention.py, test_rbac.py)
@@ -135,6 +138,10 @@ dfir-threat-hunting-frameworkV3/
 ├── sample_data/                 # collected artifact folders (manually copied from VMs)
 │   ├── 2026-07-29_win10-vm01/   # Windows VM: processes/network/persistence/scheduled_tasks/logs .json
 │   └── 2026-07-29_ns-ubuntu-server/  # Ubuntu server: same 5 files
+
+└── scripts/                     # endpoint enrollment one-liners (F5)
+    ├── enroll_agent.sh          # bash: venv + enroll + daemon for Linux endpoints
+    └── enroll_agent.ps1         # PowerShell: venv + enroll + daemon for Windows endpoints
 ```
 
 **Conventions across the codebase:**
@@ -214,6 +221,7 @@ Schema is **managed by Alembic migrations** (`backend/migrations/`). On app impo
 | `config_json` | Text, nullable | per-endpoint agent config (default: collectors + `interval_seconds: 300`) |
 | `registered_at` | DateTime(tz) | `server_default=func.now()` |
 | `team` | String, default `"default"` | team scope for RBAC (Phase 4 F4; DB-nullable for SQLite, service defaults it) |
+| `criticality` | String, default `"standard"` | host criticality factor: `low`/`standard`/`important`/`critical` (Phase 4 F5; used in correlation severity amplification) |
 
 **`detection_runs`** — one row per detection cycle (run history; written by `run_detection_job` since Phase 3).
 
@@ -359,7 +367,7 @@ Currently contains only `203.0.113.66` (RFC 5737 TEST-NET range, safe for valida
 - Optional auth layer (`AUTH_ENABLED=true`): agent-key gate on `/ingest` + `/endpoints/*`, admin-key gate on the rest; Phase 4 added human roles (`admin`/`analyst`/`viewer`) via `/auth/login` + `require_role`, with team scoping for list/summary endpoints.
 - Structured logging via `logging_config.configure_logging()` (env `LOG_FORMAT=json` for JSON output, `LOG_LEVEL` to change level).
 - Phase 3 additions: static `/dashboard` mount, `GET /metrics`, `GET /audit-logs`, `/health` now returns the metrics payload.
-- Phase 4 additions: `/ingest` 202 async path when `INGEST_QUEUE_URL` set, `/incidents/*`, `/retention/*`, `GET /audit-logs/verify`, `/auth/login`.
+- Phase 4 additions: `/ingest` 202 async path when `INGEST_QUEUE_URL` set, `/incidents/*`, `/retention/*`, `GET /audit-logs/verify`, `/auth/login`, and (F5) `POST /endpoints/scan-all` + `GET /endpoints/{id}/report`.
 - Endpoints: `/ingest`, `/artifacts`, `/hosts`, `/health`, `/scheduler/status`, `/metrics`, `/audit-logs`, `/audit-logs/verify`, `/dashboard`, `/endpoints/*`, `/incidents/*`, `/retention/*` (see [§5](#5-api-endpoints)).
 
 **`backend/ingest_service.py`**
@@ -369,27 +377,38 @@ Currently contains only `203.0.113.66` (RFC 5737 TEST-NET range, safe for valida
 - `enroll_endpoint(db, hostname, os=None, agent_version=None) -> (endpoint, token)` — idempotent per hostname; generates a `secrets.token_urlsafe(32)` enrollment token (stored hashed, returned once on first enroll) and the default agent config (`interval_seconds: 300` + collector list). Writes an `endpoint_enroll` audit entry.
 - `list_endpoints(db, limit=None, team=None)` — all endpoint rows, optionally team-filtered (F4).
 - `get_endpoint_config(db, hostname)` — per-endpoint config, falling back to defaults; acts as a heartbeat (`_touch_endpoint` restores `online`).
-- `update_endpoint_config(db, endpoint_id, interval_seconds=None, collectors=None)` — merges fields into the stored config (interval floored at 10s), touches `last_seen`, returns the full endpoint dict; records an `endpoint_config_update` audit entry.
+- `update_endpoint_config(db, endpoint_id, interval_seconds=None, collectors=None, criticality=None)` — merges fields into the stored config (interval floored at 10s), sets `criticality` (validated against `low`/`standard`/`important`/`critical`), touches `last_seen`, returns the full endpoint dict; records an `endpoint_config_update` audit entry.
 - `queue_collection(db, endpoint_id)` — creates a `run_collection` `pending_commands` row and an audit entry; returns the command id.
+- `queue_collection_all(db)` — (F5) enqueues `run_collection` for **every** endpoint (audited as `queue_collection_all`); returns `{endpoints_targeted, queued:[{command_id, hostname}]}`.
+- `get_endpoint_report(db, endpoint_id)` — (F5) per-endpoint aggregate: endpoint (incl. `criticality`), artifacts (+ by_type), detections (+ by_severity), incidents, and run history for the host.
 - `poll_pending_commands(db, endpoint_id)` — returns one unclaimed pending command and flips it `pending → picked_up` (first-call-wins, so a command runs once).
 - `complete_command(db, command_id, summary)` — marks a picked-up command `completed` with a result summary.
-- `mark_offline_stale(db)` — flips endpoints stale past `OFFLINE_STALE_AFTER_SECONDS` to `offline` (run by the scheduler's `offline_sweep` job).
+- `mark_offline_stale(db)` — flips endpoints stale past `OFFLINE_STALE_AFTER_SECONDS` to `offline` and fires `notify_endpoint_offline` for each (run by the scheduler's `offline_sweep` job).
 
 **`backend/services/detection_service.py`** — extracted from `detection_routes.py` (Phase 3) so routes stay thin.
-- `run_detection_job(db, host=None, rescan=False, trigger="manual") -> dict` — the shared pipeline (sigma + embedded YARA + hash check + IOC correlation), honoring an optional `host` scope filter and a `rescan` flag to re-analyze processed artifacts; writes a `DetectionRun` row (the run history) and a `run_detection` audit row. After persisting detections it recomputes incidents (Phase 4 F2).
+- `run_detection_job(db, host=None, rescan=False, trigger="manual") -> dict` — the shared pipeline (sigma + embedded YARA + hash check + IOC correlation), honoring an optional `host` scope filter and a `rescan` flag to re-analyze processed artifacts; writes a `DetectionRun` row (the run history) and a `run_detection` audit row. After persisting detections it recomputes incidents (Phase 4 F2) and fires `notify_detections` (Phase 4 F5, best-effort).
 - `_persist_detection(db, d)` — enriches via `enrich_technique` and inserts a `Detection` row with `triage_status="new"`.
 - `list_detections(db, ...)` / `triage_detection(db, detection_id, status, notes)` — triage update (validates status against `TRIAGE_STATUSES`, raises `ValueError` on bad input) / `detections_summary(db, hosts=None)` (adds `by_triage`; hosts-scoped) / `list_detection_runs(db, status, limit, hosts=None)`.
 
 **`backend/services/correlation_service.py`** — Phase 4 F2, correlation engine.
-- `recompute_incidents(db, actor)` — idempotent, signature-keyed rebuild of `incidents` (same-rule campaigns across hosts; ≥2-technique ATT&CK chains per host; severity escalation); preserves triage; cleans up stale incidents.
+- `recompute_incidents(db, actor)` — idempotent, signature-keyed rebuild of `incidents` (same-rule campaigns across hosts; ≥2-technique ATT&CK chains per host; severity escalation; preserves triage; cleans up stale incidents).
+- `_host_criticality_map(db)` / `_amplify_for_criticality(...)` — (F5) host criticality severity factor: `important` → +1, `critical` → +2 rank bump over the base severity (capped at `critical`), applied in `_derive_incident`/`_build_incidents`.
 - `list_incidents(db, status=None, severity=None, hosts=None)` / `incidents_summary(db)` / `get_incident(db, id)` / `triage_incident(db, id, status, notes, actor)`.
 
 **`backend/services/retention_service.py`** — Phase 4 F3, retention/archival.
 - `run_retention(db)` — deletes rows older than `RETENTION_*_DAYS` per table into monthly JSONL archives under `RETENTION_ARCHIVE_DIR` (+ optional OpenSearch bulk sink, fail-soft); idempotent batch deletes; cleans up orphaned incident links.
 - `retention_status(db)` — per-table window + archive dir info.
 
+**`backend/services/notification_service.py`** — Phase 4 F5, alerting hooks.
+- `notify_detections(db, detections)` — (best-effort) fires a webhook (`NOTIFY_WEBHOOK_URL`) and/or SMTP email (`NOTIFY_SMTP_*`) when the detection batch's highest severity ≥ `NOTIFY_MIN_SEVERITY` (default `high`). Called from `run_detection_job` after commit, inside try/except so alert failures never break a detection run.
+- `notify_endpoint_offline(db, hostname)` — fires the same channels for an endpoint that just flipped offline. All delivery is **fail-soft**: missing config, network errors, or exceptions are logged and swallowed.
+
+**`backend/workers/detection_worker.py`** — Phase 4 F5, queue-driven detection consumer.
+- `run_one_sweep(db, trigger="worker")` — runs a single detection pass via `run_detection_job`; guards against `None` results.
+- `run_loop(...)` — infinite loop (interval-driven) calling `run_one_sweep`; designed to run as a containerized service (see the commented `detection-worker` block in `docker-compose.yml`) so detection processing can be scaled out independently of the API.
+
 **`backend/services/audit_service.py`** — Phase 3 (hash chain added F4).
-- `KNOWN_ACTIONS` — whitelist: `endpoint_enroll`, `endpoint_config_update`, `queue_collection`, `run_detection`, `triage_detection`, `complete_command`, `login`, `recompute_incidents`, `triage_incident`, `retention_run`.
+- `KNOWN_ACTIONS` — whitelist: `endpoint_enroll`, `endpoint_config_update`, `queue_collection`, `queue_collection_all`, `run_detection`, `triage_detection`, `complete_command`, `login`, `recompute_incidents`, `triage_incident`, `retention_run`.
 - `log_action(db, action, username=None, detail=None)` — inserts an `AuditLog` row (unknown actions are dropped with a warning); computes `record_hash` chained over `(prev_hash, actor, action, detail_json)` (SHA-256).
 - `list_audit_logs(db, action=None, limit=50)` — recent audit entries.
 - `verify_audit_chain(db)` — returns `{valid, checked, broken_at}`; skips legacy rows with NULL `record_hash`.
@@ -400,7 +419,7 @@ Currently contains only `203.0.113.66` (RFC 5737 TEST-NET range, safe for valida
 
 **`backend/models.py`** — SQLAlchemy models `Host`, `Artifact`, `Detection`, `DetectionRun`, `Endpoint` (incl. `team`, F4), `Incident` + `IncidentDetection` (F2), `AuditLog` (incl. `prev_hash`/`record_hash` chain, F4), `PendingCommand` (see [§6](#6-classes) and [§3.2](#32-sqlite-database-backenddfirdb)).
 
-**`backend/schemas.py`** — Pydantic models `ArtifactIn`, `ArtifactOut`, `IngestResponse`, `EndpointOut` (incl. `team`), `EnrollResponse`, `IncidentOut`, `IncidentTriageIn`, `LoginResponse` (incl. `role`/`team`), `RetentionStatusOut` (see [§6](#6-classes)).
+**`backend/schemas.py`** — Pydantic models `ArtifactIn`, `ArtifactOut`, `IngestResponse`, `EndpointOut` (incl. `team` + `criticality`), `EndpointConfigUpdateIn` (incl. `criticality`), `EnrollResponse`, `IncidentOut`, `IncidentTriageIn`, `LoginResponse` (incl. `role`/`team`), `RetentionStatusOut` (see [§6](#6-classes)).
 
 **`backend/database.py`**
 - `DATABASE_URL = "sqlite:///./dfir.db"` (relative to CWD — run uvicorn from `backend/`).
@@ -487,6 +506,8 @@ Base URL: `http://127.0.0.1:8000` (auto-generated interactive docs at `/docs`).
 | GET | `/endpoints/config?hostname=` | agent key* | Poll per-endpoint agent config |
 | PUT | `/endpoints/{id}/config` | admin key* | Update endpoint config (interval_seconds ≥ 10) |
 | POST | `/endpoints/{id}/run-collection` | admin key* | Enqueue a `run_collection` pending command |
+| POST | `/endpoints/scan-all` | admin key* | Enqueue `run_collection` for **all** endpoints at once (F5, audited) |
+| GET | `/endpoints/{id}/report` | admin key* | Per-endpoint report aggregate (F5): artifacts/detections/incidents/run history |
 | GET | `/endpoints/commands` | agent key* | Agent polls pending commands (manual collection triggers) |
 | POST | `/endpoints/commands/{id}/complete` | agent key* | Agent reports a command's completion summary |
 | GET | `/incidents` | none* | List correlated incidents (filterable, team-scoped) |
@@ -562,13 +583,20 @@ Base URL: `http://127.0.0.1:8000` (auto-generated interactive docs at `/docs`).
 **GET `/detections/summary`** — Aggregated counts across all stored detections (feeds the ATT&CK-coverage "dashboard" view).
 - Response `200`: `{total_detections, by_technique: {...}, by_severity: {...}, by_host: {...}, by_triage: {...}}`
 
-**PUT `/endpoints/{id}/config`** — Update a single endpoint's agent config (admin-facing, Phase 3).
-- Body: `{interval_seconds?: int (min 10), collectors?: [...]}`; merges into the stored config and bumps `last_seen`.
-- Response `200`: full endpoint record `{id, hostname, os, agent_version, status, last_seen, registered_at, config: {...}}`.
-- Errors: `404` unknown endpoint; `400` `interval_seconds < 10`.
+**PUT `/endpoints/{id}/config`** — Update a single endpoint's agent config (admin-facing, Phase 3, criticality added F5).
+- Body: `{interval_seconds?: int (min 10), collectors?: [...], criticality?: "low"|"standard"|"important"|"critical"}`; merges into the stored config and bumps `last_seen`.
+- Response `200`: full endpoint record `{id, hostname, os, agent_version, status, last_seen, registered_at, criticality, config: {...}}`.
+- Errors: `404` unknown endpoint; `400` `interval_seconds < 10` or invalid `criticality`.
+
+**POST `/endpoints/scan-all`** — Enqueue a manual "run collection now" command for **every** endpoint (admin-facing, Phase 5). Creates one `pending_commands` row per endpoint; records a `queue_collection_all` audit entry.
+- Response `200`: `{endpoints_targeted, queued: [{command_id, hostname}, ...]}`.
 
 **POST `/endpoints/{id}/run-collection`** — Enqueue a manual "run collection now" command for an endpoint (admin-facing, Phase 3). Creates a `pending_commands` row (`command=run_collection`) that the agent picks up on its next `/endpoints/commands` poll. Records a `queue_collection` audit entry.
 - Response `200`: `{command_id, status: "pending"}`.
+- Errors: `404` unknown endpoint.
+
+**GET `/endpoints/{id}/report`** — Per-endpoint report (admin-facing, Phase 5). Aggregates everything known about one host for the dashboard's Endpoint Report view.
+- Response `200`: `{endpoint: {id, hostname, os, agent_version, status, criticality, last_seen, ...}, artifacts: {total, by_type}, detections: {total, by_severity}, incidents: [...], run_history: [...]}` (run history scoped to the host).
 - Errors: `404` unknown endpoint.
 
 **GET `/endpoints/commands?hostname=`** — Agent polls for pending commands (agent-facing, Phase 3). Returns **all unclaimed** pending commands for the endpoint and flips them `pending → picked_up` (first-call-wins, so a command is only executed once).
@@ -598,7 +626,7 @@ Base URL: `http://127.0.0.1:8000` (auto-generated interactive docs at `/docs`).
 | Class | Module | Type | Purpose |
 |---|---|---|---|
 | `Host` | `backend/models.py` | SQLAlchemy model | Table `hosts` — one row per reporting endpoint (legacy) |
-| `Endpoint` | `backend/models.py` | SQLAlchemy model | Table `endpoints` — one row per enrolled endpoint (incl. `team`, F4) |
+| `Endpoint` | `backend/models.py` | SQLAlchemy model | Table `endpoints` — one row per enrolled endpoint (incl. `team`, F4, and `criticality`, F5) |
 | `Artifact` | `backend/models.py` | SQLAlchemy model | Table `artifacts` — one row per collected artifact |
 | `DetectionRun` | `backend/models.py` | SQLAlchemy model | Table `detection_runs` — one row per detection cycle (history) |
 | `Detection` | `backend/models.py` | SQLAlchemy model | Table `detections` — one row per detection result (+ triage fields) |
@@ -608,7 +636,7 @@ Base URL: `http://127.0.0.1:8000` (auto-generated interactive docs at `/docs`).
 | `ArtifactIn` | `backend/schemas.py` | Pydantic | Request model for `/ingest` items; matches collector `wrap_artifact` output |
 | `ArtifactOut` | `backend/schemas.py` | Pydantic | Response model for `/artifacts`; `Config.from_attributes = True` (ORM compatible) |
 | `IngestResponse` | `backend/schemas.py` | Pydantic | Response model for `POST /ingest` (incl. `deduplicated`, `batch_id`) |
-| `EndpointEnrollRequest` / `EndpointOut` / `EndpointConfigOut` / `EndpointConfigUpdateIn` / `EnrollResponse` | `backend/schemas.py` | Pydantic | Request/response models for `/endpoints/*` |
+| `EndpointEnrollRequest` / `EndpointOut` / `EndpointConfigOut` / `EndpointConfigUpdateIn` / `EnrollResponse` | `backend/schemas.py` | Pydantic | Request/response models for `/endpoints/*` (incl. `criticality`, F5) |
 | `DetectionTriageIn` / `AuditLogOut` / `PendingCommandOut` / `PendingCommandResultIn` | `backend/schemas.py` | Pydantic | Phase 3 request/response models (triage, audit, command queue) |
 | `IncidentOut` / `IncidentTriageIn` / `LoginResponse` / `RetentionStatusOut` | `backend/schemas.py` | Pydantic | Phase 4 models (incidents, login role/team, retention) |
 

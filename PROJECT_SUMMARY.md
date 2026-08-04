@@ -41,12 +41,13 @@ Collect → Ship → Store → Detect → Query
 - A **FastAPI backend** ingests those artifacts into SQLite and runs a **4-layer detection pipeline** (Sigma-style behavioral rules, embedded YARA results, known-bad hash matching, network IOC correlation), enriches findings with **MITRE ATT&CK** technique metadata, and exposes everything via a REST API.
 - A **background scheduler** re-runs detection automatically; detection **run history** is recorded.
 
-When we received the project it was a working demo that had never been hardened: **committed secrets, an uninstallable UTF-16 `requirements.txt`, zero automated tests, a broken duplicate code tree, duplicate detection rules, and no authentication.** Since then, on the `youssef` branch, we delivered **Phases 1–3 of the roadmap plus the first four Phase 4 work items (F1–F4)**:
+When we received the project it was a working demo that had never been hardened: **committed secrets, an uninstallable UTF-16 `requirements.txt`, zero automated tests, a broken duplicate code tree, duplicate detection rules, and no authentication.** Since then, on the `youssef` branch, we delivered **Phases 1–3 of the roadmap plus Phase 4 F1–F5** (queue, correlation, retention, RBAC/audit, notifications + host criticality):
 
 - **Phase 1 (security + testability):** opt-in auth + rate limiting, installable dependency set, services-layer refactor, rule deduplication/validation, detection run history, host-scoped + rescan detection, artifact time/processed filters, and a **53-test pytest suite with ruff lint clean**.
 - **Phase 2 (containers + CI/CD + agent automation):** multi-stage non-root `Dockerfile` + `docker-compose.yml` (Postgres 16), **Alembic migrations** replacing `create_all`, agent `--enroll`/`--daemon`/idempotent batch uploads, and a GitHub Actions pipeline (lint + test + gitleaks; GHCR build/push/smoke on version tags).
 - **Phase 3 (dashboard + endpoint mgmt + manual triggers):** analyst **dashboard** at `/dashboard` (overview/endpoints/detections/runs/artifacts/audit), endpoint management (`PUT /endpoints/{id}/config`, add-endpoint enroll), manual triggers (run-collection-now command queue, `POST /detect` with host scope/rescan, run history), **detection triage lifecycle** (new → acknowledged → false/true positive → reviewed + notes), ops hardening (structured JSON logging, `/metrics`, `/audit-logs`), and ATT&CK enrichment from the **in-repo STIX dataset**.
-- **Phase 4 (F1–F4):** async **Redis ingest queue** with a containerized worker (`/ingest` returns 202 when queuing is enabled); **correlation engine** grouping detections into `incidents` (same-rule campaigns, ATT&CK chains, severity escalation); **retention/archival** (monthly JSONL + optional OpenSearch sink); **RBAC + team scoping + tamper-evident audit** (admin/analyst/viewer roles, `Endpoint.team` scoping, SHA-256 audit hash chain + `/audit-logs/verify`).
+- **Phase 4 (F1–F5):** async **Redis ingest queue** with a containerized worker (`/ingest` returns 202 when queuing is enabled); **correlation engine** grouping detections into `incidents` (same-rule campaigns, ATT&CK chains, severity escalation); **retention/archival** (monthly JSONL + optional OpenSearch sink); **RBAC + team scoping + tamper-evident audit** (admin/analyst/viewer roles, `Endpoint.team` scoping, SHA-256 audit hash chain + `/audit-logs/verify`); **notifications + host criticality** (webhook/SMTP alerts on high/critical detections and endpoint offline; per-host `criticality` factor amplified into incident severity; queue-driven detection worker; scan-all control + per-endpoint report).
+- **Dashboard overhaul (same session):** the analyst dashboard was rewritten as a **brutalist technical report** — print-style typography, near-black ink on paper stock, one `#d7263d` signal color, offset shadows, monospace data tables — with new **Incidents** and **per-Endpoint Report** views, a **SCAN ALL** manual trigger, criticality badges, and bearer-token auth.
 
 Today the framework is a self-service platform: an analyst can enroll endpoints from the dashboard, trigger collection/detection on demand, browse history, and triage detections — all without CLI/curl.
 
@@ -194,15 +195,17 @@ Per AI_RULES §14 (ask before deleting files), these deletion candidates have be
 | P4 F2 | Detections correlate into incidents | ✅ `incidents` + `incident_detections`; campaigns/chains + severity escalation |
 | P4 F3 | Retention/archival works | ✅ Monthly JSONL + optional OpenSearch sink; `/retention/run` + `/retention/status` |
 | P4 F4 | Roles + team scoping + immutable audit | ✅ admin/analyst/viewer, `Endpoint.team` scoping, audit hash chain + verify |
+| P4 F5 | Alerts + host criticality | ✅ webhook/SMTP notifications (detection severity + offline), `Endpoint.criticality` severity amplification, queue-driven detection worker, scan-all + per-endpoint report |
 
 ### 4.2 Delivered capabilities (current state)
 
 - **Full collect → ship → store → detect → query pipeline**, proven on real Windows/Ubuntu VM data.
 - **4 detection layers**: Sigma-style behavioral rules (15 rules), embedded YARA results (6 rules), known-bad hash matching, network IOC correlation (local blocklist + best-effort AbuseIPDB live feed).
 - **MITRE ATT&CK enrichment** from the **bundled in-repo STIX dataset** (`dfir-refs/cti/enterprise-attack/enterprise-attack.json`) — works offline.
-- **Analyst dashboard** (`/dashboard`): overview health cards, endpoint management, manual run triggers, detection history, artifact explorer, audit trail.
+- **Analyst dashboard** (`/dashboard`): brutalist technical report design — overview health cards + manual controls (incl. **SCAN ALL**), scheduler box, severity + ATT&CK tables; endpoint management with criticality badges; **incidents** view; per-**endpoint report** view; detection history, artifact explorer, audit trail.
 - **Detection triage lifecycle** with analyst notes, fully audited.
-- **Endpoint management**: self-enrollment, per-endpoint config (`PUT /endpoints/{id}/config`), manual "run collection now" command queue.
+- **Endpoint management**: self-enrollment, per-endpoint config (`PUT /endpoints/{id}/config` incl. `criticality`), manual "run collection now" command queue (+ scan-all), and one-liner enrollment helpers (`scripts/enroll_agent.sh`/`.ps1`).
+- **Alerting (F5)**: webhook + SMTP notifications on high/critical detections and endpoint-offline events; fail-soft, env-driven (`NOTIFY_*`).
 - **Ops hardening**: structured JSON logging (`LOG_FORMAT=json`), Prometheus-style `/metrics`, immutable `/audit-logs`.
 - **Containerized backend** (non-root, healthcheck, auto-migrate entrypoint) + `docker-compose.yml` (Postgres 16) + GitHub Actions CI/CD (lint/test/gitleaks; GHCR build/push/smoke on tags).
 - **Background scheduler** (APScheduler, configurable interval) + manual `POST /detect`.
@@ -211,8 +214,11 @@ Per AI_RULES §14 (ask before deleting files), these deletion candidates have be
 - **Filterable queries** — artifacts (host / type / time window / processed state), detections (host / severity), run history (status).
 - **Opt-in production-grade auth** — agent API keys, admin HMAC tokens, rate limiting; verified end-to-end.
 - **Clean architecture** — thin endpoints, services layer with DI, no duplicated logic, lint-clean, typed, documented.
-- **115 automated backend tests + 10 collector tests** (ruff + mypy clean) covering the matcher, hash checker, IOC correlation, security/RBAC, detection service, endpoint mgmt, retention, correlation, async queue, and the full HTTP API.
+- **133 automated backend tests + 10 collector tests** (ruff + mypy clean) covering the matcher, hash checker, IOC correlation, security/RBAC, detection service, endpoint mgmt (incl. scan-all + report + criticality), notifications, retention, correlation, async queue, and the full HTTP API.
 - **Correlation engine** — detections group into `incidents` (same-rule campaigns across hosts, ATT&CK chain sequences, severity escalation), idempotently recomputed after every detection run.
+- **Host criticality factor (F5)** — per-endpoint `criticality` (`low`/`standard`/`important`/`critical`) amplified into incident severity scoring, so a detection on a crown-jewel host ranks higher than the same finding on a scratch box.
+- **Notifications (F5)** — webhook + SMTP email alerts fired on high/critical detection batches and endpoint-offline events; fail-soft, fully env-configurable.
+- **Queue-driven detection worker (F5)** — `workers/detection_worker.py` gives a containerized, scale-out detection path independent of the in-process scheduler.
 - **RBAC + team scoping** — `admin`/`analyst`/`viewer` roles and per-team data visibility (`Endpoint.team`); list/summary endpoints are scoped for non-admins.
 - **Tamper-evident audit** — every audit entry is SHA-256 hash-chained (`prev_hash`/`record_hash`); integrity verifiable via `/audit-logs/verify`.
 - **Async ingest + retention** — optional Redis queue + worker (202 path) and monthly JSONL archival with an optional OpenSearch sink.
@@ -228,21 +234,17 @@ Per AI_RULES §14 (ask before deleting files), these deletion candidates have be
 
 ## 5. What Is Still Needed to Complete Our Goals
 
-The **ROADMAP.md** target is an enterprise-grade, containerized, CI/CD-driven platform. **Phases 1–3 are done and Phase 4 items F1–F4 (queue, correlation, retention, RBAC/audit) are done**; the following remain:
-
-### Phase 4 — Scale, correlation, enterprise features
-- **Notifications**: webhook/email/Slack/Teams on high/critical detections or endpoint offline > threshold (F5).
-- **Correlation hardening**: host criticality factor in severity scoring; incidents surfaced in the dashboard UI.
+The **ROADMAP.md** target is an enterprise-grade, containerized, CI/CD-driven platform. **Phases 1–3 are done and Phase 4 items F1–F5 (queue, correlation, retention, RBAC/audit, notifications + host criticality) are done**; the following remain:
 
 ### Phase 5 — Advanced detection, intel automation, HA
 - Real **pySigma** backend + **SigmaHQ rule update pipeline** in CI (keeping the current rule format via a conversion layer).
 - **IOC feed automation** (MalwareBazaar/Feodo/URLhaus/OTX scheduled refresh) + STIX/TAXII export. *(Live lookups for AbuseIPDB/URLhaus/OTX + Feodo refresh already exist — M2.)*
-- **HA & performance**: Kubernetes/multi-replica, Postgres HA + backups, connection pooling, pagination/matview review.
+- **HA & performance**: Kubernetes/multi-replica, Postgres HA + backups, connection pooling, pagination/matview review. *(A queue-driven detection worker — `workers/detection_worker.py` — is the groundwork for distributed processing.)*
 
 ### Immediate low-effort follow-ups (from the engineering backlog)
 1. Rotate/revoke the API keys that were previously committed (best practice — the `.env.txt` files were deleted from disk in the continuation session).
 2. Backend-side YARA re-scan of stored files (needs file storage; currently hashes only).
-4. Return the enrollment token to the agent on first enroll; honor per-endpoint `collectors` config in the agent daemon.
+3. Slack/Teams adapters on the notification webhook (payload-format swaps).
 
 ---
 
@@ -374,11 +376,11 @@ Now:
 ```bash
 cd ../backend
 pip install -r requirements-dev.txt
-pytest -v            # 53 tests, all green
+pytest -v            # 133 tests, all green
 ruff check .         # lint clean
 ```
 
-> The suite uses isolated temp SQLite databases; it never touches your real `dfir.db`. The collector has its own 7-test suite (`cd ../collector && pytest`).
+> The suite uses isolated temp SQLite databases; it never touches your real `dfir.db`. The collector has its own 10-test suite (`cd ../collector && pytest`).
 
 ### 6.10 Suggested showcase script (10 minutes)
 
@@ -392,7 +394,7 @@ ruff check .         # lint clean
 | 2:30 | `GET /detection-runs` | Run history with trigger/status/counts |
 | 3:00 | Open `/dashboard` — add endpoint, run collection/detection, triage | The Phase 3 self-service surface |
 | 3:30 | Enable auth (6.8) | 401 without token, login flow, token works |
-| 4:00 | `pytest -v` | 53 tests green |
+| 4:00 | `pytest -v` | 133 tests green |
 | 4:30 | Open-ended Q&A | Deep dive into rules, collector, roadmap |
 
 ---
@@ -434,6 +436,7 @@ ruff check .         # lint clean
 | `37144db` | phase 2 Containers, Postgres, and a RealCI/CD Delivery Pipeline | Dockerfile + compose + `.dockerignore`, Alembic migrations (initial `4823f807fcd2`), agent enroll/daemon/batch-id, `ci.yml` (lint/test/gitleaks + GHCR build/push/smoke), collector tests (7) |
 | `af77469` | phase 3 completed:Dashboard, EndpointManagement, and Manual Trigger Controls | `/dashboard` static SPA, endpoint config PUT + run-collection + command queue, triage lifecycle + migration `ca41c1ba0e02`, `/metrics` + `/audit-logs`, JSON logging, in-repo STIX, repo cleanup (removed `detection/`, dead code) |
 | `…` | continuation session (2026-08-03) | `.ai/` AI memory committed + Phase 2/3 validation (see `.ai/SESSION_HISTORY.md`) |
+| `…` | continuation session (2026-08-04, F5 + dashboard) | notifications (webhook/SMTP) + host criticality severity factor + detection worker + scan-all + per-endpoint report + brutalist dashboard rewrite + enroll helper scripts + docker/compose Postgres fixes (see `.ai/CHECKPOINT.md`) |
 
 > The **complete Phase 1–3 summary**, the detailed technical reference, and the plan for the remaining phases live in [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) and [ROADMAP.md](ROADMAP.md). The full setup/run walkthrough is [SETUP_GUIDE.md](SETUP_GUIDE.md).
 

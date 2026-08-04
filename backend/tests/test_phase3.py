@@ -199,7 +199,7 @@ def test_detections_cursor_pagination(client):
 def test_dashboard_static_served(client):
     resp = client.get("/dashboard")
     assert resp.status_code == 200
-    assert "DFIR Threat Hunting" in resp.text
+    assert "DFIR / OPERATIONS REPORT" in resp.text
 
 
 def test_config_poll_refreshes_heartbeat(client):

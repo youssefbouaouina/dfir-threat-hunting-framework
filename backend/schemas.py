@@ -67,6 +67,8 @@ class EndpointOut(BaseModel):
     config: Optional[Dict[str, Any]] = None
     # Phase 4 (F4): RBAC team ownership.
     team: Optional[str] = "default"
+    # Phase 4 (F5): asset criticality (low|standard|important|critical).
+    criticality: Optional[str] = "standard"
 
 
 class EnrollResponse(EndpointOut):
@@ -80,10 +82,15 @@ class EnrollResponse(EndpointOut):
 
 
 class EndpointConfigUpdateIn(BaseModel):
-    """Admin-updatable agent config: which collectors run and how often."""
+    """Admin-updatable agent config: which collectors run and how often.
+
+    Phase 4 (F5): `criticality` sets the asset-criticality label used by the
+    correlation engine to amplify incident severity (low|standard|important|critical).
+    """
 
     collectors: Optional[List[str]] = None
     interval_seconds: Optional[int] = None  # >= 10
+    criticality: Optional[str] = None
 
 
 class EndpointConfigOut(BaseModel):

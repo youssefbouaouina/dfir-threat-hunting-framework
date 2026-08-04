@@ -9,3 +9,12 @@ import sys
 _COLLECTOR_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _COLLECTOR_DIR not in sys.path:
     sys.path.insert(0, _COLLECTOR_DIR)
+
+
+def pytest_configure(config):  # noqa: ANN001
+    """Pin tmp_path/basetemp to a project-local, gitignored dir.
+
+    The OS temp basetemp (pytest-of-<user>) can pick up a stale ACL that makes
+    scandir() fail on some Windows boxes; a local dir is deterministic.
+    """
+    config.option.basetemp = os.path.join(_COLLECTOR_DIR, ".pytest_tmp")

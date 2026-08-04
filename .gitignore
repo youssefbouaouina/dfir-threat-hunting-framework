@@ -49,6 +49,9 @@ coverage.xml
 *.py.cover
 .hypothesis/
 .pytest_cache/
+# pytest basetemp (redirected in backend/tests/conftest.py + collector/tests/conftest.py)
+backend/.pytest_tmp/
+collector/.pytest_tmp/
 cover/
 
 # Translations

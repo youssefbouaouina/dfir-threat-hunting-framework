@@ -47,6 +47,11 @@ class Endpoint(Base):
     # keyed by hostname, so team scoping of detections/artifacts resolves
     # hostname -> endpoint -> team through this column.
     team = Column(String, default="default", index=True)
+    # Phase 4 (F5): asset criticality — a severity amplifier for the
+    # correlation engine (important/critical hosts escalate their incidents).
+    criticality = Column(
+        String, default="standard", nullable=False
+    )  # low|standard|important|critical
 
 
 class Host(Base):

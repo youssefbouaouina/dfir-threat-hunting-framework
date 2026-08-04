@@ -12,8 +12,14 @@ DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./dfir.db")
 
 # check_same_thread=False is required for SQLite when used with FastAPI's
 # threaded request handling — safe here since each request gets its own
-# session via get_db().
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+# session via get_db(). The kwarg is SQLite-only, so it is applied only when
+# the URL actually points at SQLite (PostgreSQL/psycopg2 rejects unknown
+# connect_args as invalid DSN options).
+_connect_args = {}
+if DATABASE_URL.startswith("sqlite"):
+    _connect_args["check_same_thread"] = False
+
+engine = create_engine(DATABASE_URL, connect_args=_connect_args)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

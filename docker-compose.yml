@@ -52,6 +52,15 @@ services:
       AGENT_API_KEYS: ${AGENT_API_KEYS:-}
       DETECTION_INTERVAL_SECONDS: "30"
       ABUSEIPDB_API_KEY: ${ABUSEIPDB_API_KEY:-}
+      NOTIFY_WEBHOOK_URL: ${NOTIFY_WEBHOOK_URL:-}
+      NOTIFY_WEBHOOK_SECRET: ${NOTIFY_WEBHOOK_SECRET:-}
+      NOTIFY_MIN_SEVERITY: ${NOTIFY_MIN_SEVERITY:-high}
+      NOTIFY_SMTP_HOST: ${NOTIFY_SMTP_HOST:-}
+      NOTIFY_SMTP_PORT: ${NOTIFY_SMTP_PORT:-587}
+      NOTIFY_SMTP_USER: ${NOTIFY_SMTP_USER:-}
+      NOTIFY_SMTP_PASSWORD: ${NOTIFY_SMTP_PASSWORD:-}
+      NOTIFY_EMAIL_FROM: ${NOTIFY_EMAIL_FROM:-}
+      NOTIFY_EMAIL_TO: ${NOTIFY_EMAIL_TO:-}
       # Uncomment to enable async ingest (the worker below must also run):
       # INGEST_QUEUE_URL: redis://redis:6379/0
     depends_on:
@@ -79,6 +88,25 @@ services:
         condition: service_healthy
       backend:
         condition: service_healthy
+
+  # Optional queue-driven detection worker (Phase 4/F5). By default the
+  # backend's own scheduler already runs detection on DETECTION_INTERVAL_SECONDS,
+  # so this service is OFF unless explicitly enabled. Uncomment the block to run
+  # detection in a separate process (useful for heavier fleets); when enabled,
+  # consider setting DETECTION_INTERVAL_SECONDS=0 in the backend to avoid two
+  # pipelines racing.
+  # detection-worker:
+  #   build:
+  #     context: .
+  #     dockerfile: backend/Dockerfile
+  #   command: ["python", "-m", "workers.detection_worker"]
+  #   environment:
+  #     DATABASE_URL: postgresql+psycopg2://dfir:dfir@db:5432/dfir
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
 
 volumes:
   pgdata:

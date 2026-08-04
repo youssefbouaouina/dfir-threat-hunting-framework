@@ -3,122 +3,187 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DFIR Threat Hunting — Analyst Dashboard</title>
+<title>DFIR / OPERATIONS REPORT</title>
 <link rel="stylesheet" href="/dashboard/style.css">
 </head>
 <body>
-<header>
-  <h1>DFIR Threat Hunting Framework</h1>
-  <div id="auth-zone">
+
+<header class="masthead">
+  <div class="masthead-l">
+    <div class="report-stamp">DFIR</div>
+    <div>
+      <h1>THREAT HUNTING OPERATIONS REPORT</h1>
+      <p class="masthead-sub">SYS-REQ 03/DFIR — live telemetry from the detection grid</p>
+    </div>
+  </div>
+  <div class="masthead-r">
     <div id="login-box">
-      <input id="api-key" type="password" placeholder="Admin API key" autocomplete="off">
-      <button id="login-btn">Login</button>
+      <label>ACCESS KEY <input id="api-key" type="password" placeholder="••••••••" autocomplete="off"></label>
+      <button id="login-btn">AUTHENTICATE</button>
       <span id="login-msg"></span>
     </div>
     <div id="user-box" hidden>
-      <span id="user-label">Analyst</span>
-      <button id="logout-btn">Logout</button>
+      <span id="user-label" class="stamp">AUTH OK</span>
+      <button id="logout-btn" class="ghost">LOGOUT</button>
     </div>
   </div>
 </header>
 
-<nav>
-  <button class="nav-btn active" data-view="overview">Overview</button>
-  <button class="nav-btn" data-view="endpoints">Endpoints</button>
-  <button class="nav-btn" data-view="detections">Detections</button>
-  <button class="nav-btn" data-view="runs">Detection Runs</button>
-  <button class="nav-btn" data-view="artifacts">Artifacts</button>
-  <button class="nav-btn" data-view="audit">Audit Log</button>
+<nav class="tabs">
+  <button class="nav-btn active" data-view="overview">01 OVERVIEW</button>
+  <button class="nav-btn" data-view="endpoints">02 ENDPOINTS</button>
+  <button class="nav-btn" data-view="incidents">03 INCIDENTS</button>
+  <button class="nav-btn" data-view="detections">04 DETECTIONS</button>
+  <button class="nav-btn" data-view="runs">05 RUNS</button>
+  <button class="nav-btn" data-view="artifacts">06 ARTIFACTS</button>
+  <button class="nav-btn" data-view="audit">07 AUDIT</button>
 </nav>
 
 <main>
+
   <section id="view-overview" class="view active">
-    <h2>Overview</h2>
-    <div id="health-cards" class="cards"></div>
-    <h3>Manual controls</h3>
-    <div class="toolbar">
-      <label>Host scope <input id="detect-host" placeholder="(all hosts)"></label>
-      <label><input id="detect-rescan" type="checkbox"> Rescan processed</label>
-      <button id="run-detect-btn">Run detection now</button>
-      <span id="detect-result"></span>
+    <div class="page-head">
+      <h2>OPERATIONAL SUMMARY</h2>
+      <span id="ov-timestamp" class="stamp"></span>
     </div>
-    <h3>Scheduler</h3>
-    <pre id="scheduler-box"></pre>
-    <h3>Detection summary</h3>
-    <pre id="summary-box"></pre>
+
+    <div id="health-cards" class="stat-grid"></div>
+
+    <div class="grid-2">
+      <div class="block">
+        <h3>MANUAL CONTROLS</h3>
+        <div class="ctrl-row">
+          <label>HOST SCOPE <input id="detect-host" placeholder="(ALL HOSTS)"></label>
+          <label class="checkbox"><input id="detect-rescan" type="checkbox"> RESCAN PROCESSED</label>
+          <button id="run-detect-btn">RUN DETECTION</button>
+          <button id="scan-all-btn" class="danger">SCAN ALL ENDPOINTS</button>
+          <span id="detect-result" class="result-line"></span>
+        </div>
+      </div>
+      <div class="block">
+        <h3>SCHEDULER</h3>
+        <pre id="scheduler-box" class="mono-box"></pre>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="block">
+        <h3>SEVERITY DISTRIBUTION</h3>
+        <table class="report-table">
+          <thead><tr><th>SEVERITY</th><th>COUNT</th></tr></thead>
+          <tbody id="severity-tbody"></tbody>
+        </table>
+      </div>
+      <div class="block">
+        <h3>ATT&amp;CK COVERAGE</h3>
+        <table class="report-table">
+          <thead><tr><th>TECHNIQUE</th><th>COUNT</th></tr></thead>
+          <tbody id="attck-tbody"></tbody>
+        </table>
+      </div>
+    </div>
   </section>
 
   <section id="view-endpoints" class="view">
-    <h2>Endpoints</h2>
-    <div class="toolbar">
-      <button id="refresh-endpoints">Refresh</button>
-      <button id="add-endpoint-btn">Add endpoint (enroll)</button>
-      <span id="add-endpoint-host"><input id="new-hostname" placeholder="hostname"></span>
+    <div class="page-head">
+      <h2>ENDPOINT INVENTORY</h2>
+      <button id="scan-all-btn-2" class="danger">SCAN ALL</button>
     </div>
-    <table id="endpoints-table">
+    <div class="ctrl-row">
+      <button id="refresh-endpoints" class="ghost">REFRESH</button>
+      <label>HOSTNAME <input id="new-hostname" placeholder="new host"></label>
+      <button id="add-endpoint-btn">ENROLL</button>
+    </div>
+    <table class="report-table wide">
       <thead><tr>
-        <th>ID</th><th>Hostname</th><th>OS</th><th>Agent</th><th>Status</th>
-        <th>Last seen</th><th>Interval (s)</th><th>Collectors</th><th>Actions</th>
+        <th>ID</th><th>HOSTNAME</th><th>OS</th><th>AGENT</th><th>STATUS</th>
+        <th>CRITICALITY</th><th>LAST SEEN</th><th>INTERVAL</th><th>ACTIONS</th>
       </tr></thead>
-      <tbody></tbody>
+      <tbody id="endpoints-tbody"></tbody>
     </table>
   </section>
 
-  <section id="view-detections" class="view">
-    <h2>Detections</h2>
-    <div class="toolbar">
-      <label>Host <input id="det-host-filter" placeholder="(all)"></label>
-      <label>Severity <input id="det-severity-filter" placeholder="(all)"></label>
-      <button id="apply-det-filters">Apply</button>
+  <section id="view-incidents" class="view">
+    <div class="page-head">
+      <h2>CORRELATED INCIDENTS</h2>
+      <div id="incident-stats" class="stats-inline"></div>
     </div>
-    <table id="detections-table">
+    <table class="report-table wide">
       <thead><tr>
-        <th>ID</th><th>Host</th><th>Rule</th><th>Technique</th><th>Severity</th>
-        <th>Triage</th><th>Actions</th>
+        <th>ID</th><th>CAMPAIGN / CHAIN</th><th>SEVERITY</th><th>STATUS</th>
+        <th>HOSTS</th><th>DETECTIONS</th><th>FIRST SEEN</th><th>ACTIONS</th>
       </tr></thead>
-      <tbody></tbody>
+      <tbody id="incidents-tbody"></tbody>
+    </table>
+  </section>
+
+  <section id="view-report" class="view">
+    <div class="page-head">
+      <button id="report-back" class="ghost">← BACK TO ENDPOINTS</button>
+      <h2 id="report-title">ENDPOINT REPORT</h2>
+    </div>
+    <div id="report-body"></div>
+  </section>
+
+  <section id="view-detections" class="view">
+    <div class="page-head"><h2>DETECTIONS</h2></div>
+    <div class="ctrl-row">
+      <label>HOST <input id="det-host-filter" placeholder="(ALL)"></label>
+      <label>SEVERITY <input id="det-severity-filter" placeholder="(ALL)"></label>
+      <button id="apply-det-filters">APPLY</button>
+    </div>
+    <table class="report-table wide">
+      <thead><tr>
+        <th>ID</th><th>HOST</th><th>RULE / TECHNIQUE</th><th>SEVERITY</th><th>TRIAGE</th><th>ACTIONS</th>
+      </tr></thead>
+      <tbody id="detections-tbody"></tbody>
     </table>
   </section>
 
   <section id="view-runs" class="view">
-    <h2>Detection Runs (history)</h2>
-    <button id="refresh-runs">Refresh</button>
-    <table id="runs-table">
+    <div class="page-head"><h2>DETECTION RUN HISTORY</h2></div>
+    <button id="refresh-runs" class="ghost">REFRESH</button>
+    <table class="report-table wide">
       <thead><tr>
-        <th>ID</th><th>Trigger</th><th>Status</th><th>Host</th><th>Rescan</th>
-        <th>Started</th><th>Scanned</th><th>Detections</th><th>By severity</th>
+        <th>ID</th><th>TRIGGER</th><th>STATUS</th><th>HOST</th><th>STARTED</th>
+        <th>SCANNED</th><th>FOUND</th><th>BY SEVERITY</th>
       </tr></thead>
-      <tbody></tbody>
+      <tbody id="runs-tbody"></tbody>
     </table>
   </section>
 
   <section id="view-artifacts" class="view">
-    <h2>Artifacts</h2>
-    <div class="toolbar">
-      <label>Host <input id="art-host-filter" placeholder="(all)"></label>
-      <label>Type <input id="art-type-filter" placeholder="(all)"></label>
-      <label>Limit <input id="art-limit" value="50"></label>
-      <button id="apply-art-filters">Apply</button>
+    <div class="page-head"><h2>ARTIFACT EXPLORER</h2></div>
+    <div class="ctrl-row">
+      <label>HOST <input id="art-host-filter" placeholder="(ALL)"></label>
+      <label>TYPE <input id="art-type-filter" placeholder="(ALL)"></label>
+      <label>LIMIT <input id="art-limit" value="50"></label>
+      <button id="apply-art-filters">APPLY</button>
     </div>
-    <table id="artifacts-table">
+    <table class="report-table wide">
       <thead><tr>
-        <th>ID</th><th>Host</th><th>Type</th><th>Collected</th><th>Processed</th><th>Data</th>
+        <th>ID</th><th>HOST</th><th>TYPE</th><th>COLLECTED</th><th>PROC</th><th>DATA</th>
       </tr></thead>
-      <tbody></tbody>
+      <tbody id="artifacts-tbody"></tbody>
     </table>
   </section>
 
   <section id="view-audit" class="view">
-    <h2>Audit Log</h2>
-    <button id="refresh-audit">Refresh</button>
-    <table id="audit-table">
+    <div class="page-head"><h2>AUDIT TRAIL</h2></div>
+    <button id="refresh-audit" class="ghost">REFRESH</button>
+    <table class="report-table wide">
       <thead><tr>
-        <th>ID</th><th>Time</th><th>Actor</th><th>Action</th><th>Detail</th>
+        <th>ID</th><th>TIME</th><th>ACTOR</th><th>ACTION</th><th>DETAIL</th>
       </tr></thead>
-      <tbody></tbody>
+      <tbody id="audit-tbody"></tbody>
     </table>
   </section>
+
 </main>
+
+<footer class="colophon">
+  DFIR THREAT HUNTING FRAMEWORK · SITE REPORT · CLASSIFICATION: INTERNAL USE
+</footer>
 
 <div id="toast" hidden></div>
 <script src="/dashboard/app.js"></script>

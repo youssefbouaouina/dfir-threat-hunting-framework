@@ -1,6 +1,6 @@
 # DFIR Threat Hunting Framework — Enterprise Roadmap
 
-> **Status:** Plan with Phases 1–3 **implemented and committed on the `youssef` branch**. Phase 1 (security hardening, test net, CI scaffolding), Phase 2 (containers, Postgres-ready migrations, CI/CD delivery pipeline, agent automation) and Phase 3 (dashboard, endpoint management, manual triggers, detection triage, ops hardening) are done. Phases 4–5 remain proposals. This roadmap is the architectural blueprint for evolving the framework into an enterprise-grade, containerized, CI/CD-driven DFIR platform with automated collection/detection, self-service endpoint enrollment from a dashboard, detection run history, and manual trigger controls.
+> **Status:** Plan with Phases 1–3 **implemented and committed on the `youssef` branch**. Phase 1 (security hardening, test net, CI scaffolding), Phase 2 (containers, Postgres-ready migrations, CI/CD delivery pipeline, agent automation), Phase 3 (dashboard, endpoint management, manual triggers, detection triage, ops hardening), and Phase 4 F1–F5 (async ingest queue, correlation engine, retention/archival, RBAC/team scoping + immutable audit, notifications + host criticality) are done. Phase 5 has partial groundwork (queue-driven detection worker). This roadmap is the architectural blueprint for evolving the framework into an enterprise-grade, containerized, CI/CD-driven DFIR platform with automated collection/detection, self-service endpoint enrollment from a dashboard, detection run history, and manual trigger controls.
 
 Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the system as it exists today, including all known issues this roadmap fixes.
 
@@ -137,31 +137,35 @@ Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the syst
 
 ## Phase 4 — Scale, Correlation, and Enterprise Features
 
+> **Status: F1–F5 done** (committed on `youssef`). **F1 (async ingest queue, `5afca4d`):** Redis/RabbitMQ-style queue (`backend/ingest_queue.py`) + `workers/ingest_worker.py`; `/ingest` returns 202 when `INGEST_QUEUE_URL` set. **F2 (correlation engine, `46310fb`):** `Incident` + `IncidentDetection` models + `services/correlation_service.py` (same-rule campaigns across hosts, ATT&CK chains per host, severity escalation, idempotent recompute); `/incidents` routes; recomputed after every detection run. **F3 (retention, `ccf62a8`):** `services/retention_service.py` — per-table windows, monthly JSONL archives, optional OpenSearch sink, `/retention/status` + `/retention/run`. **F4 (RBAC + audit, `c503503`):** `admin`/`analyst`/`viewer` roles + `Endpoint.team` scoping + SHA-256 audit hash chain + `/audit-logs/verify`. **F5 (notifications + criticality, this session):** `services/notification_service.py` (webhook + SMTP email, `NOTIFY_*` env, fail-soft) fired on detection severity threshold + endpoint offline; `Endpoint.criticality` (`low`/`standard`/`important`/`critical`, migration `5f0a1c2d9b73`) amplified into correlation severity; `workers/detection_worker.py` queue-driven detection consumer; `POST /endpoints/scan-all` + per-endpoint report `GET /endpoints/{id}/report`; dashboard rewritten as a brutalist technical report with incidents + per-endpoint report views. Tests: `backend/tests/test_phase4_f5.py` (18) → backend **133**, collector **10**, ruff + mypy clean; docker build + compose verified.
+
 **Goal:** handle many endpoints and higher volume without degrading, and turn raw detections into correlated incidents.
 
 ### Work items
 
 - **Async ingest pipeline**
-  - Backend produces artifact batches to a message queue (**Redis/RabbitMQ**); workers (containerized) consume → validate → write Postgres. Ingest API returns immediately (accepted).
-  - Detection worker consumes unprocessed artifacts via queue or a scheduled sweep; scheduler stays as the cadence source.
+  - [x] Backend produces artifact batches to a message queue (**Redis/RabbitMQ**); workers (containerized) consume → validate → write Postgres. Ingest API returns immediately (accepted). *(F1)*
+  - [x] Detection worker consumes unprocessed artifacts via queue or a scheduled sweep; scheduler stays as the cadence source. *(detection worker, this session)*
 - **Correlation engine**
-  - Group detections by host + time window into **incidents** (new `incidents` + `incident_detections` tables).
-  - Same-rule-across-hosts aggregation (scans wider than one box); ATT&CK chain reconstruction per host (tactic sequence).
-  - Severity scoring combining rule severity × host criticality × IOC confidence.
+  - [x] Group detections by host + time window into **incidents** (new `incidents` + `incident_detections` tables). *(F2)*
+  - [x] Same-rule-across-hosts aggregation (scans wider than one box); ATT&CK chain reconstruction per host (tactic sequence). *(F2)*
+  - [x] Severity scoring combining rule severity × host criticality × IOC confidence. *(F2 + host criticality factor this session)*
 - **Storage & retention**
-  - Retention/purging policies per artifact type; archival exports (JSONL) for compliance.
-  - Optional OpenSearch/Elasticsearch sink for high-volume `log_event` search; Postgres remains the system of record.
+  - [x] Retention/purging policies per artifact type; archival exports (JSONL) for compliance. *(F3)*
+  - [ ] Optional OpenSearch/Elasticsearch sink for high-volume `log_event` search; Postgres remains the system of record. *(F3 landed OpenSearch bulk sink; dedicated search UX pending)*
 - **RBAC & audit**
-  - Team/org scoping, granular roles (endpoint admin, incident handler, read-only).
-  - Immutable audit trail of all admin/analyst actions.
+  - [x] Team/org scoping, granular roles (endpoint admin, incident handler, read-only). *(F4)*
+  - [x] Immutable audit trail of all admin/analyst actions. *(F4)*
 - **Notifications**
-  - Alerting hooks: webhook, email, Slack/Teams on high/critical detections or endpoint offline > threshold.
+  - [x] Alerting hooks: webhook, email, Slack/Teams on high/critical detections or endpoint offline > threshold. *(F5 — webhook + email; Slack/Teams adapters are payload-format swaps on the same webhook)*
 
-**Exit criteria:** 100s of endpoints ingest without blocking the API; detections auto-correlate into incidents with ATT&CK chains; alerts fire on configured channels; retention works.
+**Exit criteria:** 100s of endpoints ingest without blocking the API; detections auto-correlate into incidents with ATT&CK chains; alerts fire on configured channels; retention works. **✅ delivered (F1–F5).**
 
 ---
 
 ## Phase 5 — Advanced Detection, Threat Intel Automation & HA
+
+> **Status: partial groundwork done.** `workers/detection_worker.py` (queue-driven detection consumer) landed in the F5 session, giving the platform a containerized detection path beyond the in-process scheduler. Remaining: pySigma, SigmaHQ update pipeline, IOC feed automation, HA/perf work — all below.
 
 **Goal:** production-grade detection content and resilience.
 
@@ -198,8 +202,8 @@ Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the syst
 | 1 | Harden & stabilize | Leaked keys + no tests + uninstallable requirements are active risks that block everything else. Cheap to fix, huge risk reduction. |
 | 2 | Containers + DB + CI/CD + agent automation | Enables automated collection/detection and reproducible deploys; the delivery pipeline everything later depends on. |
 | 3 | Dashboard + endpoint mgmt + manual triggers | Delivers the user-facing self-service (add endpoints, manual triggers, history) on the Phase 1–2 foundation. |
-| 4 | Scale + correlation + enterprise | Queue-based ingest and incident correlation are the real "enterprise-grade" leap; needs many endpoints first. |
-| 5 | Advanced detection + intel + HA | Polish and resilience; build after the platform is stable and populated. |
+| 4 | Scale + correlation + enterprise | Queue-based ingest and incident correlation are the real "enterprise-grade" leap; needs many endpoints first. **F1–F5 delivered.** |
+| 5 | Advanced detection + intel + HA | Polish and resilience; build after the platform is stable and populated. *(detection worker groundwork done)* |
 
 ---
 

@@ -26,6 +26,17 @@ import models  # noqa: E402
 from database import get_db  # noqa: E402
 
 
+def pytest_configure(config):  # noqa: ANN001
+    """Pin tmp_path/basetemp to a project-local dir (gitignored).
+
+    The OS temp basetemp (pytest-of-<user>) can pick up a stale ACL that makes
+    scandir() fail on some Windows boxes; a local, per-repo dir is deterministic
+    everywhere. ``.pytest_tmp`` is gitignored.
+    """
+    local = os.path.join(_BACKEND_DIR, ".pytest_tmp")
+    config.option.basetemp = local
+
+
 def _build_testing_session(tmp_path):
     engine = create_engine(
         f"sqlite:///{tmp_path}/test.db", connect_args={"check_same_thread": False}

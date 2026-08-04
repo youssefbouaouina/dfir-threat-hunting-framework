@@ -73,7 +73,11 @@ def update_endpoint_config(
     """Admin edits an endpoint's agent config (collectors / interval)."""
     try:
         result = endpoint_service.update_endpoint_config(
-            db, endpoint_id, collectors=body.collectors, interval_seconds=body.interval_seconds
+            db,
+            endpoint_id,
+            collectors=body.collectors,
+            interval_seconds=body.interval_seconds,
+            criticality=body.criticality,
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
@@ -82,10 +86,36 @@ def update_endpoint_config(
     return result
 
 
+@router.post("/scan-all", dependencies=[Depends(require_admin)])
+def run_collection_all(
+    user: dict = Depends(current_user),
+    db: Session = Depends(get_db),
+):
+    """Dashboard "Scan all" — queues run_collection for every enrolled endpoint."""
+    actor = str(user.get("subject")) if user else "admin"
+    return endpoint_service.queue_collection_all(db, actor=actor)
+
+
 @router.post("/{endpoint_id}/run-collection", dependencies=[Depends(require_admin)])
 def run_collection_now(endpoint_id: int, db: Session = Depends(get_db)):
     """Dashboard "Run collection now" — queues a command the agent picks up."""
     result = endpoint_service.queue_collection(db, endpoint_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail="Endpoint not found")
+    return result
+
+
+@router.get(
+    "/{endpoint_id}/report",
+    dependencies=[Depends(require_admin)],
+)
+def endpoint_report(
+    endpoint_id: int,
+    user: dict = Depends(current_user),
+    db: Session = Depends(get_db),
+):
+    """Per-endpoint threat-hunting report for the dashboard report view."""
+    result = endpoint_service.get_endpoint_report(db, endpoint_id)
     if result is None:
         raise HTTPException(status_code=404, detail="Endpoint not found")
     return result

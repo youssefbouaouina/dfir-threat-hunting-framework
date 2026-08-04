@@ -22,6 +22,13 @@ def _bind():
     return op.get_bind()
 
 
+def _has_column(bind, table: str, column: str) -> bool:
+    from sqlalchemy import inspect
+
+    return any(c["name"] == column for c in inspect(bind).get_columns(table))
+
+
+
 def upgrade() -> None:
     """Upgrade schema.
 
@@ -54,14 +61,18 @@ def upgrade() -> None:
         op.create_index(op.f('ix_artifacts_id'), 'artifacts', ['id'], unique=False)
         op.create_index(op.f('ix_artifacts_source_run_id'), 'artifacts', ['source_run_id'], unique=False)
     else:
-        # Phase-1 instances lack these columns — add them if missing.
-        columns = {row[1] for row in bind.execute(sa.text('PRAGMA table_info(artifacts)'))}
-        if 'analyzed_at' not in columns:
-            op.add_column('artifacts', sa.Column('analyzed_at', sa.DateTime(timezone=True), nullable=True))
-        if 'source_run_id' not in columns:
-            op.add_column('artifacts', sa.Column('source_run_id', sa.Integer(), nullable=True))
-        if 'agent_batch_id' not in columns:
-            op.add_column('artifacts', sa.Column('agent_batch_id', sa.String(), nullable=True))
+        # Phase-1 instances lack these columns — add them if missing. Uses the
+        # cross-dialect inspector so this also works on PostgreSQL.
+        for column in ('analyzed_at', 'source_run_id', 'agent_batch_id'):
+            if not _has_column(bind, 'artifacts', column):
+                op.add_column(
+                    'artifacts',
+                    sa.Column(column, sa.DateTime(timezone=True), nullable=True)
+                    if column == 'analyzed_at'
+                    else sa.Column(column, sa.Integer(), nullable=True)
+                    if column == 'source_run_id'
+                    else sa.Column(column, sa.String(), nullable=True),
+                )
 
     if not bind.dialect.has_table(bind, 'detection_runs'):
         op.create_table('detection_runs',

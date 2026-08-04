@@ -23,6 +23,7 @@ KNOWN_ACTIONS = {
     "triage_detection",
     "update_endpoint_config",
     "queue_collection",
+    "queue_collection_all",
     "endpoint_enroll",
     "run_retention",
     "recompute_incidents",
