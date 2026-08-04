@@ -1,0 +1,15 @@
+target-version = "py312"
+
+[lint]
+# B008 (function-call-in-default-argument): flags FastAPI's
+# `db: Session = Depends(get_db)` pattern. This is idiomatic, correct
+# FastAPI dependency injection, not a real bug — Depends() is designed
+# to be called exactly this way. A well-known ruff/FastAPI false
+# positive; ignoring it here is deliberate, not a lint bypass.
+#
+# BLE001 (blind-except): our detection modules intentionally catch
+# broad Exception in a few places (scheduler job body, IOC feed calls)
+# specifically so one failing rule/feed can never crash the whole
+# pipeline or the background scheduler thread — see the comments at
+# each site. This is a deliberate resilience pattern, not sloppiness.
+ignore = ["B008", "BLE001"]

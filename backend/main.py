@@ -15,21 +15,44 @@ Endpoints:
     GET  /hosts                 — list all hosts that have reported in
 """
 import json
+import logging
 from collections import Counter
-from typing import List, Optional
+from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, HTTPException, Query
 from sqlalchemy.orm import Session
 
 import models
 import schemas
-from database import Base, engine, get_db
+from database import engine, get_db
+from dashboard import router as dashboard_router
+from detection_routes import router as detection_router
+from reports import router as reports_router
+from scheduler import get_status, start_scheduler, stop_scheduler
+
+logging.basicConfig(level=logging.INFO)
 
 # Creates dfir.db and all tables on first run if they don't exist yet.
 # Safe to call every startup — it's a no-op if tables already exist.
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="DFIR Ingest API", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    start_scheduler()
+    yield
+    stop_scheduler()
+
+
+app = FastAPI(title="DFIR Ingest, Detection & Reporting", version="0.4.0", lifespan=lifespan)
+app.include_router(detection_router)
+app.include_router(reports_router)
+app.include_router(dashboard_router)
+
+
+@app.get("/scheduler/status")
+def scheduler_status():
+    return get_status()
 
 
 @app.get("/health")
@@ -38,7 +61,7 @@ def health():
 
 
 @app.post("/ingest", response_model=schemas.IngestResponse)
-def ingest_artifacts(artifacts: List[schemas.ArtifactIn], db: Session = Depends(get_db)):
+def ingest_artifacts(artifacts: list[schemas.ArtifactIn], db: Session = Depends(get_db)):
     if not artifacts:
         raise HTTPException(status_code=400, detail="Empty artifact list")
 
@@ -73,10 +96,10 @@ def ingest_artifacts(artifacts: List[schemas.ArtifactIn], db: Session = Depends(
     )
 
 
-@app.get("/artifacts", response_model=List[schemas.ArtifactOut])
+@app.get("/artifacts", response_model=list[schemas.ArtifactOut])
 def list_artifacts(
-    host: Optional[str] = None,
-    artifact_type: Optional[str] = None,
+    host: str | None = None,
+    artifact_type: str | None = None,
     limit: int = Query(default=50, le=500),
     db: Session = Depends(get_db),
 ):

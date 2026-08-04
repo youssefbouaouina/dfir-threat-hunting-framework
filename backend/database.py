@@ -3,10 +3,18 @@ Database engine and session setup for the DFIR backend.
 Uses SQLite, matching the "lightweight" requirement from the project brief.
 The .db file is created automatically on first run, in this same folder.
 """
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+import os
 
-DATABASE_URL = "sqlite:///./dfir.db"
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
+
+# DFIR_DB_PATH lets Docker point this at a mounted volume
+# (/app/data/dfir.db) without any code change — same source runs
+# identically containerized or native. Defaults to the same local file
+# used throughout local/native development so nothing breaks for
+# anyone not using Docker yet.
+DB_PATH = os.getenv("DFIR_DB_PATH", "./dfir.db")
+DATABASE_URL = f"sqlite:///{DB_PATH}"
 
 # check_same_thread=False is required for SQLite when used with FastAPI's
 # threaded request handling — safe here since each request gets its own

@@ -1,0 +1,11 @@
+title: Scheduled task invoking a script interpreter directly
+id: rule-005
+artifact_type: scheduled_task
+technique_id: T1053.005
+severity: medium
+description: >
+  Scheduled tasks that directly invoke powershell.exe, cmd.exe, or
+  wscript.exe (rather than a signed, installed application) are a
+  common persistence and execution technique.
+condition:
+  task_to_run_contains: ["powershell", "cmd.exe /c", "wscript", "mshta"]

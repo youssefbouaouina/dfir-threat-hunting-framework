@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Pushes every JSON file in a sample_data/<date>_<hostname>/ folder to the
 running ingest API. This is how you'll routinely feed your collected

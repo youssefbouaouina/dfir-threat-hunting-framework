@@ -1,0 +1,11 @@
+title: Windows service with a suspicious binary path
+id: rule-004
+artifact_type: persistence
+technique_id: T1543.003
+severity: high
+description: >
+  A registered service whose display name or metadata references a
+  Temp directory is atypical — legitimate services install under
+  Program Files or System32.
+condition:
+  display_name_contains: ["Temp", "temp"]

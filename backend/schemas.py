@@ -5,7 +5,7 @@ wrap_artifact() produces, so a collector output JSON file can be POSTed
 to /ingest as-is (it's already a JSON array of these objects).
 """
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from pydantic import BaseModel
 
@@ -15,7 +15,7 @@ class ArtifactIn(BaseModel):
     os: str
     collected_at: str
     artifact_type: str
-    data: Dict[str, Any]
+    data: dict[str, Any]
 
 
 class ArtifactOut(BaseModel):
@@ -24,8 +24,8 @@ class ArtifactOut(BaseModel):
     os: str
     artifact_type: str
     collected_at: str
-    data: Dict[str, Any]
-    ingested_at: Optional[datetime] = None
+    data: dict[str, Any]
+    ingested_at: datetime | None = None
     processed: int
 
     class Config:
@@ -35,4 +35,4 @@ class ArtifactOut(BaseModel):
 class IngestResponse(BaseModel):
     ingested: int
     host: str
-    artifact_types: List[str]
+    artifact_types: list[str]

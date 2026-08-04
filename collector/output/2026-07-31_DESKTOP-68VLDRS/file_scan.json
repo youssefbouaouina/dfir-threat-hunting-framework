@@ -1,0 +1,1214 @@
+[
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\wlanext.exe",
+      "sha256": "8456099deb994f309fde890e4f0e571a0a67f9b7dd079516905175cd1500fa52",
+      "size_bytes": 103424,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\Intel\\SUR\\QUEENCREEK\\SurSvc.exe",
+      "sha256": "f921b9728e3ebff1199fe52cef64f9ac61fd370615877f5bde921a8218d5dbb3",
+      "size_bytes": 210064,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\dolbyaposvc\\DAX3API.exe",
+      "sha256": "528468ae06508c84fe44b797371658e5566f27f02f02f1c8cd13d3cb1dfb30f1",
+      "size_bytes": 1926600,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\Common Files\\microsoft shared\\ClickToRun\\AppVShNotify.exe",
+      "sha256": "cc912cf7bbde1be67235b07e3a3abb0bb4b32e926305caad9951c0c6f021e983",
+      "size_bytes": 225696,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\services.exe",
+      "sha256": "4a912dc98c977788131aad0ae468d86792211ed225f80b2c344a3690b4437428",
+      "size_bytes": 716480,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware.exe",
+      "sha256": "9fdd022dad391aa3fd1e0e68552c8d4cbc3b17914ead0c55a3e54a956900916a",
+      "size_bytes": 2289008,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\taskhostw.exe",
+      "sha256": "4d84d1db6c572da841307b814ccf26478429d3a29f304755ce1baf110e639f64",
+      "size_bytes": 98256,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Lenovo\\VantageService\\5.1.2606.17\\LenovoVantage-(LenovoServiceBridgeAddin).exe",
+      "sha256": "61e051aa379bfaa412c2ae09f19441e7d228c61e8e87828005e36e2ef8448660",
+      "size_bytes": 47680,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\4.18.26060.3008-0\\MpDefenderCoreService.exe",
+      "sha256": "fd32005a98a6309749ea781134aaa2cb5b9722f920b2b7a9fe3c41b6c3deea47",
+      "size_bytes": 2100520,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe",
+      "sha256": "8bbdead7357af7bf0efe397f9fd7e0ec578755eb8bdbaa65ae4f28ef00087ad5",
+      "size_bytes": 496640,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\rundll32.exe",
+      "sha256": "076592ca1957f8f357cc201f0015072c612f5770ad7de85f87f254253c754dd7",
+      "size_bytes": 89600,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Microsoft\\EdgeUpdate\\MicrosoftEdgeUpdate.exe",
+      "sha256": "9a5c0ee0ce2b6a8e425dfe1498163950da4bc5f71a6c3ea7e7bf17b8116f04ea",
+      "size_bytes": 207704,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "sha256": "9785001b0dcf755eddb8af294a373c0b87b2498660f724e76c4d53f9c217c7a3",
+      "size_bytes": 455680,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "sha256": "115a87374083a409eb4b3d0204cbaea8a0e27eeb264cb0b9d3e4c19c378f54d1",
+      "size_bytes": 3988632,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Users\\SidikRoyale\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+      "sha256": "03168c01b7b7491423350e82c26fee71f35b43694d1319d3c668bda6903a0c38",
+      "size_bytes": 106208,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\SynTPEnh.exe",
+      "sha256": "e720d3603a0bd055a6afb4d9cb68d62aa8cc87ea20e23d7f0b2fec5b28e3c1f9",
+      "size_bytes": 4237264,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\spoolsv.exe",
+      "sha256": "a4cd2b77a0a4a4e2c44494faa7e6e633ce3f4a702768c36e758ca73e2487051f",
+      "size_bytes": 850944,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\Intel\\SUR\\QUEENCREEK\\x64\\esrv.exe",
+      "sha256": "265cfcbf25911efec2a2b4675385bf78e9942d18c9123efeee9dcf35bc39b617",
+      "size_bytes": 1089168,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\SysWOW64\\vmnetdhcp.exe",
+      "sha256": "33141a076461b860587c590dfeaa2c5d5a24a2fe80043458f8078ee966acee60",
+      "size_bytes": 373112,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\fontdrvhost.exe",
+      "sha256": "3c5d14682b5787ca00c5aa6ff5df5ee8b28d55af2f965ae6744337889a7c5be6",
+      "size_bytes": 830056,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\lms.inf_amd64_a55aa2cd52a3429d\\LMS.exe",
+      "sha256": "93872e5d2a14350a48bb8d987257ec06a7e1ba791cf5c999253c13a48cac6b94",
+      "size_bytes": 3883208,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "sha256": "ea91cd0634c69789b68770311b4e892010fe9e37d16c15fd33c461a04cebe4e3",
+      "size_bytes": 102864,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Lenovo\\VantageService\\5.1.2606.17\\LenovoVantage-(GenericTelemetryAddin).exe",
+      "sha256": "61e051aa379bfaa412c2ae09f19441e7d228c61e8e87828005e36e2ef8448660",
+      "size_bytes": 47680,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\SearchIndexer.exe",
+      "sha256": "ea34bad5b91d6a94273aa496a5c44faadb471edeab8a7b4b034ae55381ac20c4",
+      "size_bytes": 936448,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "sha256": "e95ea3f44d9db3f786bd1fa72c50bc8d173065f629f553a8eb4e502e56e703a8",
+      "size_bytes": 4970824,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Lenovo\\VantageService\\5.1.2606.17\\LenovoVantageService.exe",
+      "sha256": "2fb6759a0e79a7128e77867fc3a2311a9c5965a0c875b657da554b47ec29a89c",
+      "size_bytes": 44096,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Lenovo\\VantageService\\5.1.2606.17\\LenovoVantage-(VantageCoreAddin).exe",
+      "sha256": "39276c1e232f5b54d3b8cd1ef88972f776e0b110c4eab0e156a4e3633fad97d1",
+      "size_bytes": 48192,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\wininit.exe",
+      "sha256": "3b1c5da8b61e9331a7a0f918c33403c75afe06baa646eeed224b678024fabd40",
+      "size_bytes": 490296,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\MoUsoCoreWorker.exe",
+      "sha256": "10c56ede5e905c98c5bcce8a29dce481cece3ba2e1351b0ca664c631e277436a",
+      "size_bytes": 1971200,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\x64\\vmware-vmx.exe",
+      "sha256": "7f58cf026de36ecf522249d3fa26f87416d78061c456fe518f4f9d999b2b862a",
+      "size_bytes": 21209456,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\x64\\mksSandbox.exe",
+      "sha256": "4852d59266210b0c67f4f91d11f9e34a4128805772ac390ac67872ec78057e0d",
+      "size_bytes": 4408176,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\4.18.26060.3008-0\\NisSrv.exe",
+      "sha256": "d2dfa88d08c14d85fbea016b6f63d0f490bfd688c594a9c46dfeca4d937c62cd",
+      "size_bytes": 4769792,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\MusNotifyIcon.exe",
+      "sha256": "2d11d29ebb42d1d95f91cc391c9952b419b4922743ba09e5d766bba2d065c7b5",
+      "size_bytes": 649904,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\WindowsApps\\Microsoft.ZuneVideo_10.26061.10051.0_x64__8wekyb3d8bbwe\\Video.UI.exe",
+      "sha256": "6067bfa975362637fffe7859b3e0aa15cfd286b5050b40a6cdb0d9c62cc49f10",
+      "size_bytes": 19744768,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\Common Files\\microsoft shared\\ClickToRun\\OfficeClickToRun.exe",
+      "sha256": "68286c290a0d0329446c70a77493c92c672e0237090a91f478bf6dd3a34ad94d",
+      "size_bytes": 13546304,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\SystemPropertiesAdvanced.exe",
+      "sha256": "c61fa0f8c5d8d61110adbcceaa453a6c1d31255b3244dc7e3b605a4a931c245c",
+      "size_bytes": 83968,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Users\\SidikRoyale\\AppData\\Local\\Discord\\Update.exe",
+      "sha256": "1e578e8f05769230d30cd3889361f982c8f57f585370dac56aae4da4fd3dd142",
+      "size_bytes": 1596344,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Common Files\\VMware\\USB\\vmware-usbarbitrator64.exe",
+      "sha256": "5c1bb178dad64da698cf1c175bcf04e70801147c1d89920c0120e890f6c1e41e",
+      "size_bytes": 994168,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Lenovo\\VantageService\\5.1.2606.17\\LenovoVantage-(GenericMessagingAddin).exe",
+      "sha256": "39276c1e232f5b54d3b8cd1ef88972f776e0b110c4eab0e156a4e3633fad97d1",
+      "size_bytes": 48192,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\oobe\\UserOOBEBroker.exe",
+      "sha256": "bde96de9bd4719e6c030bd58939af5cdc4648549a923efc2bc41557fd313d0eb",
+      "size_bytes": 88064,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Intel\\Driver and Support Assistant\\x86\\DSATray.exe",
+      "sha256": "00f4c5371675b8715f82f7bb66d3ea4cf9c28869191ef1693a086319b58210fa",
+      "size_bytes": 136720,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\WUDFHost.exe",
+      "sha256": "a05cda64f0d33760ac8d7a3479582b18f645b22885ed60bcf98394bf37e0bb4a",
+      "size_bytes": 304128,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\ShadowPlay\\nvsphelper64.exe",
+      "sha256": "af40ef8d643f32ef2d0046acb6df4e65b015bc25f199bb776d95c905064e497d",
+      "size_bytes": 918128,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\dasHost.exe",
+      "sha256": "7d2e7725665344652db5c5c79d1e807baa885838069d8867c4a8c763084f7355",
+      "size_bytes": 98816,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\SysWOW64\\vmnat.exe",
+      "sha256": "4c3f9515fb86a046b2a6c6fadb9ca52dafc89b6911ae4610eae5c03ec1871c83",
+      "size_bytes": 420216,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\svchost.exe",
+      "sha256": "b0b36bff7ae4057f687d839cd4b3d81159ab646f1ee1b22106a927e93decbb61",
+      "size_bytes": 57480,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\smss.exe",
+      "sha256": "7fd480e87a53902476a8803a7932156601b349b7f9a5618e7739aeb340666a6d",
+      "size_bytes": 175216,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\SynTPEnhService.exe",
+      "sha256": "ad6007fd28fe0cecff1bf2e79dda9779ca3a023a9fbc2d798271a3b2bf970b2a",
+      "size_bytes": 330192,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe",
+      "sha256": "28c930ca7d30cc5bdf9d9163e182d41898756a8188f35dc3a1324e49ac17ed5a",
+      "size_bytes": 1718656,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\AggregatorHost.exe",
+      "sha256": "bf2621012cb6e624977ad98ec6c4b136e380f76e5610f149516a8bee04d72c99",
+      "size_bytes": 328192,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\sppsvc.exe",
+      "sha256": "b2ed1c895ac1c0a1b673e8baf5e0324b55665b889bd3f11d97c8a42a250bea8b",
+      "size_bytes": 4669288,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\RtkAudUService64.exe",
+      "sha256": "a18d33ef8862240fae8a06a73860ffe127eb0087581d8f902d15e74af494458b",
+      "size_bytes": 1076728,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\conhost.exe",
+      "sha256": "5bb5ac50aafbb537377d4167a431c7a6642ff7c99910f485d9dc5c541395ae2e",
+      "size_bytes": 867840,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\ProgramData\\Lenovo\\Vantage\\Addins\\LenovoCompanionAppAddin\\1.0.0.58\\LenovoVantage.exe",
+      "sha256": "7b8c3737ff0b7ddaf035361c9d4edd4491db3f26a25bfe1a50c89c683310c5a7",
+      "size_bytes": 41440,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\cui_dch.inf_amd64_b787c039819e9d91\\igfxEM.exe",
+      "sha256": "e003fb7fd03ad460752135906daa749cc417524b0326d4e9c927e5e2a65ae331",
+      "size_bytes": 773968,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\Locator.exe",
+      "sha256": "e13985d667f66b7a0082356f23270f61a57b8c2dd211b1e09d66d7970d7b4d6a",
+      "size_bytes": 11264,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\150.0.4078.105\\elevation_service.exe",
+      "sha256": "6d287b89f2f69fee4d69dd4e67b9d87b0a1db95f6c015f5a28ebb4433b8526e6",
+      "size_bytes": 3915080,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe",
+      "sha256": "0d65ea42e2d2387ca06fc8ad616714884c6161361797f324c266b85ea08ec254",
+      "size_bytes": 3324528,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\audiodg.exe",
+      "sha256": "0e5152c5772e9708eac8237d48331a3ebb10b1ab9d9543d771a28b3927d661bb",
+      "size_bytes": 637552,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\iaahcic.inf_amd64_f222132bfa8270de\\RstMwService.exe",
+      "sha256": "9e15b551fca632b5ee2ece67456dd6b459d0541d8dec87bd475a514991960a52",
+      "size_bytes": 2240688,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe",
+      "sha256": "d3a50d173af5b0fdd44cbfd7bf7c7471a3b8998eb45c9b49aa2f1c98c9d54ca9",
+      "size_bytes": 98152,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\SecurityHealthSystray.exe",
+      "sha256": "ead5bbb7752377bb4d9bf8dcc38a34969e254e5da87889b8d4b4788e3be0b0ef",
+      "size_bytes": 86016,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\Common Files\\microsoft shared\\ink\\TabTip.exe",
+      "sha256": "25e4b3ebf4782c28008c926b7fbeb9868180e56b8a5b757b7c988d0e6d377493",
+      "size_bytes": 439664,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\SystemApps\\Microsoft.Windows.Search_cw5n1h2txyewy\\SearchApp.exe",
+      "sha256": "6bd1eec24771c9c913317e95a3a9541582bb9281e277e692fa039b1bbe36015a",
+      "size_bytes": 3979216,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\dptf_cpu.inf_amd64_7ecc5be6ca7b3b0d\\esif_uf.exe",
+      "sha256": "338662a630fd14c7f3d21a2ecd76e22ac471899f52ea55f677088ff49b43bfb0",
+      "size_bytes": 2140552,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\sihost.exe",
+      "sha256": "5f2b9a9b5cc6be90acdf7dc0debc6133ed68c5cc27d2bd31048d03c312d18f4b",
+      "size_bytes": 111104,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\backgroundTaskHost.exe",
+      "sha256": "7077cbf56490c86fc74c0cc6c0379ab679f06a066e71906ad23458f664836449",
+      "size_bytes": 20968,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\4.18.26060.3008-0\\MsMpEng.exe",
+      "sha256": "35979bf35eea166dd17d81b50ceae41043e4ae1082f4ed25383adffd9d88de4a",
+      "size_bytes": 290704,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\ctfmon.exe",
+      "sha256": "484fed5f039f429ed933931ba607b7efda7d1a343d79cfab60910e1843147012",
+      "size_bytes": 11264,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe",
+      "sha256": "326574f6c6632fdb9b75ee201d385e5a5d0abdd519cbd84ab1de966128f6c4db",
+      "size_bytes": 9728,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\Common Files\\microsoft shared\\ClickToRun\\Updates\\16.0.20228.20124\\OfficeClickToRun.exe",
+      "sha256": "68286c290a0d0329446c70a77493c92c672e0237090a91f478bf6dd3a34ad94d",
+      "size_bytes": 13546304,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Users\\SidikRoyale\\dev\\dfir-threat-hunting-framework-backup2\\collector\\venv\\Scripts\\python.exe",
+      "sha256": "199ce15a9f0d4f9522edba59338e4879d28cf61f88e377b8164bcb716275ed22",
+      "size_bytes": 255200,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\winlogon.exe",
+      "sha256": "01450861cad9f6e98ae48dbadf6c29d4b10f2017ff65d9aa67d04b64aa4ab1a2",
+      "size_bytes": 948224,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\dal.inf_amd64_0b214be229a13e84\\jhi_service.exe",
+      "sha256": "dfa37ff9d94fda7e7f1f4c3f649355b74c13e8abc762c41af531971322f93e45",
+      "size_bytes": 653008,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware-authd.exe",
+      "sha256": "c2cd9f56db35c85dd5886a847cb35a2f8893b6e4fcb107493e866f4df8047d58",
+      "size_bytes": 77176,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\SystemApps\\Microsoft.LockApp_cw5n1h2txyewy\\LockApp.exe",
+      "sha256": "e6463a5746ee33bce0f608f74220dba08f4ef643f2698afd2b970d40cae409d7",
+      "size_bytes": 3879896,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware-tray.exe",
+      "sha256": "cc490777649c4d591b0e30ee43e4cbe677ad892391db38021573b6ccf6fc74d4",
+      "size_bytes": 114032,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\iigd_dch.inf_amd64_5579cd97fbcd455d\\IntelCpHDCPSvc.exe",
+      "sha256": "ce06c5b052a1265e589377646d40dca051b44fb0e7bbcc0f1fc5cd85b7067db3",
+      "size_bytes": 345944,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\cui_dch.inf_amd64_b787c039819e9d91\\igfxCUIService.exe",
+      "sha256": "c13459d640eea3d76129e1c9242c6fef49e814f9a5f8b79dde3c24dfd906b1f4",
+      "size_bytes": 403280,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\Intel\\SUR\\QUEENCREEK\\x64\\esrv_svc.exe",
+      "sha256": "d1d2bdf14ad029b92fe574c9579015721e76b42f2c6d53616ad025293310af06",
+      "size_bytes": 1151120,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\Microsoft Office\\root\\Integration\\Integrator.exe",
+      "sha256": "780df96e853f16c28c2a8d91532929971559d858e66101a67c800fce0f3b3be8",
+      "size_bytes": 6486432,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\dllhost.exe",
+      "sha256": "0309834d40475ccd5a88c48f7ff5ec62e5c6798900357dd83665c3d0345124e0",
+      "size_bytes": 22384,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\nvcontainer.exe",
+      "sha256": "35275305aaf8db56ef4c7b0dbe5d2691a595bb51c6050ffa531fb979cb85013b",
+      "size_bytes": 1342496,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe",
+      "sha256": "5d3aeb04a133d6c3db2e171a855e3f1a7a49c5f0440dfab84d984c8084a48932",
+      "size_bytes": 811928,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files\\Riot Vanguard\\vgtray.exe",
+      "sha256": "22ad5d90f7f67f7d7930c2456cca284d245d2bc28d360405038a5fac588f3cc3",
+      "size_bytes": 7315760,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\150.0.4078.99\\msedgewebview2.exe",
+      "sha256": "5453d483f34635062efa0ac43be98ffb62a10542821361ae3a759ddd96629430",
+      "size_bytes": 4429640,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\nvlti.inf_amd64_0ca5a5a7c177877a\\Display.NvContainer\\NVDisplay.Container.exe",
+      "sha256": "4253347eade4f792fccde415e4c9e46122b5f7e05981ce7d47a9bdde6c1310bc",
+      "size_bytes": 1275624,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Intel\\Driver and Support Assistant\\x86\\DSAUpdateService.exe",
+      "sha256": "a2568619c38984a186a83cdcc02bb67a068cc450175e91c7eff430d90d536619",
+      "size_bytes": 132112,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\ApplicationFrameHost.exe",
+      "sha256": "1712faddc7a4cd9c148f7bb5619dd99b414ee9a59f1c20da033d5cc96ab3f8bc",
+      "size_bytes": 80120,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\lsass.exe",
+      "sha256": "c0e8b7201730a53a8d33553937d48161bba11dee0eeb38ec3b9d2f268d1d269d",
+      "size_bytes": 61160,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\iigd_dch.inf_amd64_5579cd97fbcd455d\\IntelCpHeciSvc.exe",
+      "sha256": "910c21b0bd5e2558a73d7ac033dda647471745ea77df1a482c13c6529dbfdb2c",
+      "size_bytes": 521560,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Program Files (x86)\\Intel\\Driver and Support Assistant\\x86\\DSAService.exe",
+      "sha256": "44a41ea3a83c48bbbc593d31a7d9d6611bdeac5a35ee8cccd5130c34de8bc767",
+      "size_bytes": 132616,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\notepad.exe",
+      "sha256": "da5807bb0997cc6b5132950ec87eda2b33b1ac4533cf1f7a22a6f3b576ed7c5b",
+      "size_bytes": 200704,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\SecurityHealthService.exe",
+      "sha256": "59db34ad9d1004b23ee29675e31739b78b054354a7832a8d4cb642db928c7e89",
+      "size_bytes": 1002200,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\CompPkgSrv.exe",
+      "sha256": "c988f9db72e0c1ebe227ee4786db7675c304f98c6c1da916a20f73122c095127",
+      "size_bytes": 215040,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\igcc_dch.inf_amd64_a5f2152e4806694a\\OneApp.IGCC.WinService.exe",
+      "sha256": "3898c87cd11520bb5b9570acbc7d3c570db394189b2f8686a46291596911de0b",
+      "size_bytes": 42328,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\dwm.exe",
+      "sha256": "6f0e4056626064c4ea18a91512d83440167b65d2b3dc0175d88ec69ffe06f315",
+      "size_bytes": 111104,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\cui_dch.inf_amd64_b787c039819e9d91\\igfxext.exe",
+      "sha256": "1ac9e2535e6dec9d9cff191a0c7388a9014f898a9fbf58cc3ffa5b0b9e16ba02",
+      "size_bytes": 346456,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\FMService64.exe",
+      "sha256": "51870b21e0a9e47234c705a64609884435243e37dc0791ec018277dfc573fa19",
+      "size_bytes": 359808,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\System32\\csrss.exe",
+      "sha256": "9e63d657b41e13b75aebb261e7f93c0655d52ee82811b37e7470f4119e5b6054",
+      "size_bytes": 18784,
+      "yara_matches": []
+    }
+  },
+  {
+    "host": "DESKTOP-68VLDRS",
+    "os": "windows",
+    "collected_at": "2026-07-31T06:45:27Z",
+    "artifact_type": "file_scan",
+    "data": {
+      "path": "C:\\Windows\\explorer.exe",
+      "sha256": "f75a4fcf3dfea5d5d6eb0463c35dbe5eafa842f49c4809746c57aac8da4cddc0",
+      "size_bytes": 6090176,
+      "yara_matches": []
+    }
+  }
+]

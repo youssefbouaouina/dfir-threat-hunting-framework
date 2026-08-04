@@ -1,0 +1,8 @@
+# Known-bad SHA256 hashes, one per line: <hash> <optional description>
+# Lines starting with # are comments. Maintain this list manually or via
+# periodic export from a feed like MalwareBazaar (bazaar.abuse.ch).
+
+# EICAR test file — used to validate the detection pipeline end-to-end,
+# not a real threat. Keep this entry; it's how you demo the hash-match
+# path working during your defense without needing real malware on hand.
+275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f EICAR test file (pipeline validation)

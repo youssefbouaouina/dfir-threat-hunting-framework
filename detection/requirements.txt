@@ -1,0 +1,8 @@
+yara-python>=4.5.0
+pyyaml>=6.0
+mitreattack-python>=3.0.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+sqlalchemy>=2.0.0

@@ -1,0 +1,12 @@
+title: rc.local boot script persistence present
+id: rule-013
+artifact_type: persistence
+technique_id: T1037.004
+severity: low
+description: >
+  /etc/rc.local is a legacy but still-abused persistence location.
+  Its mere presence isn't malicious, but any non-default content is
+  worth reviewing — flagged here so an analyst can eyeball the content
+  column during triage.
+condition:
+  type: rc.local

@@ -1,0 +1,11 @@
+title: Cron entry referencing a script outside standard system paths
+id: rule-002
+artifact_type: persistence
+technique_id: T1053.003
+severity: medium
+description: >
+  Legitimate cron jobs almost always reference scripts under /usr,
+  /opt, or /etc. References to /tmp or /dev/shm are a common
+  persistence pattern for dropped payloads.
+condition:
+  entry_contains: [".sh", "/tmp/", "/dev/shm/"]

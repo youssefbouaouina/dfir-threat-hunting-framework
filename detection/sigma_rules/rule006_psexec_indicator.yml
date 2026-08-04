@@ -1,0 +1,11 @@
+title: PsExec-style remote service execution indicator
+id: rule-006
+artifact_type: scheduled_task
+technique_id: T1569.002
+severity: high
+description: >
+  Task/service names matching PsExec's default naming pattern
+  (PSEXESVC) indicate remote command execution tooling, legitimate
+  admin use or lateral movement.
+condition:
+  task_name_contains: ["PSEXESVC", "psexec"]

@@ -10,7 +10,7 @@ engine can query WHERE processed = 0, run YARA/Sigma/correlation against
 those rows, then flip them to processed = 1 so it never re-analyzes the
 same artifact twice.
 """
-from sqlalchemy import Column, Integer, String, Text, DateTime
+from sqlalchemy import Column, DateTime, Integer, String, Text
 from sqlalchemy.sql import func
 
 from database import Base
@@ -36,3 +36,32 @@ class Artifact(Base):
     data = Column(Text, nullable=False)              # JSON-encoded artifact-specific fields
     ingested_at = Column(DateTime(timezone=True), server_default=func.now())
     processed = Column(Integer, default=0)            # 0 = not yet analyzed, 1 = analyzed
+
+
+class Detection(Base):
+    __tablename__ = "detections"
+
+    id = Column(Integer, primary_key=True, index=True)
+    host = Column(String, index=True, nullable=False)
+    rule_id = Column(String, index=True, nullable=False)
+    rule_title = Column(String, nullable=False)
+    technique_id = Column(String, index=True, nullable=True)
+    technique_name = Column(String, nullable=True)
+    tactic = Column(String, nullable=True)
+    artifact_type = Column(String, nullable=False)
+    severity = Column(String, nullable=True)
+    matched_data = Column(Text, nullable=False)         # JSON-encoded artifact data that triggered this
+    detected_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class Report(Base):
+    __tablename__ = "reports"
+
+    id = Column(Integer, primary_key=True, index=True)
+    run_id = Column(String, unique=True, index=True, nullable=False)
+    host_filter = Column(String, nullable=True)          # None = all hosts
+    triggered_by = Column(String, nullable=False)          # "manual" | "scheduled"
+    detections_count = Column(Integer, default=0)
+    pdf_filename = Column(String, nullable=False)
+    summary_json = Column(Text, nullable=False)             # severity/technique breakdown, for dashboard display
+    generated_at = Column(DateTime(timezone=True), server_default=func.now())

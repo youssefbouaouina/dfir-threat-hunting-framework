@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DFIR Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-void: #0D1119;
+    --bg-panel: #161B26;
+    --bg-panel-raised: #1D2331;
+    --border-hairline: #262E3D;
+    --text-primary: #E7EAF0;
+    --text-muted: #8891A3;
+    --accent: #E8A33D;
+    --accent-dim: rgba(232, 163, 61, 0.14);
+    --sev-critical: #E5484D;
+    --sev-high: #F2994A;
+    --sev-medium: #F2C94C;
+    --sev-low: #4FA3D1;
+    --sev-unknown: #5B6472;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg-void);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+
+  h1, h2, h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  a { color: var(--accent); }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+
+  .topbar h1 { font-size: 20px; letter-spacing: -0.01em; }
+  .topbar .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .scheduler-pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .pulse-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 var(--accent-dim);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(232,163,61,0.5); }
+    70%  { box-shadow: 0 0 0 8px rgba(232,163,61,0); }
+    100% { box-shadow: 0 0 0 0 rgba(232,163,61,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-dot { animation: none; }
+  }
+
+  .run-now-btn {
+    background: var(--accent);
+    color: #1A1200;
+    border: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  .run-now-btn:hover { opacity: 0.88; }
+  .run-now-btn:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; }
+  .run-now-btn:disabled { opacity: 0.5; cursor: wait; }
+
+  .container { padding: 28px 32px; max-width: 1280px; margin: 0 auto; }
+
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-hairline);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .stat-card .value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .stat-card .label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 900px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .stat-strip { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-hairline);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .panel h2 { font-size: 14px; margin-bottom: 14px; }
+
+  .signal-bar {
+    display: flex;
+    height: 28px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: var(--bg-panel-raised);
+  }
+  .signal-seg { transition: width 0.3s ease; }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch { width: 9px; height: 9px; border-radius: 2px; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 500;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  td {
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--border-hairline);
+    font-size: 12.5px;
+  }
+  tr:last-child td { border-bottom: none; }
+
+  .sev-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .feed-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-hairline);
+    border-left: 2px solid transparent;
+    padding-left: 12px;
+  }
+  .feed-item:last-child { border-bottom: none; }
+  .feed-item .rule { font-weight: 600; font-size: 13px; }
+  .feed-item .meta { color: var(--text-muted); font-size: 11px; margin-top: 2px; }
+
+  .empty-state {
+    color: var(--text-muted);
+    font-size: 12.5px;
+    padding: 12px 0;
+    text-align: center;
+  }
+
+  .download-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    text-decoration: none;
+    border: 1px solid var(--border-hairline);
+    padding: 3px 9px;
+    border-radius: 4px;
+    color: var(--text-primary);
+  }
+  .download-link:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="eyebrow">DFIR &amp; Threat Hunting Framework</div>
+    <h1>Investigation Console</h1>
+  </div>
+  <div style="display:flex; align-items:center; gap:20px;">
+    <div class="scheduler-pulse">
+      <span class="pulse-dot"></span>
+      {% if scheduler_status.running %}
+        Auto-detection active &middot; every {{ scheduler_status.interval_seconds }}s
+      {% else %}
+        Scheduler offline
+      {% endif %}
+    </div>
+    <button class="run-now-btn" id="runNowBtn" onclick="runNow()">Run Investigation Now</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="stat-strip">
+    <div class="stat-card">
+      <div class="value">{{ hosts|length }}</div>
+      <div class="label">Endpoints monitored</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">{{ total_artifacts }}</div>
+      <div class="label">Artifacts collected</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">{{ total_detections }}</div>
+      <div class="label">Total detections</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">{{ reports|length }}</div>
+      <div class="label">Reports on record</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Severity Signal</h2>
+    {% if total_detections > 0 %}
+    <div class="signal-bar">
+      {% for sev, count in severity_counts %}
+        {% if count > 0 %}
+        <div class="signal-seg" style="width: {{ (count / total_detections * 100)|round(2) }}%; background: var(--sev-{{ sev }});" title="{{ sev }}: {{ count }}"></div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="legend">
+      {% for sev, count in severity_counts %}
+      <div class="legend-item">
+        <span class="legend-swatch" style="background: var(--sev-{{ sev }});"></span>
+        {{ sev }} &middot; {{ count }}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">No detections yet — run an investigation to populate this view.</div>
+    {% endif %}
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="panel">
+        <h2>ATT&amp;CK Technique Coverage</h2>
+        {% if technique_rows %}
+        <table>
+          <thead><tr><th>Technique</th><th>Name</th><th>Tactic</th><th>Count</th></tr></thead>
+          <tbody>
+          {% for tid, tname, tactic, count in technique_rows %}
+            <tr>
+              <td class="mono">{{ tid or '—' }}</td>
+              <td>{{ tname or '—' }}</td>
+              <td>{{ tactic or '—' }}</td>
+              <td class="mono">{{ count }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">No techniques observed yet.</div>
+        {% endif %}
+      </div>
+
+      <div class="panel">
+        <h2>Monitored Endpoints</h2>
+        {% if hosts %}
+        <table>
+          <thead><tr><th>Hostname</th><th>OS</th><th>Last Seen</th></tr></thead>
+          <tbody>
+          {% for h in hosts %}
+            <tr>
+              <td class="mono">{{ h.hostname }}</td>
+              <td>{{ h.os }}</td>
+              <td class="mono">{{ h.last_seen }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">No endpoints have reported in yet.</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div>
+      <div class="panel">
+        <h2>Recent Detections</h2>
+        {% if recent_detections %}
+        {% for d in recent_detections %}
+        <div class="feed-item" style="border-left-color: var(--sev-{{ d.severity or 'unknown' }});">
+          <div class="rule">{{ d.rule_title }}</div>
+          <div class="meta mono">
+            <span class="sev-pill" style="background: var(--sev-{{ d.severity or 'unknown' }}); color: #14171F;">{{ d.severity or 'unknown' }}</span>
+            {{ d.host }} &middot; {{ d.technique_id or '—' }} &middot; {{ d.detected_at }}
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="empty-state">Nothing detected yet.</div>
+        {% endif %}
+      </div>
+
+      <div class="panel">
+        <h2>Report History</h2>
+        {% if reports %}
+        <table>
+          <thead><tr><th>Generated</th><th>Scope</th><th>Detections</th><th></th></tr></thead>
+          <tbody>
+          {% for r in reports %}
+            <tr>
+              <td class="mono">{{ r.generated_at }}</td>
+              <td>{{ r.host_filter or 'All hosts' }}</td>
+              <td class="mono">{{ r.detections_count }}</td>
+              <td><a class="download-link" href="/reports/{{ r.run_id }}/download">Download PDF</a></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">No reports generated yet — click "Run Investigation Now" above.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+async function runNow() {
+  const btn = document.getElementById('runNowBtn');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Running…';
+  try {
+    const resp = await fetch('/reports/run-now', { method: 'POST' });
+    if (!resp.ok) throw new Error('Request failed');
+    location.reload();
+  } catch (e) {
+    btn.textContent = 'Failed — retry';
+    btn.disabled = false;
+    setTimeout(() => { btn.textContent = originalText; }, 2500);
+  }
+}
+</script>
+
+</body>
+</html>

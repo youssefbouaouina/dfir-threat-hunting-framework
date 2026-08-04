@@ -1,0 +1,11 @@
+title: Command-line tool download/execution (ingress tool transfer)
+id: rule-011
+artifact_type: process
+technique_id: T1105
+severity: high
+description: >
+  certutil -urlcache, Invoke-WebRequest, and curl/wget piping output
+  to disk are common ways attackers pull a second-stage payload onto
+  a compromised host.
+condition:
+  cmdline_contains: ["certutil -urlcache", "Invoke-WebRequest", "DownloadString", "wget -O", "curl -o"]
