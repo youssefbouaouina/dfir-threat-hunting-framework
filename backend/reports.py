@@ -13,19 +13,19 @@ Two ways a report gets created:
 import json
 import os
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import FileResponse
-from sqlalchemy.orm import Session
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import LETTER
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from sqlalchemy.orm import Session
 
-from database import get_db
 import models
+from database import get_db
 from detection_routes import run_detection_job
 
 router = APIRouter()
@@ -58,7 +58,7 @@ def _generate_pdf(report_id: str, detections: list, host_filter: str | None) -> 
     styles = getSampleStyleSheet()
     story = [
         Paragraph("DFIR &amp; Threat Hunting Investigation Report", styles["Title"]),
-        Paragraph(f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}", styles["Normal"]),
+        Paragraph(f"Generated: {datetime.now(UTC).strftime('%Y-%m-%d %H:%M UTC')}", styles["Normal"]),
         Paragraph(f"Scope: {host_filter or 'All monitored endpoints'}", styles["Normal"]),
         Spacer(1, 0.3 * inch),
         Paragraph(f"Total Detections: {len(detections)}", styles["Heading2"]),

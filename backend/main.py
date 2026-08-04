@@ -24,8 +24,8 @@ from sqlalchemy.orm import Session
 
 import models
 import schemas
-from database import engine, get_db
 from dashboard import router as dashboard_router
+from database import engine, get_db
 from detection_routes import router as detection_router
 from reports import router as reports_router
 from scheduler import get_status, start_scheduler, stop_scheduler
