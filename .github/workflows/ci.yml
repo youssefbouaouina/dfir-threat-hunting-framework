@@ -30,6 +30,10 @@ jobs:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
+        with:
+          # gitleaks scans a git range (base^..head); a shallow depth-1 clone
+          # cannot resolve the range base and the secret-scan step fails.
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
