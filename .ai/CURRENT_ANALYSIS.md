@@ -14,7 +14,7 @@
 | In-repo venvs | ❌ broken on this machine (`backend/.venv` = Linux layout; `backend/venv` = stale Python 3.14 pointer); use `%TEMP%\dfir_venv` |
 
 ### Auth path verified end-to-end (C2)
-Ran the app via TestClient with `AUTH_ENABLED=true`, `ADMIN_API_KEY=demo-admin-key`, `AGENT_API_KEYS=demo-agent-key-1`:
+Ran the app via TestClient with `AUTH_ENABLED=true`, `ADMIN_API_KEY=<test-admin-key>`, `AGENT_API_KEYS=<test-agent-key-1>`:
 - `GET /health` (no auth) → 200 ✅
 - `GET /hosts` (no auth) → 401 ✅
 - `POST /auth/login` correct key → 200, token issued ✅

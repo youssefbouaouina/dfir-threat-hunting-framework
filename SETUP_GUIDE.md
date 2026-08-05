@@ -355,15 +355,15 @@ By default everything is open (fine for an isolated lab). To require keys:
 1. In `backend\.env`:
    ```ini
    AUTH_ENABLED=true
-   ADMIN_API_KEY=my-super-secret-admin-key
-   AUTH_SECRET=a-long-random-string-for-signing-tokens
-   AGENT_API_KEYS=agent-key-ubuntu,agent-key-win10
+   ADMIN_API_KEY=<your-admin-api-key>
+   AUTH_SECRET=<a-long-random-string-for-signing-tokens>
+   AGENT_API_KEYS=<agent-key-ubuntu>,<agent-key-win10>
    ```
 2. Restart the backend.
 3. Agents present their per-endpoint key:
    ```bash
    python collector_agent.py --api-url http://192.168.1.50:8000 \
-     --api-key agent-key-ubuntu --enroll --daemon --interval 60
+     --api-key <agent-key-ubuntu> --enroll --daemon --interval 60
    ```
 4. The dashboard logs in with the **admin key** (`POST /auth/login` → bearer
    token). Admin-only routes (`/endpoints`, `/metrics`, `/audit-logs`) then

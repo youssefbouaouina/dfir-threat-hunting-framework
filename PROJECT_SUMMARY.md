@@ -362,16 +362,16 @@ To demonstrate the opt-in auth during a showcase:
 
 ```bash
 export AUTH_ENABLED=true
-export ADMIN_API_KEY=demo-admin-key
-export AGENT_API_KEYS=demo-agent-key-1
+export ADMIN_API_KEY=<your-admin-api-key>
+export AGENT_API_KEYS=<agent-key-1>,<agent-key-2>
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
 Now:
 - `GET /hosts` without a token → **401**.
-- Login for an analyst token: `curl -X POST http://127.0.0.1:8000/auth/login -H "Content-Type: application/json" -d '{"api_key":"demo-admin-key"}'` → `{"token":"<jwt-like signed token>", ...}`.
+- Login for an analyst token: `curl -X POST http://127.0.0.1:8000/auth/login -H "Content-Type: application/json" -d '{"api_key":"<your-admin-api-key>"}'` → `{"token":"<jwt-like signed token>", ...}`.
 - `curl http://127.0.0.1:8000/hosts -H "Authorization: Bearer <token>"` → **200**.
-- Ingesting requires an agent key: `curl -X POST http://127.0.0.1:8000/ingest -H "Authorization: Bearer demo-agent-key-1" -H "Content-Type: application/json" -d '[...]'`.
+- Ingesting requires an agent key: `curl -X POST http://127.0.0.1:8000/ingest -H "Authorization: Bearer <agent-key-1>" -H "Content-Type: application/json" -d '[...]'`.
 
 ### 6.9 Run the test suite (the "quality" highlight)
 
