@@ -1,6 +1,8 @@
 # Known Issues
 
 > **2026-08-03 continuation:** baseline re-validated (73 backend + 9 collector tests, ruff + mypy clean). Auth path verified live (C2 → done; see `.ai/CURRENT_ANALYSIS.md`). `.ai/` memory committed to git this session. Phases A + B + C + D done (H1–H4, A2, M1–M7, L1–L4/D1–D4); open items below updated to reflect fixes.
+>
+> **2026-08-04 continuation (F6–F8):** Phase 5 complete. S8 added for the `diskcache` advisory (no upstream fix; CI ignores with justification, commit `76f3ae0`).
 
 ## Bugs / correctness
 
@@ -39,6 +41,7 @@
 - **S5. Agent keys are a flat env list** (`AGENT_API_KEYS`) — no per-endpoint key binding, no rotation workflow. *(→ C2/H1)*
 - **S6. Tokens are HMAC-signed (stdlib)** — no revocation list, no refresh; fine for demo, weak for production.
 - **S7. Human role keys are a flat env list (F4).** `ANALYST_API_KEYS`/`VIEWER_API_KEYS` map one key → one role+team; no per-user identity, no key rotation/lifecycle, no per-key expiry. Team is embedded in the issued token (30 min TTL), so a team change requires re-login.
+- **S8. `diskcache` 5.6.3 vulnerability (F6, PYSEC-2026-2447 / CVE-2025-69872).** pySigma depends on `diskcache` (unsafe pickle deserialization). **No fixed release exists** — python-diskcache is unmaintained (5.6.3 is the latest on PyPI); the fix only ships in a temporary `mapped-diskcache` fork (different package name, not a drop-in for pySigma's `diskcache` requirement). Our usage is a per-process local rule cache in an app-owned directory (not attacker-writable), so the practical risk is low; CI's `pip-audit` gate ignores this one advisory with an inline justification (commit `76f3ae0`). **Revisit if upstream releases a patched diskcache.**
 
 ## Missing documentation
 
