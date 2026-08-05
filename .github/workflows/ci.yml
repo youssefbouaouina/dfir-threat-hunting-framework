@@ -52,7 +52,15 @@ jobs:
         run: pytest -v
 
       - name: Dependency audit (pip-audit)
-        run: pip-audit --progress-spinner=off
+        # PYSEC-2026-2447 (CVE-2025-69872): diskcache 5.6.3 uses pickle for
+        # cache serialization; RCE requires write access to the cache dir.
+        # No fixed release exists - python-diskcache is unmaintained (5.6.3 is
+        # the latest on PyPI); the fix only ships in a temporary
+        # `mapped-diskcache` fork (different package name, not a drop-in for
+        # pySigma's `diskcache` dependency). diskcache is a transitive dep of
+        # pySigma; our usage is a per-process local rule cache in an
+        # app-owned directory, not attacker-writable.
+        run: pip-audit --progress-spinner=off --ignore-vuln PYSEC-2026-2447
 
       - name: Secret scan (gitleaks)
         uses: gitleaks/gitleaks-action@v2
