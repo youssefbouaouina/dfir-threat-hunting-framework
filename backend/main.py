@@ -27,6 +27,7 @@ import schemas
 from dashboard import router as dashboard_router
 from database import engine, get_db
 from detection_routes import router as detection_router
+from endpoints import router as endpoints_router
 from reports import router as reports_router
 from scheduler import get_status, start_scheduler, stop_scheduler
 
@@ -44,9 +45,10 @@ async def lifespan(app: FastAPI):
     stop_scheduler()
 
 
-app = FastAPI(title="DFIR Ingest, Detection & Reporting", version="0.4.0", lifespan=lifespan)
+app = FastAPI(title="DFIR Ingest, Detection & Reporting", version="0.5.0", lifespan=lifespan)
 app.include_router(detection_router)
 app.include_router(reports_router)
+app.include_router(endpoints_router)
 app.include_router(dashboard_router)
 
 

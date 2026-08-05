@@ -65,3 +65,21 @@ class Report(Base):
     pdf_filename = Column(String, nullable=False)
     summary_json = Column(Text, nullable=False)             # severity/technique breakdown, for dashboard display
     generated_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class Endpoint(Base):
+    __tablename__ = "endpoints"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, index=True, nullable=False)   # friendly label, e.g. "win10-vm01"
+    ip_address = Column(String, nullable=False)
+    os = Column(String, nullable=False)                                # "windows" | "linux"
+    ssh_port = Column(Integer, default=22)
+    ssh_username = Column(String, nullable=False)
+    ssh_key_path = Column(String, nullable=False)                       # path inside the container, mounted read-only volume
+    remote_collector_path = Column(String, nullable=False)              # where the collector lives on the endpoint
+    enabled = Column(Integer, default=1)                                 # 0 = registered but excluded from auto cycles
+    status = Column(String, default="unknown")                          # "online" | "offline" | "unknown"
+    last_checked_at = Column(DateTime(timezone=True), nullable=True)
+    last_scan_at = Column(DateTime(timezone=True), nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())

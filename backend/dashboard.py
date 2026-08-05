@@ -52,12 +52,14 @@ def dashboard(request: Request, db: Session = Depends(get_db)):
 
     recent_detections = db.query(models.Detection).order_by(models.Detection.id.desc()).limit(15).all()
     reports = db.query(models.Report).order_by(models.Report.id.desc()).limit(10).all()
+    endpoints = db.query(models.Endpoint).order_by(models.Endpoint.id).all()
 
     return templates.TemplateResponse(
         request,
         "dashboard.html",
         {
             "hosts": hosts,
+            "endpoints": endpoints,
             "total_artifacts": total_artifacts,
             "total_detections": total_detections,
             "severity_counts": severity_counts,

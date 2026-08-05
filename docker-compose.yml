@@ -13,6 +13,11 @@ services:
       # every restart would wipe your detection history.
       - dfir-data:/app/data
       - dfir-reports:/app/reports
+      # SSH private keys for reaching out to registered endpoints.
+      # Bind-mounted read-only from the host, NOT a named volume — these
+      # are real secrets, keep them on disk under your control, never
+      # baked into the image or committed to git.
+      - ./backend/ssh_keys:/app/ssh_keys:ro
     env_file:
       - ./backend/.env   # ABUSEIPDB_API_KEY, DETECTION_INTERVAL_SECONDS, etc. — not committed to git
     restart: unless-stopped

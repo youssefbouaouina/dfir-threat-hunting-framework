@@ -12,11 +12,18 @@ Usage:
     python collector_agent.py --output C:\\temp\\dfir_out
     python collector_agent.py --yara-rules ..\\detection\\yara_rules
     python collector_agent.py --only processes,network
+    python collector_agent.py --push-url http://192.168.50.1:8000
+        (collects AND pushes each artifact type straight to the
+        backend's /ingest, in addition to writing local files —
+        this is what removes the manual sample_data/ copy step for
+        live/orchestrated runs)
 """
 import argparse
 import os
 import sys
 from datetime import datetime, timezone
+
+import requests
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -36,6 +43,22 @@ CORE_COLLECTORS = {
     "scheduled_tasks": ("scheduled_tasks.json", collect_scheduled_tasks),
     "logs": ("logs.json", collect_logs),
 }
+
+
+def _push_records(push_url: str, records: list, artifact_type: str) -> None:
+    """POSTs one artifact batch straight to /ingest. Failure here never
+    stops the rest of the collection run — a network hiccup on one
+    artifact type shouldn't lose everything else collected in this pass."""
+    if not records:
+        return
+    try:
+        resp = requests.post(f"{push_url}/ingest", json=records, timeout=15)
+        if resp.status_code == 200:
+            print(f"[>] Pushed {len(records)} {artifact_type} record(s) to {push_url}")
+        else:
+            print(f"[!] Push failed for {artifact_type}: HTTP {resp.status_code} — {resp.text[:200]}")
+    except requests.exceptions.RequestException as e:
+        print(f"[!] Push failed for {artifact_type}: {e}")
 
 
 def _extract_exe_paths(process_records: list, persistence_records: list) -> set:
@@ -61,13 +84,15 @@ def _extract_exe_paths(process_records: list, persistence_records: list) -> set:
     return paths
 
 
-def run_collection(output_dir: str = "output", only: list = None, yara_rules_dir: str = None) -> str:
+def run_collection(output_dir: str = "output", only: list = None, yara_rules_dir: str = None, push_url: str = None) -> str:
     hostname = get_hostname()
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     run_dir = os.path.join(output_dir, f"{date_str}_{hostname}")
 
     print(f"[*] Starting collection on {hostname}")
     print(f"[*] Output directory: {run_dir}")
+    if push_url:
+        print(f"[*] Will push directly to: {push_url}")
 
     targets = only if only else list(CORE_COLLECTORS.keys()) + ["file_scan"]
 
@@ -81,6 +106,8 @@ def run_collection(output_dir: str = "output", only: list = None, yara_rules_dir
                 records = func()
                 collected[key] = records
                 write_json(os.path.join(run_dir, filename), records)
+                if push_url:
+                    _push_records(push_url, records, key)
             except Exception as e:
                 print(f"[!] Collector '{key}' failed: {e}")
                 collected[key] = []
@@ -92,6 +119,8 @@ def run_collection(output_dir: str = "output", only: list = None, yara_rules_dir
             try:
                 records = func()
                 write_json(os.path.join(run_dir, filename), records)
+                if push_url:
+                    _push_records(push_url, records, key)
             except Exception as e:
                 print(f"[!] Collector '{key}' failed: {e}")
 
@@ -104,6 +133,8 @@ def run_collection(output_dir: str = "output", only: list = None, yara_rules_dir
             print(f"[*] {len(exe_paths)} unique executable path(s) to hash/scan")
             records = collect_file_scans(exe_paths, yara_rules_dir=yara_rules_dir)
             write_json(os.path.join(run_dir, "file_scan.json"), records)
+            if push_url:
+                _push_records(push_url, records, "file_scan")
         except Exception as e:
             print(f"[!] Collector 'file_scan' failed: {e}")
 
@@ -119,7 +150,11 @@ if __name__ == "__main__":
         "--yara-rules", default=None,
         help="Path to a folder of .yar/.yara rules for file_scan to use (e.g. ../detection/yara_rules)"
     )
+    parser.add_argument(
+        "--push-url", default=None,
+        help="Backend base URL to push results to directly, e.g. http://192.168.50.1:8000"
+    )
     args = parser.parse_args()
 
     only_list = args.only.split(",") if args.only else None
-    run_collection(output_dir=args.output, only=only_list, yara_rules_dir=args.yara_rules)
+    run_collection(output_dir=args.output, only=only_list, yara_rules_dir=args.yara_rules, push_url=args.push_url)

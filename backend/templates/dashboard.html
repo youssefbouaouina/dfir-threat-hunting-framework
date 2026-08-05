@@ -234,7 +234,7 @@
     <div class="scheduler-pulse">
       <span class="pulse-dot"></span>
       {% if scheduler_status.running %}
-        Auto-detection active &middot; every {{ scheduler_status.interval_seconds }}s
+        Auto-detection every {{ scheduler_status.detection_interval_seconds }}s &middot; endpoint scans every {{ (scheduler_status.orchestration_interval_seconds / 3600)|round(1) }}h
       {% else %}
         Scheduler offline
       {% endif %}
@@ -311,22 +311,33 @@
       </div>
 
       <div class="panel">
-        <h2>Monitored Endpoints</h2>
-        {% if hosts %}
+        <h2>Registered Endpoints</h2>
+        {% if endpoints %}
         <table>
-          <thead><tr><th>Hostname</th><th>OS</th><th>Last Seen</th></tr></thead>
+          <thead><tr><th>Name</th><th>IP</th><th>OS</th><th>Status</th><th>Last Scan</th><th></th></tr></thead>
           <tbody>
-          {% for h in hosts %}
+          {% for ep in endpoints %}
             <tr>
-              <td class="mono">{{ h.hostname }}</td>
-              <td>{{ h.os }}</td>
-              <td class="mono">{{ h.last_seen }}</td>
+              <td class="mono">{{ ep.name }}</td>
+              <td class="mono">{{ ep.ip_address }}</td>
+              <td>{{ ep.os }}</td>
+              <td>
+                {% if ep.status == 'online' %}
+                <span class="sev-pill" style="background: var(--sev-low); color:#14171F;">online</span>
+                {% elif ep.status == 'offline' %}
+                <span class="sev-pill" style="background: var(--sev-unknown); color:#fff;">offline</span>
+                {% else %}
+                <span class="sev-pill" style="background: var(--sev-medium); color:#14171F;">unknown</span>
+                {% endif %}
+              </td>
+              <td class="mono">{{ ep.last_scan_at or 'never' }}</td>
+              <td><button class="run-now-btn" style="padding:5px 10px; font-size:11px;" onclick="runEndpointNow({{ ep.id }}, this)">Run Now</button></td>
             </tr>
           {% endfor %}
           </tbody>
         </table>
         {% else %}
-        <div class="empty-state">No endpoints have reported in yet.</div>
+        <div class="empty-state">No endpoints registered yet — see setup guide for POST /endpoints.</div>
         {% endif %}
       </div>
     </div>
@@ -386,6 +397,20 @@ async function runNow() {
     location.reload();
   } catch (e) {
     btn.textContent = 'Failed — retry';
+    btn.disabled = false;
+    setTimeout(() => { btn.textContent = originalText; }, 2500);
+  }
+}
+async function runEndpointNow(endpointId, btn) {
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '...';
+  try {
+    const resp = await fetch(`/endpoints/${endpointId}/run-now`, { method: 'POST' });
+    if (!resp.ok) throw new Error('Request failed');
+    location.reload();
+  } catch (e) {
+    btn.textContent = 'Failed';
     btn.disabled = false;
     setTimeout(() => { btn.textContent = originalText; }, 2500);
   }
