@@ -1,0 +1,26 @@
+# Repo-level gitleaks configuration.
+#
+# We extend the default gitleaks rules and allow-list the placeholder / demo
+# API-key values that appear in the documentation (PROJECT_SUMMARY.md,
+# SETUP_GUIDE.md) and .ai/ analysis notes. These are NOT real secrets:
+#   * auth is OFF by default (open-lab demo mode);
+#   * the backend refuses to start on placeholder keys when AUTH_ENABLED=true;
+#   * the values are documented as examples, and the docs already use
+#     <angle-bracket> placeholders in the current tree.
+# The allow-list keeps the secret-scan gate green for historical ranges that
+# still contain the old example lines while remaining strict for everything
+# else. Review if a real secret ever looks like one of these values.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Documented demo/example keys in the showcase guide and analysis notes"
+regexes = [
+  '''demo-admin-key''',
+  '''demo-agent-key-1''',
+  '''my-super-secret-admin-key''',
+  '''agent-key-ubuntu''',
+  '''agent-key-win10''',
+  '''a-long-random-string-for-signing-tokens''',
+]
