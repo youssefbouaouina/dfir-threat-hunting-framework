@@ -1,0 +1,21 @@
+title: PsExec-style remote service execution indicator
+id: b6f9c4d5-8a7e-4f9b-d7a4-6b1c2e5a9b0c
+status: test
+level: high
+description: >
+  Task/service names matching PsExec's default naming pattern (PSEXESVC)
+  indicate remote command execution tooling, legitimate admin use or
+  lateral movement.
+logsource:
+  category: scheduled_task
+  product: windows
+detection:
+  selection:
+    task_name|contains:
+      - "PSEXESVC"
+      - "psexec"
+  condition: selection
+falsepositives:
+  - Legitimate remote administration
+tags:
+  - attack.t1569.002

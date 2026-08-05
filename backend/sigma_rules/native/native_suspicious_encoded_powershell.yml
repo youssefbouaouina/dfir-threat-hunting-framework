@@ -1,0 +1,20 @@
+title: Suspicious PowerShell EncodedCommand
+id: c1a3f4e2-9b7d-4a5e-8f2b-1c6d9e0a3b4c
+status: test
+level: high
+description: >
+  Flags PowerShell invocations using -EncodedCommand/-enc, a common way
+  attackers obfuscate commands to evade simple string-based detection.
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    CommandLine|contains:
+      - "-EncodedCommand"
+      - "-enc"
+  condition: selection
+falsepositives:
+  - Legitimate obfuscated deployment scripts
+tags:
+  - attack.t1059.001

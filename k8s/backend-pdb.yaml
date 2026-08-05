@@ -1,0 +1,19 @@
+# DFIR Threat Hunting Framework — PodDisruptionBudget (k8s, HA).
+#
+# Guarantees at least 2 backend replicas stay available during voluntary
+# disruptions (node drains, cluster upgrades), preserving the API even while
+# the cluster is being maintained.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: dfir-backend
+  namespace: dfir
+  labels:
+    app.kubernetes.io/name: dfir-threat-hunting-framework
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: dfir
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: backend

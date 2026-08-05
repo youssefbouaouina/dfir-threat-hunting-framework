@@ -22,6 +22,8 @@ def svc(tmp_path, monkeypatch):
     rules.mkdir()
     (rules / "rule001.yml").write_text(RULE_YAML)
     monkeypatch.setattr(detection_service, "SIGMA_RULES_DIR", str(rules))
+    # F6: isolate the legacy matcher (the pySigma engine gets its own tests).
+    monkeypatch.setattr(detection_service, "NATIVE_SIGMA_RULES_DIR", str(tmp_path / "no_native"))
     return detection_service
 
 

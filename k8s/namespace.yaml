@@ -1,0 +1,8 @@
+# DFIR Threat Hunting Framework — k8s namespace.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dfir
+  labels:
+    app.kubernetes.io/name: dfir-threat-hunting-framework
+    app.kubernetes.io/part-of: dfir

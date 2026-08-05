@@ -40,6 +40,7 @@ from database import get_db
 from detection_routes import router as detection_router
 from endpoint_routes import router as endpoint_router
 from incident_routes import router as incident_router
+from ioc_routes import router as ioc_router
 from logging_config import configure_logging
 from retention_routes import router as retention_router
 from scheduler import get_status, start_scheduler, stop_scheduler
@@ -53,6 +54,9 @@ from security import (
     require_agent,
 )
 from services import audit_service, ingest_service, metrics_service, query_service
+from sigma_routes import router as sigma_router
+from stats_routes import router as stats_router
+from taxii_routes import router as taxii_router
 
 configure_logging()
 
@@ -95,6 +99,10 @@ app.include_router(detection_router)
 app.include_router(endpoint_router)
 app.include_router(incident_router)
 app.include_router(retention_router)
+app.include_router(sigma_router)
+app.include_router(ioc_router)
+app.include_router(taxii_router)
+app.include_router(stats_router)
 
 # Baseline DoS resistance: cap the /ingest request body (H4). Applies even when
 # auth is off so an open-lab instance cannot be flooded with oversized payloads.

@@ -1,6 +1,6 @@
 # DFIR Threat Hunting Framework — Enterprise Roadmap
 
-> **Status:** Plan with Phases 1–3 **implemented and committed on the `youssef` branch**. Phase 1 (security hardening, test net, CI scaffolding), Phase 2 (containers, Postgres-ready migrations, CI/CD delivery pipeline, agent automation), Phase 3 (dashboard, endpoint management, manual triggers, detection triage, ops hardening), and Phase 4 F1–F5 (async ingest queue, correlation engine, retention/archival, RBAC/team scoping + immutable audit, notifications + host criticality) are done. Phase 5 has partial groundwork (queue-driven detection worker). This roadmap is the architectural blueprint for evolving the framework into an enterprise-grade, containerized, CI/CD-driven DFIR platform with automated collection/detection, self-service endpoint enrollment from a dashboard, detection run history, and manual trigger controls.
+> **Status:** Plan with Phases 1–5 **implemented and committed on the `youssef` branch**. Phase 1 (security hardening, test net, CI scaffolding), Phase 2 (containers, Postgres-ready migrations, CI/CD delivery pipeline, agent automation), Phase 3 (dashboard, endpoint management, manual triggers, detection triage, ops hardening), Phase 4 F1–F5 (async ingest queue, correlation engine, retention/archival, RBAC/team scoping + immutable audit, notifications + host criticality), and Phase 5 F6–F8 (pySigma backend + SigmaHQ update pipeline, IOC feed automation + STIX/TAXII export, k8s/HA + autoscaling + circuit breakers + pooling + materialized stats) are done. This roadmap is the architectural blueprint for evolving the framework into an enterprise-grade, containerized, CI/CD-driven DFIR platform with automated collection/detection, self-service endpoint enrollment from a dashboard, detection run history, and manual trigger controls.
 
 Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the system as it exists today, including all known issues this roadmap fixes.
 
@@ -165,7 +165,7 @@ Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the syst
 
 ## Phase 5 — Advanced Detection, Threat Intel Automation & HA
 
-> **Status: partial groundwork done.** `workers/detection_worker.py` (queue-driven detection consumer) landed in the F5 session, giving the platform a containerized detection path beyond the in-process scheduler. Remaining: pySigma, SigmaHQ update pipeline, IOC feed automation, HA/perf work — all below.
+> **Status: F6–F8 done** (2026-08-04 continuation session). **F6 (pySigma, `backend/sigma_engine.py` + `services/sigma_service.py`):** real pySigma backend (typed condition tree, selectors, NOT filters, `|re`/`|cidr`/`|gte` modifiers) running alongside the legacy matcher in `run_detection_job`; 6 native rules in `sigma_rules/native/`; SigmaHQ import pipeline (local dir or shallow git clone, filter + dedup); `GET /sigma/{status,rules}` + `POST /sigma/refresh` (admin, audited); `pysigma>=1.5.0`. **F7 (threat intel automation):** `Ioc` model + migration `6f7a1b2c3d4e`; `services/intel_service.py` refreshes Feodo/URLhaus/MalwareBazaar/OTX into DB (idempotent upsert, fail-soft) on the scheduler + `POST /iocs/refresh`; `GET /iocs` + `/iocs/status`; STIX 2.1 bundle export `GET /iocs/export/stix`; minimal read-only TAXII 2.1 server in `taxii_routes.py`. **F8 (HA & perf):** `k8s/` manifests (3-replica backend + HPA 3–10 + PDB minAvailable 2 + ingest worker + Postgres StatefulSet); `services/circuit_breaker.py` per-feed circuit breakers; DB connection-pool tuning envs; composite-index migration `7a8b1c2d3e4f`; `StatsSnapshot` materialized stats (`services/stats_service.py`, `GET /stats/summary` + `POST /stats/recompute`, scheduler job). Validation: backend **179 tests**, collector 10, ruff + mypy clean (64 files); both new migrations verified on a clean DB.
 
 **Goal:** production-grade detection content and resilience.
 
@@ -183,7 +183,7 @@ Companion doc: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) — documents the syst
 - **Performance**
   - Pagination/indexing review, materialized views for summary endpoints, connection pooling tuning.
 
-**Exit criteria:** detection content is updated automatically from SigmaHQ; IOC feeds refresh automatically; the platform is horizontally scalable and survives node loss.
+**Exit criteria:** detection content is updated automatically from SigmaHQ — ✅ (F6 `/sigma/refresh` pull pipeline); IOC feeds refresh automatically — ✅ (F7 scheduler + manual refresh); the platform is horizontally scalable and survives node loss — ✅ (F8 k8s replicas/HPA/PDB + circuit breakers). **✅ delivered (F6–F8).**
 
 ---
 

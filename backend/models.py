@@ -19,7 +19,7 @@ those rows, then flip them to processed = 1 so it never re-analyzes the
 same artifact twice. `analyzed_at` records when it happened (Phase 2:
 keeps history and enables rescan).
 """
-from sqlalchemy import Column, DateTime, Integer, String, Text
+from sqlalchemy import Column, DateTime, Integer, String, Text, UniqueConstraint
 from sqlalchemy.sql import func
 
 from database import Base
@@ -206,3 +206,50 @@ class IncidentDetection(Base):
     id = Column(Integer, primary_key=True, index=True)
     incident_id = Column(Integer, index=True, nullable=False)
     detection_id = Column(Integer, index=True, nullable=False)
+
+
+class Ioc(Base):
+    """A known-bad indicator stored from an automated intel feed (Phase 5 / F7).
+
+    The feed-automation pipeline (services/intel_service.py) ingests public
+    blocklists (Feodo Tracker, URLhaus, MalwareBazaar, AlienVault OTX) into
+    this table on a schedule. Each row is deduplicated by
+    (value, ioc_type, source) — a re-seen indicator updates `last_seen` /
+    `confidence` / `threat` instead of creating a duplicate. Export routes
+    serialize these rows into STIX 2.1 bundles and a minimal TAXII 2.1 server
+    so external platforms (SIEM, threat-intel platforms) can consume them.
+    """
+    __tablename__ = "iocs"
+    __table_args__ = (
+        UniqueConstraint("value", "ioc_type", "source", name="uq_iocs_value_type_source"),
+    )
+
+    id = Column(Integer, primary_key=True, index=True)
+    value = Column(String, index=True, nullable=False)      # IP / domain / URL / hash
+    ioc_type = Column(String, index=True, nullable=False)   # ip|ipv6|domain|url|hash_*
+    source = Column(String, index=True, nullable=False)     # feodo-tracker|urlhaus|...
+    threat = Column(String, nullable=True)                  # malware family / tag label
+    confidence = Column(Integer, default=50, nullable=False)    # 0-100 feed confidence score
+    description = Column(Text, nullable=True)
+    first_seen = Column(DateTime(timezone=True), nullable=True)
+    last_seen = Column(DateTime(timezone=True), nullable=True)
+    active = Column(Integer, default=1, nullable=False)         # 1 = live, 0 = retired/expired
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class StatsSnapshot(Base):
+    """A materialized statistics row (Phase 5 / F8).
+
+    Expensive GROUP BY aggregations (detection summary, dashboard health
+    counts, IOC counts) are precomputed on a schedule into this table instead
+    of being recomputed per request. Each metric is one row: `metric` names
+    the aggregation, `value` holds the JSON payload, `computed_at` records
+    when it was last refreshed. This is the portable, DB-agnostic stand-in for
+    a Postgres materialized view.
+    """
+    __tablename__ = "stats_snapshots"
+
+    id = Column(Integer, primary_key=True, index=True)
+    metric = Column(String, unique=True, index=True, nullable=False)
+    value = Column(Text, nullable=False)  # JSON-encoded aggregation result
+    computed_at = Column(DateTime(timezone=True), nullable=True)

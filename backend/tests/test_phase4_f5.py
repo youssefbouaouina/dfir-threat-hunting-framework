@@ -76,6 +76,9 @@ def test_endpoint_report_aggregates(client, db_session, monkeypatch, tmp_path):
     )
     (rules / "r1.yml").write_text(rule_yaml)
     monkeypatch.setattr(detection_service, "SIGMA_RULES_DIR", str(rules))
+    monkeypatch.setattr(
+        detection_service, "NATIVE_SIGMA_RULES_DIR", str(tmp_path / "no_native")
+    )
     db_session.add(
         models.Artifact(
             host="host-a",
@@ -318,6 +321,9 @@ def test_detection_worker_sweep_runs_pipeline(db_session, monkeypatch, tmp_path)
     )
     (rules / "r1.yml").write_text(rule_yaml)
     monkeypatch.setattr(detection_service, "SIGMA_RULES_DIR", str(rules))
+    monkeypatch.setattr(
+        detection_service, "NATIVE_SIGMA_RULES_DIR", str(tmp_path / "no_native")
+    )
 
     db_session.add(
         models.Artifact(

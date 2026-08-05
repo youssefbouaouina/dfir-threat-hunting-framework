@@ -1,0 +1,24 @@
+title: Persistence via Registry Run key pointing to a Temp folder
+id: a5e8b3c4-9d7f-4e8a-c6f3-5a0b1d4f8a9b
+status: test
+level: high
+description: >
+  Registry Run/RunOnce entries pointing at Temp or AppData\Local\Temp
+  are a classic sign of malware establishing boot persistence from a
+  dropped, non-installed binary.
+logsource:
+  category: registry_event
+  product: windows
+detection:
+  selection:
+    key_path|endswith:
+      - "Run"
+      - "RunOnce"
+    value_data|contains:
+      - "\\Temp\\"
+      - "AppData\\Local\\Temp"
+  condition: selection
+falsepositives:
+  - Software installers staging payloads in Temp
+tags:
+  - attack.t1547.001

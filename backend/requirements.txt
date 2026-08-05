@@ -13,3 +13,5 @@ mitreattack-python>=3.0.0
 alembic>=1.12.0
 psycopg2-binary>=2.9.0
 redis>=5.0.0
+# Phase 5 / F6: pySigma rule parsing + condition evaluation engine.
+pysigma>=1.5.0

@@ -1,0 +1,47 @@
+# DFIR Threat Hunting Framework — HorizontalPodAutoscaler (k8s, autoscaling).
+#
+# Scales the backend on average CPU + memory utilization. Metrics-server must
+# be installed in the cluster for the resource metrics. Behavior allows fast
+# scale-up (4 pods per step) and a more conservative scale-down.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: dfir-backend
+  namespace: dfir
+  labels:
+    app.kubernetes.io/name: dfir-threat-hunting-framework
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: dfir
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: dfir-backend
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 65
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 70
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Pods
+          value: 4
+          periodSeconds: 15
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 60

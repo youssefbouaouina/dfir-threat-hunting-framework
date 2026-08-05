@@ -21,6 +21,8 @@ from hash_checker import check_file_scan_artifacts
 from ioc_correlation import correlate_network_artifacts
 from services.audit_service import log_action
 from services.correlation_service import recompute_incidents
+from sigma_engine import evaluate as evaluate_pysigma
+from sigma_engine import load_rules as load_pysigma_rules
 from sigma_matcher import evaluate as evaluate_sigma
 from sigma_matcher import load_rules as load_sigma_rules
 
@@ -29,6 +31,7 @@ logger = logging.getLogger(__name__)
 SIGMA_RULES_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "sigma_rules"
 )
+NATIVE_SIGMA_RULES_DIR = os.path.join(SIGMA_RULES_DIR, "native")
 
 
 def _row_to_artifact_dict(row) -> dict:
@@ -91,6 +94,13 @@ def run_detection_job(
         # 1. Sigma-style behavioral rules
         sigma_rules = load_sigma_rules(SIGMA_RULES_DIR)
         all_detections.extend(evaluate_sigma(sigma_rules, artifacts))
+
+        # 1b. Phase 5 (F6): native Sigma rules evaluated with the real pySigma
+        # backend (sigma_engine) — our own rules under sigma_rules/native/
+        # plus anything the SigmaHQ update pipeline imported there.
+        if os.path.isdir(NATIVE_SIGMA_RULES_DIR):
+            pysigma_rules = load_pysigma_rules(NATIVE_SIGMA_RULES_DIR)
+            all_detections.extend(evaluate_pysigma(pysigma_rules, artifacts))
 
         # 2. YARA results embedded in file_scan artifacts by the collector
         for artifact in artifacts:

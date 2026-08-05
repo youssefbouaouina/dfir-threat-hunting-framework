@@ -41,12 +41,13 @@ Collect → Ship → Store → Detect → Query
 - A **FastAPI backend** ingests those artifacts into SQLite and runs a **4-layer detection pipeline** (Sigma-style behavioral rules, embedded YARA results, known-bad hash matching, network IOC correlation), enriches findings with **MITRE ATT&CK** technique metadata, and exposes everything via a REST API.
 - A **background scheduler** re-runs detection automatically; detection **run history** is recorded.
 
-When we received the project it was a working demo that had never been hardened: **committed secrets, an uninstallable UTF-16 `requirements.txt`, zero automated tests, a broken duplicate code tree, duplicate detection rules, and no authentication.** Since then, on the `youssef` branch, we delivered **Phases 1–3 of the roadmap plus Phase 4 F1–F5** (queue, correlation, retention, RBAC/audit, notifications + host criticality):
+When we received the project it was a working demo that had never been hardened: **committed secrets, an uninstallable UTF-16 `requirements.txt`, zero automated tests, a broken duplicate code tree, duplicate detection rules, and no authentication.** Since then, on the `youssef` branch, we delivered **Phases 1–3 of the roadmap plus Phase 4 F1–F5 and Phase 5 F6–F8** (queue, correlation, retention, RBAC/audit, notifications + host criticality, pySigma, IOC feeds + STIX/TAXII, k8s/HA):
 
 - **Phase 1 (security + testability):** opt-in auth + rate limiting, installable dependency set, services-layer refactor, rule deduplication/validation, detection run history, host-scoped + rescan detection, artifact time/processed filters, and a **53-test pytest suite with ruff lint clean**.
 - **Phase 2 (containers + CI/CD + agent automation):** multi-stage non-root `Dockerfile` + `docker-compose.yml` (Postgres 16), **Alembic migrations** replacing `create_all`, agent `--enroll`/`--daemon`/idempotent batch uploads, and a GitHub Actions pipeline (lint + test + gitleaks; GHCR build/push/smoke on version tags).
 - **Phase 3 (dashboard + endpoint mgmt + manual triggers):** analyst **dashboard** at `/dashboard` (overview/endpoints/detections/runs/artifacts/audit), endpoint management (`PUT /endpoints/{id}/config`, add-endpoint enroll), manual triggers (run-collection-now command queue, `POST /detect` with host scope/rescan, run history), **detection triage lifecycle** (new → acknowledged → false/true positive → reviewed + notes), ops hardening (structured JSON logging, `/metrics`, `/audit-logs`), and ATT&CK enrichment from the **in-repo STIX dataset**.
 - **Phase 4 (F1–F5):** async **Redis ingest queue** with a containerized worker (`/ingest` returns 202 when queuing is enabled); **correlation engine** grouping detections into `incidents` (same-rule campaigns, ATT&CK chains, severity escalation); **retention/archival** (monthly JSONL + optional OpenSearch sink); **RBAC + team scoping + tamper-evident audit** (admin/analyst/viewer roles, `Endpoint.team` scoping, SHA-256 audit hash chain + `/audit-logs/verify`); **notifications + host criticality** (webhook/SMTP alerts on high/critical detections and endpoint offline; per-host `criticality` factor amplified into incident severity; queue-driven detection worker; scan-all control + per-endpoint report).
+- **Phase 5 (F6–F8):** **pySigma backend** running alongside the legacy matcher (typed condition tree + modifiers, 6 native rules, `POST /sigma/refresh` SigmaHQ import pipeline); **IOC feed automation** (Feodo/URLhaus/MalwareBazaar/OTX upserted into an `Ioc` table on a schedule or manually, fail-soft) with **STIX 2.1 bundle export** and a minimal read-only **TAXII 2.1** server; **HA & performance** — `k8s/` manifests (3-replica backend, HPA, PDB, ingest worker, Postgres StatefulSet), per-feed **circuit breakers**, DB connection-pool tuning, composite-index migration, and **materialized stats** (`/stats/summary` + `/stats/recompute`).
 - **Dashboard overhaul (same session):** the analyst dashboard was rewritten as a **brutalist technical report** — print-style typography, near-black ink on paper stock, one `#d7263d` signal color, offset shadows, monospace data tables — with new **Incidents** and **per-Endpoint Report** views, a **SCAN ALL** manual trigger, criticality badges, and bearer-token auth.
 
 Today the framework is a self-service platform: an analyst can enroll endpoints from the dashboard, trigger collection/detection on demand, browse history, and triage detections — all without CLI/curl.
@@ -234,17 +235,18 @@ Per AI_RULES §14 (ask before deleting files), these deletion candidates have be
 
 ## 5. What Is Still Needed to Complete Our Goals
 
-The **ROADMAP.md** target is an enterprise-grade, containerized, CI/CD-driven platform. **Phases 1–3 are done and Phase 4 items F1–F5 (queue, correlation, retention, RBAC/audit, notifications + host criticality) are done**; the following remain:
+The **ROADMAP.md** target is an enterprise-grade, containerized, CI/CD-driven platform. **Phases 1–3 are done, Phase 4 items F1–F5 (queue, correlation, retention, RBAC/audit, notifications + host criticality) are done, and Phase 5 items F6–F8 (pySigma + SigmaHQ pipeline, IOC feed automation + STIX/TAXII, k8s/HA) are done** (2026-08-04 continuation session); remaining is production hardening:
 
-### Phase 5 — Advanced detection, intel automation, HA
-- Real **pySigma** backend + **SigmaHQ rule update pipeline** in CI (keeping the current rule format via a conversion layer).
-- **IOC feed automation** (MalwareBazaar/Feodo/URLhaus/OTX scheduled refresh) + STIX/TAXII export. *(Live lookups for AbuseIPDB/URLhaus/OTX + Feodo refresh already exist — M2.)*
-- **HA & performance**: Kubernetes/multi-replica, Postgres HA + backups, connection pooling, pagination/matview review. *(A queue-driven detection worker — `workers/detection_worker.py` — is the groundwork for distributed processing.)*
+### Phase 5 — delivered (F6–F8)
+- **F6 — pySigma backend + SigmaHQ update pipeline** ✅ — `backend/sigma_engine.py` is a real pySigma backend (typed condition tree, selectors, NOT filters, modifiers) running alongside the legacy matcher; 6 native rules; `services/sigma_service.py` pulls SigmaHQ via local dir or shallow git clone into `sigma_rules/native/sigmahq/`; `GET /sigma/{status,rules}` + `POST /sigma/refresh` (admin, audited); `pysigma>=1.5.0`.
+- **F7 — IOC feed automation + STIX/TAXII export** ✅ — `Ioc` table (migration `6f7a1b2c3d4e`); `services/intel_service.py` refreshes Feodo/URLhaus/MalwareBazaar/OTX (idempotent upsert, fail-soft, scheduler + `POST /iocs/refresh`); `GET /iocs` + `/iocs/status`; STIX 2.1 bundle via `GET /iocs/export/stix`; minimal read-only TAXII 2.1 server in `taxii_routes.py`.
+- **F8 — HA & performance** ✅ — `k8s/` manifests (3-replica backend + HPA 3–10 + PDB + ingest worker + Postgres StatefulSet); per-feed circuit breakers (`services/circuit_breaker.py`); DB connection-pool tuning envs; composite-index migration `7a8b1c2d3e4f`; materialized stats (`StatsSnapshot` + `services/stats_service.py`, `GET /stats/summary` + `POST /stats/recompute`, scheduler job).
 
 ### Immediate low-effort follow-ups (from the engineering backlog)
 1. Rotate/revoke the API keys that were previously committed (best practice — the `.env.txt` files were deleted from disk in the continuation session).
 2. Backend-side YARA re-scan of stored files (needs file storage; currently hashes only).
 3. Slack/Teams adapters on the notification webhook (payload-format swaps).
+4. Long-running production soak (HPA behavior, breaker recovery under load).
 
 ---
 

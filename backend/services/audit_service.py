@@ -28,6 +28,10 @@ KNOWN_ACTIONS = {
     "run_retention",
     "recompute_incidents",
     "triage_incident",
+    "sigma_refresh",
+    "ioc_refresh",
+    "ioc_breaker_reset",
+    "stats_recompute",
 }
 
 

@@ -145,9 +145,9 @@
 | F3 ✅ (`ccf62a8`) | Retention/archival (JSONL) + OpenSearch sink | `services/retention_service.py`, config | medium | medium | retention policy enforced |
 | F4 ✅ (`c503503`) | RBAC/team scoping + immutable audit | `security.py`, `models.py`, migration | high | high | roles enforced |
 | F5 ✅ | Notifications (webhook/email/Slack) | `services/notification_service.py` | medium | medium | alerts on high/critical + offline |
-| F6 | pySigma backend + SigmaHQ update pipeline | `sigma_matcher.py`, `ci.yml` | high | high | real Sigma backend; CI rule refresh |
-| F7 | IOC feed automation + STIX/TAXII export | `services/intel_service.py`, export routes | medium | medium | feeds refresh automatically |
-| F8 | k8s/HA, autoscaling, circuit breakers, pooling, matviews | infra + perf | high | high | horizontally scalable |
+| F6 ✅ | pySigma backend + SigmaHQ update pipeline | `sigma_engine.py`, `services/sigma_service.py`, `sigma_routes.py` | high | high | real Sigma backend; CI rule refresh |
+| F7 ✅ | IOC feed automation + STIX/TAXII export | `services/intel_service.py`, `ioc_routes.py`, `taxii_routes.py` | medium | medium | feeds refresh automatically |
+| F8 ✅ | k8s/HA, autoscaling, circuit breakers, pooling, matviews | `k8s/`, `services/circuit_breaker.py`, `stats_service.py` | high | high | horizontally scalable |
 
 ---
 
@@ -159,6 +159,6 @@ A1 ✅ (user-approved, delete+rotate) → B1 (H3) ✅ → B2 (H1) ✅ → B3 (H2
 → D1–D4 ✅ → F1–F8
 ```
 
-- Phases A + B + C + D **complete** (D3/D4 in `9ae3c33`, D1 in `af5b401`, D2 in `132b873`). F-series: **F1 (async queue, `5afca4d`), F2 (correlation, `46310fb` + wiring fix `b260b55`), F3 (retention, `ccf62a8`), F4 (RBAC/audit, `c503503`), F5 (notifications, this session) done**; F6–F8 (pySigma, IOC feeds, k8s/HA) remain.
+- Phases A + B + C + D **complete** (D3/D4 in `9ae3c33`, D1 in `af5b401`, D2 in `132b873`). F-series: **F1 (async queue, `5afca4d`), F2 (correlation, `46310fb` + wiring fix `b260b55`), F3 (retention, `ccf62a8`), F4 (RBAC/audit, `c503503`), F5 (notifications), F6 (pySigma), F7 (IOC feeds), F8 (k8s/HA) all done** — F6–F8 landed in the 2026-08-04 continuation session (pending commit hash once committed).
 - Keep every commit green: `pytest` + `ruff` + `mypy` per task.
 - Update `.ai/*` memory files after every completed task (Phase 5 refresh).

@@ -199,6 +199,9 @@ def test_api_incident_flow(client, db_session, monkeypatch, tmp_path):
         "title: t\nid: rule-001\nartifact_type: process\ncondition:\n  cmdline_contains: ['-enc']\n"
     )
     monkeypatch.setattr(detection_service, "SIGMA_RULES_DIR", str(rules))
+    monkeypatch.setattr(
+        detection_service, "NATIVE_SIGMA_RULES_DIR", str(tmp_path / "no_native")
+    )
 
     for host in ("host-a", "host-b"):
         db_session.add(

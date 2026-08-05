@@ -1,0 +1,30 @@
+# DFIR Threat Hunting Framework — non-secret application config (k8s).
+#
+# Secret material (ADMIN_API_KEY, AUTH_SECRET, AGENT_API_KEYS, API keys for
+# the intel feeds, notification passwords) belongs in a Secret — see
+# secret.example.yaml. Reference it from the deployment via secretKeyRef.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dfir-config
+  namespace: dfir
+  labels:
+    app.kubernetes.io/name: dfir-threat-hunting-framework
+    app.kubernetes.io/part-of: dfir
+data:
+  DATABASE_URL: "postgresql+psycopg2://dfir:dfir@dfir-postgres:5432/dfir"
+  AUTH_ENABLED: "true"
+  DETECTION_INTERVAL_SECONDS: "30"
+  OFFLINE_SWEEP_INTERVAL_SECONDS: "60"
+  OFFLINE_STALE_AFTER_SECONDS: "900"
+  INTEL_REFRESH_INTERVAL_SECONDS: "43200"
+  RETENTION_SWEEP_INTERVAL_SECONDS: "3600"
+  STATS_INTERVAL_SECONDS: "60"
+  DB_POOL_SIZE: "10"
+  DB_MAX_OVERFLOW: "20"
+  DB_POOL_RECYCLE_SECONDS: "1800"
+  DB_POOL_PRE_PING: "true"
+  IOC_FEED_FAILURE_THRESHOLD: "3"
+  IOC_FEED_RESET_TIMEOUT_SECONDS: "300"
+  # Async ingest queue: point the backend + workers at the same Redis.
+  INGEST_QUEUE_URL: "redis://dfir-redis:6379/0"

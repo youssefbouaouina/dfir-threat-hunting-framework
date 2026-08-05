@@ -27,6 +27,9 @@ def rules_dir(tmp_path, monkeypatch):
     rules.mkdir()
     (rules / "rule001.yml").write_text(RULE_YAML)
     monkeypatch.setattr(detection_service, "SIGMA_RULES_DIR", str(rules))
+    # F6: point the pySigma engine at an empty dir so this fixture isolates
+    # exactly the legacy rule above (native rules are covered by their own tests).
+    monkeypatch.setattr(detection_service, "NATIVE_SIGMA_RULES_DIR", str(tmp_path / "no_native"))
     return str(rules)
 
 

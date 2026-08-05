@@ -1,0 +1,25 @@
+title: Established connection to a common malware/C2 port
+id: f4d7a2b3-8c6e-4d8f-b5f2-4f9a0c3e7f8a
+status: test
+level: high
+description: >
+  Ports 4444, 1337, 6666 and 31337 are long-standing defaults for
+  reverse shells and legacy C2 frameworks (e.g. Metasploit's default
+  4444). A live established connection to one of these is a strong
+  signal, though port numbers alone are not conclusive.
+logsource:
+  category: network_connection
+  product: windows
+detection:
+  selection:
+    remote_address|endswith:
+      - ":4444"
+      - ":1337"
+      - ":6666"
+      - ":31337"
+    status: ESTABLISHED
+  condition: selection
+falsepositives:
+  - Services running on non-standard ports
+tags:
+  - attack.t1571

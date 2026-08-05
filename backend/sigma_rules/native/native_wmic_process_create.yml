@@ -1,0 +1,20 @@
+title: WMIC process creation (possible lateral movement)
+id: e3c6f1a2-9b5d-4c7f-a4e1-3e8b9c2d6e7f
+status: test
+level: medium
+description: >
+  'wmic process call create' is a native Windows technique for remote
+  or stealthy process execution, frequently used in lateral movement.
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    CommandLine|contains:
+      - "process call create"
+      - "wmic /node:"
+  condition: selection
+falsepositives:
+  - Administrative automation
+tags:
+  - attack.t1047

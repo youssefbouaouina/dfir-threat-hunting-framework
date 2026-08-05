@@ -1,0 +1,73 @@
+# DFIR Threat Hunting Framework — Postgres StatefulSet + Service (k8s).
+#
+# Minimal single-instance Postgres for the demo. For real HA use a managed
+# Postgres or an operator (CloudNativePG, Zalando); the backend only needs a
+# DATABASE_URL. Redis (for the async ingest queue) is expected separately —
+# a managed Redis or the redis:7 image — since it needs no persistent state.
+apiVersion: v1
+kind: Service
+metadata:
+  name: dfir-postgres
+  namespace: dfir
+  labels:
+    app.kubernetes.io/name: dfir-threat-hunting-framework
+    app.kubernetes.io/component: postgres
+    app.kubernetes.io/part-of: dfir
+spec:
+  selector:
+    app.kubernetes.io/component: postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dfir-postgres
+  namespace: dfir
+  labels:
+    app.kubernetes.io/name: dfir-threat-hunting-framework
+    app.kubernetes.io/component: postgres
+    app.kubernetes.io/part-of: dfir
+spec:
+  serviceName: dfir-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: postgres
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: postgres
+        app.kubernetes.io/part-of: dfir
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          env:
+            - name: POSTGRES_USER
+              value: dfir
+            - name: POSTGRES_PASSWORD
+              value: dfir
+            - name: POSTGRES_DB
+              value: dfir
+          ports:
+            - name: postgres
+              containerPort: 5432
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "dfir", "-d", "dfir"]
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi

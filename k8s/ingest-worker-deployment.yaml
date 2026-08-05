@@ -1,0 +1,45 @@
+# DFIR Threat Hunting Framework — ingest worker deployment (k8s, HA).
+#
+# Runs the async-ingest consumers (Phase 4/F1) that drain the Redis queue and
+# persist batches. Scale this independently of the API; when INGEST_QUEUE_URL
+# is unset the queue is disabled and these workers idle harmlessly.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dfir-ingest-worker
+  namespace: dfir
+  labels:
+    app.kubernetes.io/name: dfir-threat-hunting-framework
+    app.kubernetes.io/component: ingest-worker
+    app.kubernetes.io/part-of: dfir
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: ingest-worker
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: ingest-worker
+        app.kubernetes.io/part-of: dfir
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: worker
+          image: ghcr.io/youssefbouaouina/dfir-threat-hunting-framework:latest
+          command: ["python", "-m", "workers.ingest_worker"]
+          envFrom:
+            - configMapRef:
+                name: dfir-config
+            - secretRef:
+                name: dfir-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi

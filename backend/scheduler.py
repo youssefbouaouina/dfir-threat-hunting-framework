@@ -23,10 +23,11 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 
 from database import SessionLocal
-from ioc_correlation import refresh_feodo_blocklist
 from services.detection_service import run_detection_job
 from services.endpoint_service import mark_offline_stale
+from services.intel_service import refresh_all_feeds as refresh_all_intel_feeds
 from services.retention_service import run_retention
+from services.stats_service import compute_all as compute_all_stats
 
 logger = logging.getLogger("dfir.scheduler")
 
@@ -35,6 +36,7 @@ OFFLINE_SWEEP_INTERVAL_SECONDS = int(os.getenv("OFFLINE_SWEEP_INTERVAL_SECONDS",
 OFFLINE_STALE_AFTER_SECONDS = int(os.getenv("OFFLINE_STALE_AFTER_SECONDS", "900"))
 INTEL_REFRESH_INTERVAL_SECONDS = int(os.getenv("INTEL_REFRESH_INTERVAL_SECONDS", "43200"))
 RETENTION_SWEEP_INTERVAL_SECONDS = int(os.getenv("RETENTION_SWEEP_INTERVAL_SECONDS", "3600"))
+STATS_INTERVAL_SECONDS = int(os.getenv("STATS_INTERVAL_SECONDS", "60"))
 
 scheduler = BackgroundScheduler()
 
@@ -70,12 +72,21 @@ def _scheduled_offline_sweep():
 
 
 def _scheduled_intel_refresh():
-    """M2: refreshes the Feodo blocklist into iocs/feodo_ips.txt (fail-soft)."""
-    n = refresh_feodo_blocklist()
-    if n:
-        logger.info("Intel refresh: wrote %d Feodo IP(s) to iocs/feodo_ips.txt", n)
-    else:
-        logger.warning("Intel refresh produced no update (offline or no new entries)")
+    """F7: refreshes the intel feeds (Feodo/URLhaus/MalwareBazaar/OTX) into the
+    iocs table + iocs/feodo_ips.txt. Fail-soft per feed, own DB session."""
+    db = SessionLocal()
+    try:
+        summary = refresh_all_intel_feeds(db)
+        total = summary["total_inserted"] + summary["total_updated"]
+        if total:
+            logger.info("Intel refresh: %d IOC(s) upserted (%d new, %d updated)", total,
+                        summary["total_inserted"], summary["total_updated"])
+        else:
+            logger.warning("Intel refresh produced no update (offline or no new entries)")
+    except Exception:
+        logger.exception("Intel refresh failed")
+    finally:
+        db.close()
 
 
 def _scheduled_retention_sweep():
@@ -88,6 +99,22 @@ def _scheduled_retention_sweep():
             logger.info("Retention sweep: archived/deleted %d row(s)", total)
     except Exception:
         logger.exception("Retention sweep failed")
+    finally:
+        db.close()
+
+
+def _scheduled_stats_compute():
+    """F8: recomputes the materialized stats snapshots (own DB session)."""
+    db = SessionLocal()
+    try:
+        result = compute_all_stats(db)
+        logger.info(
+            "Stats recompute done at %s (metrics=%s)",
+            result["computed_at"],
+            list(result["metrics"]),
+        )
+    except Exception:
+        logger.exception("Stats recompute failed")
     finally:
         db.close()
 
@@ -123,6 +150,14 @@ def start_scheduler():
         _scheduled_retention_sweep,
         trigger=IntervalTrigger(seconds=RETENTION_SWEEP_INTERVAL_SECONDS),
         id="retention_sweep",
+        max_instances=1,
+        coalesce=True,
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        _scheduled_stats_compute,
+        trigger=IntervalTrigger(seconds=STATS_INTERVAL_SECONDS),
+        id="stats_compute",
         max_instances=1,
         coalesce=True,
         replace_existing=True,

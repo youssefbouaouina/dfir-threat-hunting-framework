@@ -54,7 +54,9 @@ def test_detection_triage_missing_detection(client):
 def test_summary_includes_triage(client):
     _seed_detection(client)
     summary = client.get("/detections/summary").json()
-    assert summary["by_triage"]["new"] == 1
+    # F6: both the legacy rule-001 and the native pySigma rule fire on -enc
+    # sample data, so one artifact produces two detections.
+    assert summary["by_triage"]["new"] == 2
 
 
 def test_summary_aggregates_match_grouped_counts(client):
@@ -71,13 +73,13 @@ def test_summary_aggregates_match_grouped_counts(client):
     client.post("/detect")
 
     summary = client.get("/detections/summary").json()
-    assert summary["total_detections"] == 2
-    assert summary["by_host"] == {"h1": 1, "h2": 1}
-    assert summary["by_severity"]["high"] == 2
+    assert summary["total_detections"] == 4  # 2 artifacts x 2 engines (F6)
+    assert summary["by_host"] == {"h1": 2, "h2": 2}
+    assert summary["by_severity"]["high"] == 4
 
     # /health's embedded summary uses the same aggregation path.
     health = client.get("/health").json()
-    assert json.loads(health["summary"])["by_severity"]["high"] == 2
+    assert json.loads(health["summary"])["by_severity"]["high"] == 4
 
 
 def test_endpoint_config_edit_and_collection_trigger(client):
@@ -181,6 +183,8 @@ def test_detections_cursor_pagination(client):
     for host in ("h1", "h2", "h3", "h4"):
         _seed_detection(client, host=host)
 
+    # F6: each artifact produces 2 detections (legacy + pySigma engine), so
+    # 4 hosts seed 8 detections total.
     page1 = client.get("/detections", params={"limit": 2}).json()
     assert len(page1) == 2
     page2 = client.get(
@@ -190,10 +194,14 @@ def test_detections_cursor_pagination(client):
     page3 = client.get(
         "/detections", params={"limit": 2, "before_id": page2[-1]["id"]}
     ).json()
-    assert len(page3) == 0
+    assert len(page3) == 2
+    page4 = client.get(
+        "/detections", params={"limit": 2, "before_id": page3[-1]["id"]}
+    ).json()
+    assert len(page4) == 2
 
-    seen = [d["id"] for p in (page1, page2, page3) for d in p]
-    assert sorted(seen) == list(range(1, 5))
+    seen = [d["id"] for p in (page1, page2, page3, page4) for d in p]
+    assert sorted(seen) == list(range(1, 9))
 
 
 def test_dashboard_static_served(client):
