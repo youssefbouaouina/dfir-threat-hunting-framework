@@ -92,12 +92,22 @@ def _generate_pdf(report_id: str, detections: list, host_filter: str | None) -> 
     return filename
 
 
-def generate_report(db: Session, host: str | None = None, triggered_by: str = "manual") -> dict:
+def generate_report(db: Session, host: str | None = None, triggered_by: str = "manual", since: datetime | None = None) -> dict:
     """Plain function (not a route) so it's reusable — called by the
-    /reports/generate route, and internally by /reports/run-now."""
+    /reports/generate route, and internally by /reports/run-now.
+
+    `since`, when given, scopes the report to detections created on or
+    after that timestamp (used by the per-endpoint run-now flow so a
+    click there reports THIS run's findings, not all history)."""
     query = db.query(models.Detection)
     if host:
         query = query.filter(models.Detection.host == host)
+    if since is not None:
+        if since.tzinfo is not None:
+            # SQLite stores naive UTC datetimes; normalize the bound
+            # so the comparison works regardless of the caller's tz.
+            since = since.astimezone(UTC).replace(tzinfo=None)
+        query = query.filter(models.Detection.detected_at >= since)
     detections = query.order_by(models.Detection.id.desc()).all()
 
     report_id = uuid.uuid4().hex[:12]

@@ -80,6 +80,7 @@ class Endpoint(Base):
     remote_collector_path = Column(String, nullable=False)              # where the collector lives on the endpoint
     enabled = Column(Integer, default=1)                                 # 0 = registered but excluded from auto cycles
     status = Column(String, default="unknown")                          # "online" | "offline" | "unknown"
+    last_error = Column(Text, nullable=True)                             # last scan failure reason, shown on the dashboard so failures aren't silent
     last_checked_at = Column(DateTime(timezone=True), nullable=True)
     last_scan_at = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())

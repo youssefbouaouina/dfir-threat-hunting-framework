@@ -53,6 +53,7 @@ def _endpoint_to_dict(e: models.Endpoint) -> dict:
         "ssh_port": e.ssh_port,
         "enabled": bool(e.enabled),
         "status": e.status,
+        "last_error": e.last_error,
         "last_checked_at": str(e.last_checked_at) if e.last_checked_at else None,
         "last_scan_at": str(e.last_scan_at) if e.last_scan_at else None,
     }
@@ -105,6 +106,8 @@ def check_endpoint(endpoint_id: int, db: Session = Depends(get_db)):
 
     online, latency_ms = check_liveness(row.ip_address, row.ssh_port)
     row.status = "online" if online else "offline"
+    if not online:
+        row.last_error = f"SSH port {row.ssh_port} unreachable"
     row.last_checked_at = datetime.now(UTC)
     db.commit()
 
@@ -117,10 +120,19 @@ def run_endpoint_now(endpoint_id: int, db: Session = Depends(get_db)):
     The dashboard's per-endpoint 'Run Now': SSH in, run the collector
     (which pushes its own results back to /ingest), then run detection
     and generate a report scoped to this one endpoint.
+
+    The report is scoped to detections created during THIS run (since
+    `run_started_at`), not the endpoint's entire detection history —
+    otherwise, once continuous automated detection has already
+    processed everything, a click here would just re-report old
+    detections from a previous session, which is confusing and not
+    what "run an investigation now" means.
     """
     row = db.query(models.Endpoint).filter(models.Endpoint.id == endpoint_id).first()
     if not row:
         raise HTTPException(status_code=404, detail="Endpoint not found")
+
+    run_started_at = datetime.now(UTC)
 
     scan_result = run_remote_scan(
         ip_address=row.ip_address,
@@ -134,16 +146,18 @@ def run_endpoint_now(endpoint_id: int, db: Session = Depends(get_db)):
 
     if not scan_result["success"]:
         row.status = "offline"
+        row.last_error = scan_result.get("error") or scan_result.get("stderr") or "Unknown failure — no error captured"
         row.last_checked_at = datetime.now(UTC)
         db.commit()
         return {"endpoint": row.name, "scan": scan_result, "detect_result": None, "report": None}
 
     row.status = "online"
+    row.last_error = None
     row.last_checked_at = datetime.now(UTC)
     row.last_scan_at = datetime.now(UTC)
     db.commit()
 
     detect_result = run_detection_job(db)
-    report_result = generate_report(db, host=row.name, triggered_by="manual")
+    report_result = generate_report(db, host=row.name, triggered_by="manual", since=run_started_at)
 
     return {"endpoint": row.name, "scan": scan_result, "detect_result": detect_result, "report": report_result}

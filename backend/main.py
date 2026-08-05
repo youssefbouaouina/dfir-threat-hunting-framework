@@ -20,6 +20,7 @@ from collections import Counter
 from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, HTTPException, Query
+from sqlalchemy import inspect, text
 from sqlalchemy.orm import Session
 
 import models
@@ -36,6 +37,23 @@ logging.basicConfig(level=logging.INFO)
 # Creates dfir.db and all tables on first run if they don't exist yet.
 # Safe to call every startup — it's a no-op if tables already exist.
 models.Base.metadata.create_all(bind=engine)
+
+
+def ensure_schema() -> None:
+    """Idempotent, additive schema fix-ups for databases that were created
+    before a model gained columns. create_all() only adds missing *tables*,
+    never missing *columns*, so without this an old volume DB would 500 on
+    any query touching a new column (BUG-6: endpoints.last_error)."""
+    insp = inspect(engine)
+    if "endpoints" in insp.get_table_names():
+        cols = {c["name"] for c in insp.get_columns("endpoints")}
+        if "last_error" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE endpoints ADD COLUMN last_error TEXT"))
+            logging.getLogger("dfir.schema").info("endpoints.last_error column added (startup schema fix)")
+
+
+ensure_schema()
 
 
 @asynccontextmanager

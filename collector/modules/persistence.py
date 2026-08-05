@@ -129,7 +129,14 @@ def _linux_cron_entries() -> list:
     # Per-user crontabs (needs root to read other users')
     spool_dir = "/var/spool/cron/crontabs"
     if os.path.isdir(spool_dir):
-        for user in os.listdir(spool_dir):
+        try:
+            crontabs = os.listdir(spool_dir)
+        except (IOError, PermissionError):
+            # /var/spool/cron/crontabs is drwx-wx--T root:crontab — a
+            # non-root user cannot list it, and os.listdir raises instead
+            # of returning empty. Skip it rather than crash the run (BUG-3).
+            crontabs = []
+        for user in crontabs:
             try:
                 with open(os.path.join(spool_dir, user), "r", errors="ignore") as f:
                     for line in f:

@@ -76,24 +76,46 @@ def run_remote_scan(
         return {"success": False, "error": f"connection failed: {e}"}
 
     if os_type == "windows":
-        # OpenSSH Server on Windows defaults to a cmd.exe session
-        command = f'cd /d "{remote_collector_path}" && python collector_agent.py --push-url {push_url}'
+        # OpenSSH Server on Windows defaults to a cmd.exe session.
+        # Call the venv's own python.exe directly by path — a
+        # non-interactive SSH command never runs your shell's
+        # activation script, so "python" alone would resolve to
+        # whatever's on the default PATH (often the system Python,
+        # missing every package installed inside the venv), not the
+        # venv's interpreter.
+        python_bin = f'{remote_collector_path}\\venv\\Scripts\\python.exe'
+        command = f'cd /d "{remote_collector_path}" && "{python_bin}" collector_agent.py --push-url {push_url}'
     else:
-        command = f"cd {remote_collector_path} && python3 collector_agent.py --push-url {push_url}"
+        # Same reasoning on Linux: a non-interactive SSH command
+        # does NOT source .bashrc/.profile, so "source venv/bin/activate"
+        # never runs and bare `python3` resolves to the system
+        # interpreter, not the venv's — call the venv's binary directly.
+        python_bin = f'{remote_collector_path}/venv/bin/python3'
+        command = f"cd {remote_collector_path} && {python_bin} collector_agent.py --push-url {push_url}"
 
     try:
         _stdin, stdout, stderr = client.exec_command(command, timeout=SCAN_TIMEOUT_SECONDS)
+        # recv_exit_status() does NOT honor the exec_command timeout — it
+        # blocks on the channel event for as long as the remote command
+        # runs, so a hung collector would stall this forever (BUG-2).
+        # Poll exit_status_ready() against a hard deadline instead.
+        deadline = time.monotonic() + SCAN_TIMEOUT_SECONDS
+        while not stdout.channel.exit_status_ready():
+            if time.monotonic() > deadline:
+                raise TimeoutError("scan exceeded SCAN_TIMEOUT_SECONDS")
+            time.sleep(0.5)
         exit_status = stdout.channel.recv_exit_status()
         out = stdout.read().decode(errors="replace")
         err = stderr.read().decode(errors="replace")
         return {
             "success": exit_status == 0,
             "exit_status": exit_status,
+            "command": command,   # so a failure is immediately debuggable, not a mystery
             "stdout": out[-4000:],  # cap captured output, this is for logging not full audit
             "stderr": err[-2000:],
         }
     except (TimeoutError, paramiko.SSHException) as e:
-        return {"success": False, "error": f"command execution failed: {e}"}
+        return {"success": False, "error": f"command execution failed: {e}", "command": command}
     finally:
         client.close()
 

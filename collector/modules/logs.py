@@ -95,19 +95,24 @@ def _collect_linux_logs(max_events: int) -> list:
     except (subprocess.CalledProcessError, FileNotFoundError) as e:
         print(f"[!] journalctl read failed: {e}")
 
-    # auditd events tagged by the exec_tracking rule set up during VM config
+    # auditd events tagged by the exec_tracking rule set up during VM config.
+    # Guarded with a hard timeout: as a non-root user ausearch can block
+    # indefinitely waiting on the audit pipe when /var/log/audit is not
+    # readable, which would hang the whole collection run (BUG-1).
     try:
         output = subprocess.check_output(
             ["ausearch", "-k", "exec_tracking", "-ts", "recent"],
             text=True,
             stderr=subprocess.DEVNULL,
+            timeout=5,
         )
         if output.strip():
             data = {"source": "auditd", "key": "exec_tracking", "raw": output[-4000:]}
             records.append(wrap_artifact("log_event", data))
-    except (subprocess.CalledProcessError, FileNotFoundError):
+    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
         # ausearch returns non-zero when there are no matching events, which
-        # is normal on a quiet system — not treated as an error
+        # is normal on a quiet system — not treated as an error. A timeout
+        # (unreadable audit log as non-root) is likewise skipped, never hung.
         pass
 
     return records

@@ -76,7 +76,14 @@ def _collect_linux_timers() -> list:
     for spool_dir in ("/var/spool/cron/crontabs", "/var/spool/cron"):
         if not os.path.isdir(spool_dir):
             continue
-        for user in os.listdir(spool_dir):
+        try:
+            users = os.listdir(spool_dir)
+        except (IOError, PermissionError):
+            # /var/spool/cron/crontabs is drwx-wx--T root:crontab — a
+            # non-root user cannot list it. Skip it rather than crash the
+            # whole collection run (BUG-3).
+            users = []
+        for user in users:
             try:
                 with open(os.path.join(spool_dir, user), "r", errors="ignore") as f:
                     for line in f:

@@ -333,6 +333,13 @@
               <td class="mono">{{ ep.last_scan_at or 'never' }}</td>
               <td><button class="run-now-btn" style="padding:5px 10px; font-size:11px;" onclick="runEndpointNow({{ ep.id }}, this)">Run Now</button></td>
             </tr>
+            {% if ep.status == 'offline' and ep.last_error %}
+            <tr>
+              <td colspan="6" class="mono" style="color: var(--sev-critical); font-size: 11px; padding-top:0; padding-bottom:12px;">
+                &#9888; {{ ep.last_error }}
+              </td>
+            </tr>
+            {% endif %}
           {% endfor %}
           </tbody>
         </table>
