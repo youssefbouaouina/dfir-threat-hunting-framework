@@ -1,9 +1,19 @@
 venv/
 __pycache__/
 *.pyc
+*.pyo
 *.db
 .env
+.env.*
 .git/
+.gitignore
 *.md
 reports/
 data/
+db/
+ssh_keys/
+.ruff_cache/
+ruff.toml
+reports (1).py
+Dockerfile
+.dockerignore
