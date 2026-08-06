@@ -224,3 +224,5 @@ detection/.env.txt
 
 # Generated PDF reports (native runs) — Docker keeps them in a named volume
 backend/reports/
+detection/.env.txt
+detection/.env.txt
