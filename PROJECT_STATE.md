@@ -1,6 +1,6 @@
 # PROJECT_STATE.md — DFIR Threat Hunting Framework
 
-**Last updated:** 2026-08-05 (Phases 1-6 complete; fixes applied & tested)
+**Last updated:** 2026-08-07 (Phases 1-6 + report enhancement + Docker runtime fix; all verified)
 
 ## Architecture understanding
 
@@ -50,12 +50,31 @@ Collector (native on endpoint) → POST /ingest → SQLite (hosts/artifacts) →
 - AUDIT_AND_SETUP_GUIDE.md (added fix-status banner only)
 - PROJECT_STATE.md (this file)
 
+## Report enhancement (new work, 2026-08-07)
+- **`backend/reports.py` rewritten** — PDF now has 6 readable sections:
+  1. Executive Summary (report id, generated/trigger/scope, total, severity breakdown)
+  2. Detection Sources (artifact type → source description → findings count)
+  3. Rules Involved (rule id, title, technique, tactic, severity, match count)
+  4. ATT&CK Technique Coverage (technique/name/tactic/count)
+  5. Endpoint Details (registered endpoint metadata in scope; falls back to hosts table)
+  6. Detection Detail (host, severity-colored, rule, source, technique, detected_at, matched-data preview per artifact type)
+- `summary_json` extended with `by_rule`, `by_artifact_type`, `hosts` (dashboard doesn't parse it — safe).
+- Verified: compile + import + ruff clean; e2e run over sample data → 6-page PDF; pypdf text extraction confirmed all sections render (installed pypdf into backend venv for test tooling only).
+- Observation (pre-existing, not changed): a scheduled detection_cycle can race a manual POST /detect and both create detections from the same unprocessed artifacts (duplicates). Out of scope.
+
+## Docker runtime fix (2026-08-07)
+- After the image hardening commit (`e788ed3`), `dfir_backend_V5` crash-looped with `exec /entrypoint.sh: no such file or directory` even though the file existed and was executable in the image.
+- Root cause: **CRLF line endings**. Git's Windows autocrlf wrote `\r\n` into `backend/entrypoint.sh`; the kernel read shebang `#!/bin/sh\r`, looked for `/bin/sh\r` (doesn't exist) → ENOENT. Classic Windows symptom.
+- Fix: rewrote `backend/entrypoint.sh` as LF (no BOM) and added `.gitattributes` with `*.sh text eol=lf` so it stays LF in the repo and on Windows checkouts.
+- Verified: `docker compose build` OK; image contains `/usr/sbin/runuser`, `python`, `uvicorn`, `appuser` (uid 999) after the hardening purges; `docker compose up -d` → container `Up (healthy)`; healthcheck + /dashboard 200; scheduler adds all 3 jobs; `POST /reports/run-now` → 6-section PDF (report `c78de6290a6b`, 14 detections) downloadable via `/reports/{id}/download` (valid `%PDF-` magic).
+- Note: `PROJECT_STATE.md`'s old "stop v4 `dfir-backend` container" warning is obsolete — V5 now uses `container_name: dfir_backend_V5`, no name collision.
+
 ## Remaining issues (accepted, not code bugs)
 - No real STIX dataset in repo → ATT&CK name/tactic enrichment returns Nones (soft-fail, by design).
 - Agent-side YARA off by default on live endpoints (yara-python not shipped; hash/result embedding still works).
 - `endpoint.name` vs collector hostname coupling for report scoping (sample win10 folder hostname is `DESKTOP-A5E108P`) — keep names aligned.
 - Rotation of previously exposed API keys is a human action outside this repo.
-- v4 legacy Docker container `dfir-backend` still running from sibling dir; V5 deploy uses `container_name: dfir-backend` → must stop v4 container before `docker compose up`.
+- v4 legacy Docker container `dfir-backend` still running from sibling dir; V5 now uses `container_name: dfir_backend_V5` so there is no name collision.
 
 ## Test results
 All tests passed (see Phase 5 list).
