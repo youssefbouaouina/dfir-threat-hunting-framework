@@ -37,3 +37,18 @@
 - **Severity is heuristic, not authoritative** — e.g. `rule-008` (discovery commands) alone is low-confidence; it's meant to correlate with other detections on the same host, not stand alone as an incident
 - **Process-injection and in-memory-only techniques are out of scope** — our collector reads process/file/registry metadata, not memory; detecting T1055 (Process Injection) would need a different collection approach (e.g. reading process memory regions), which is a reasonable "future work" note for the report
 - **Port-based C2 detection (rule-010) is a weak signal alone** — attackers increasingly use standard ports (443/80) for C2 specifically to evade this kind of rule; this is complemented, not solved, by the IOC correlation layer (checking remote IPs against threat intel feeds)
+
+## Tuning history
+### TUNING-1 (rule-005): substring match -> whole-token match
+- **Symptom:** rule-005 fired on the legitimate built-in task
+  `\Microsoft\Windows\Workplace Join\Recovery-Check`
+  (`%SystemRoot%\System32\dsregcmd.exe /checkrecovery`).
+- **Root cause:** the old `task_to_run_contains: ["cmd.exe /c"]` did a naive
+  substring check — `dsreg**cmd.exe /c**heckrecovery` literally contains
+  `cmd.exe /c`.
+- **Fix:** new `field_has_word` operator in `sigma_matcher.py` (whole-token,
+  path-separator aware match) + rule-005 switched to
+  `task_to_run_has_word`. `cmd.exe` still matches `cmd.exe /c exit`, but no
+  longer matches `dsregcmd.exe`. Covered by `tests/test_sigma_matcher.py`.
+- **Regressed by:** `test_rule005_false_positive_regression` and the
+  `test_has_word_table` parametrized cases.

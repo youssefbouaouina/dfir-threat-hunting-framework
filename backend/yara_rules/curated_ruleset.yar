@@ -5,17 +5,6 @@
  * generic rules — every rule here should be explainable in the defense.
  */
 
-rule EICAR_Test_String
-{
-    meta:
-        description = "Detects the EICAR antivirus test string (used for pipeline validation, not real malware)"
-        technique_id = "N/A - test artifact"
-    strings:
-        $eicar = "EICAR-STANDARD-ANTIVIRUS-TEST-FILE"
-    condition:
-        $eicar
-}
-
 rule Suspicious_Base64_PowerShell_Loader
 {
     meta:

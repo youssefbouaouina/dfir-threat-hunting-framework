@@ -1,0 +1,17 @@
+{
+    "artifacts_scanned":  960,
+    "detections_found":  7,
+    "by_severity":  {
+                        "high":  3,
+                        "medium":  3,
+                        "critical":  1
+                    },
+    "by_technique":  {
+                         "T1569.002":  1,
+                         "T1547.001":  1,
+                         "T1562.001":  1,
+                         "T1053.005":  2,
+                         "unknown":  1,
+                         "T1204":  1
+                     }
+}

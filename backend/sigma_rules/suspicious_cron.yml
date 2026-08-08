@@ -1,6 +1,0 @@
-title: New cron entry referencing a shell script outside standard system paths
-id: rule-002
-artifact_type: persistence
-technique_id: T1053.003
-condition:
-  entry_contains: [".sh", "/tmp/", "/dev/shm/"]

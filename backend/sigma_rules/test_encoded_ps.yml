@@ -1,6 +1,0 @@
-title: Suspicious PowerShell EncodedCommand
-id: rule-001
-artifact_type: process
-technique_id: T1059.001
-condition:
-  cmdline_contains: ["-enc", "-EncodedCommand"]

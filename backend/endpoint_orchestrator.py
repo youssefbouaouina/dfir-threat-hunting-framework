@@ -17,6 +17,7 @@ Two operations:
     its own results directly — no file copying, no sample_data/ relay.
 """
 import logging
+import os
 import socket
 import time
 
@@ -26,6 +27,41 @@ logger = logging.getLogger("dfir.orchestrator")
 
 LIVENESS_TIMEOUT_SECONDS = 3
 SCAN_TIMEOUT_SECONDS = 120
+
+# Where the backend keeps the rules that get shipped to endpoints. Resolved
+# at import time so the same code works in the container (/app) and when run
+# from a source checkout (backend/).
+LOCAL_YARA_RULES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "yara_rules")
+
+
+def _ship_yara_rules(client: paramiko.SSHClient, remote_rules_dir: str) -> bool:
+    """SFTP the backend's YARA rules directory onto the endpoint, so the
+    collector can scan locally without any manual copy step. Returns True if
+    at least one rule file was pushed (rules are small — a full re-push every
+    scan keeps the endpoint always in sync with whatever the backend has)."""
+    try:
+        rule_files = [
+            f for f in os.listdir(LOCAL_YARA_RULES_DIR) if f.endswith((".yar", ".yara"))
+        ]
+        if not rule_files:
+            logger.warning("No YARA rules found in %s", LOCAL_YARA_RULES_DIR)
+            return False
+
+        sftp = client.open_sftp()
+        try:
+            try:
+                sftp.mkdir(remote_rules_dir)
+            except OSError:
+                pass  # directory already exists
+            for f in rule_files:
+                sftp.put(os.path.join(LOCAL_YARA_RULES_DIR, f), f"{remote_rules_dir}/{f}")
+        finally:
+            sftp.close()
+        logger.info("Shipped %s YARA rule file(s) to %s", len(rule_files), remote_rules_dir)
+        return True
+    except (OSError, paramiko.SSHException) as e:
+        logger.warning("Failed to ship YARA rules to %s: %s", remote_rules_dir, e)
+        return False
 
 
 def check_liveness(ip_address: str, port: int) -> tuple[bool, float | None]:
@@ -84,14 +120,20 @@ def run_remote_scan(
         # missing every package installed inside the venv), not the
         # venv's interpreter.
         python_bin = f'{remote_collector_path}\\venv\\Scripts\\python.exe'
+        remote_rules_dir = f"{remote_collector_path}\\yara_rules"
         command = f'cd /d "{remote_collector_path}" && "{python_bin}" collector_agent.py --push-url {push_url}'
+        if _ship_yara_rules(client, remote_rules_dir.replace("\\", "/")):
+            command += f' --yara-rules "{remote_rules_dir}"'
     else:
         # Same reasoning on Linux: a non-interactive SSH command
         # does NOT source .bashrc/.profile, so "source venv/bin/activate"
         # never runs and bare `python3` resolves to the system
         # interpreter, not the venv's — call the venv's binary directly.
         python_bin = f'{remote_collector_path}/venv/bin/python3'
+        remote_rules_dir = f"{remote_collector_path}/yara_rules"
         command = f"cd {remote_collector_path} && {python_bin} collector_agent.py --push-url {push_url}"
+        if _ship_yara_rules(client, remote_rules_dir):
+            command += f" --yara-rules {remote_rules_dir}"
 
     try:
         _stdin, stdout, stderr = client.exec_command(command, timeout=SCAN_TIMEOUT_SECONDS)

@@ -7,5 +7,10 @@ description: >
   Scheduled tasks that directly invoke powershell.exe, cmd.exe, or
   wscript.exe (rather than a signed, installed application) are a
   common persistence and execution technique.
+
+  NB: matched with the `_has_word` operator (whole-token match, not
+  substring) — the substring "cmd.exe" also occurs inside the legitimate
+  binary name "dsregcmd.exe" (TUNING-1), which produced false positives
+  on the built-in task \Microsoft\Windows\Workplace Join\Recovery-Check.
 condition:
-  task_to_run_contains: ["powershell", "cmd.exe /c", "wscript", "mshta"]
+  task_to_run_has_word: ["powershell", "cmd.exe", "wscript", "mshta"]

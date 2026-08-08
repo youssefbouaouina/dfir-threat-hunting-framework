@@ -1,0 +1,4 @@
+# Development-only dependencies (lint + tests). The runtime image only
+# installs requirements.txt; CI and local dev install both files.
+pytest>=8.0
+ruff>=0.5

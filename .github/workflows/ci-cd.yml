@@ -32,7 +32,9 @@ jobs:
           cache-dependency-path: backend/requirements.txt
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
 
       - name: Lint (ruff)
         run: |
@@ -41,10 +43,13 @@ jobs:
 
       - name: Import sanity check
         # Cheap but real: if any module has a syntax/import error, this
-        # catches it before it ever reaches a Docker build. Full pytest
-        # suite is a documented next step — see repo TODO.
+        # catches it before it ever reaches a Docker build.
         run: |
           python -c "import main"
+
+      - name: Run unit tests (pytest)
+        run: |
+          python -m pytest tests -q
 
       - name: Validate detection rules load without error
         run: |

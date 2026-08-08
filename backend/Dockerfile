@@ -37,6 +37,11 @@ RUN python -m pip install --no-cache-dir --upgrade pip \
 COPY . .
 COPY entrypoint.sh /entrypoint.sh
 
+# Vendored MITRE ATT&CK STIX dataset (see attck_mapper.py / scripts/fetch_stix.py).
+# Fetched at build time so the runtime image is self-contained and works offline.
+RUN mkdir -p /app/refs/attack \
+    && python scripts/fetch_stix.py --dest /app/refs/attack/enterprise-attack.json
+
 # SQLite DB + generated PDF reports both live here — mounted as a
 # volume in docker-compose.yml so data survives container restarts.
 RUN mkdir -p /app/data /app/reports \

@@ -23,8 +23,13 @@ Supported condition operators:
     field: [v1, v2]           -> value must be one of the list
     field_contains: [s1, s2]  -> field (as string, case-insensitive)
                                   must contain at least one of the substrings
+    field_has_word: [w1, w2]  -> field must contain at least one of the terms as a
+                                  whole token, not as a substring of a longer word
+                                  (e.g. "cmd.exe" matches "run cmd.exe /c x" but NOT
+                                  "dsregcmd.exe"; prevents substring false positives)
 """
 import os
+import re
 
 import yaml
 
@@ -40,6 +45,33 @@ def load_rules(rules_dir: str) -> list:
     return rules
 
 
+def _tokenize(value: str) -> list:
+    """Split a command line into tokens on any char that is not a letter,
+    digit, dot, dash or underscore — keeps 'cmd.exe' atomic, but separates
+    it from the rest of a path ('dsregcmd.exe' stays its own token)."""
+    return [t.lower() for t in re.split(r"[^A-Za-z0-9._-]+", value) if t]
+
+
+def _has_word(value: str, term: str) -> bool:
+    """True if `term` appears in `value` as a whole token.
+
+    'powershell' matches 'powershell.exe' (token prefix + dot), but none of
+    them match 'dsregcmd.exe' — that is its own token and never a prefix
+    match for 'cmd.exe'. This is the fix for the rule-005 false positive
+    where 'cmd.exe /c' matched inside '%SystemRoot%...\\dsregcmd.exe /c...'."""
+    term = term.lower()
+    if term in {"", ".", ".."}:
+        return False
+    for token in _tokenize(value):
+        if token == term:
+            return True
+        if token.startswith(term + "."):
+            return True
+        if term.startswith(token + "."):
+            return True
+    return False
+
+
 def _matches_condition(data: dict, condition: dict) -> bool:
     for field, expected in condition.items():
         if field.endswith("_contains"):
@@ -47,6 +79,12 @@ def _matches_condition(data: dict, condition: dict) -> bool:
             value = str(data.get(real_field, "")).lower()
             terms = expected if isinstance(expected, list) else [expected]
             if not any(str(term).lower() in value for term in terms):
+                return False
+        elif field.endswith("_has_word"):
+            real_field = field[: -len("_has_word")]
+            value = str(data.get(real_field, ""))
+            terms = expected if isinstance(expected, list) else [expected]
+            if not any(_has_word(value, term) for term in terms):
                 return False
         else:
             value = data.get(field)
@@ -90,7 +128,12 @@ def evaluate(rules: list, artifacts: list) -> list:
 
 
 if __name__ == "__main__":
-    # Quick manual test using inline sample data — no files needed.
+    # Quick manual test using inline sample data + a rule written to a
+    # TEMP dir (never into sigma_rules/ — scratch rule files there would
+    # double-fire detections at runtime for their rule ids).
+    import tempfile
+
+    tmp_rules = tempfile.mkdtemp(prefix="sigma_manual_test_")
     sample_artifacts = [
         {
             "host": "test-host",
@@ -112,8 +155,7 @@ if __name__ == "__main__":
         },
     ]
 
-    os.makedirs("sigma_rules", exist_ok=True)
-    test_rule_path = os.path.join("sigma_rules", "test_encoded_ps.yml")
+    test_rule_path = os.path.join(tmp_rules, "test_encoded_ps.yml")
     with open(test_rule_path, "w") as f:
         f.write(
             "title: Suspicious PowerShell EncodedCommand\n"
@@ -124,6 +166,6 @@ if __name__ == "__main__":
             '  cmdline_contains: ["-enc", "-EncodedCommand"]\n'
         )
 
-    rules = load_rules("sigma_rules")
+    rules = load_rules(tmp_rules)
     results = evaluate(rules, sample_artifacts)
     print(results)
