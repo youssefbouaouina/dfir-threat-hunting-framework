@@ -96,7 +96,7 @@ jobs:
 
       - name: Security scan (trivy) — backend image
         continue-on-error: true
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.28.0
         with:
           image-ref: ${{ env.BACKEND_IMAGE }}
           format: table
@@ -105,7 +105,7 @@ jobs:
 
       - name: Security scan (trivy) — endpoint image
         continue-on-error: true
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.28.0
         with:
           image-ref: ${{ env.ENDPOINT_IMAGE }}
           format: table
