@@ -27,6 +27,8 @@ services:
       # MITRE ATT&CK STIX bundle (dfir-refs, cloned from github.com/mitre/cti)
       # mounted read-only so ATT&CK name/tactic enrichment works offline in
       # the container. Mount only the bundle we need, not the whole repo.
+      # CI fetches the bundle before `docker compose up`; locally, clone once:
+      #   git clone --depth 1 https://github.com/mitre/cti dfir-refs/cti
       - ./dfir-refs/cti/enterprise-attack:/dfir/stix:ro
       # SSH private keys for reaching out to registered VM endpoints.
       # Bind-mounted read-only from the host, NOT a named volume — these

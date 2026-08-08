@@ -73,6 +73,13 @@ jobs:
           mkdir -p backend/ssh_keys
           printf 'DETECTION_INTERVAL_SECONDS=30\n' > backend/.env
 
+      - name: Fetch MITRE ATT&CK STIX bundle (dfir-refs is gitignored — 442MB clone)
+        run: |
+          mkdir -p dfir-refs/cti/enterprise-attack
+          curl -fsSL -o dfir-refs/cti/enterprise-attack/enterprise-attack.json \
+            https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json
+          ls -lh dfir-refs/cti/enterprise-attack/enterprise-attack.json
+
       - name: Build + start the stack (backend, endpoint-manager, endpoint image)
         run: docker compose up -d --build
 
