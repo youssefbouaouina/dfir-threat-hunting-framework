@@ -8,8 +8,9 @@ Report layout (readable, analyst-oriented):
   2. Detection Sources            — which artifact type fed each finding
   3. Rules Involved               — every rule that fired, with technique + count
   4. ATT&CK Technique Coverage    — technique/tactic aggregation
-  5. Endpoint Details             — registered endpoint metadata in scope
-  6. Detection Detail             — one row per finding incl. matched-data preview
+  5. Attack Chain & Actions       — ordered ATT&CK-tactic chain + recommended actions
+  6. Endpoint Details             — registered endpoint metadata in scope
+  7. Detection Detail             — one row per finding incl. matched-data preview
 
 Two ways a report gets created:
   - Manually, via POST /reports/run-now (the dashboard's "Run
@@ -40,6 +41,7 @@ from reportlab.platypus import (
 from sqlalchemy.orm import Session
 
 import models
+from attack_chain import build_attack_chain, summary_recommendations
 from database import get_db
 from detection_routes import run_detection_job
 
@@ -272,9 +274,62 @@ def _generate_pdf(ctx: dict) -> str:
     ]))
     story.append(PageBreak())
 
-    # --------------------------------------------------- 5. endpoint details
+    # -------------------------------------------- 5. attack chain & actions
+    chain = build_attack_chain(ctx["detections"])
+    recommendations = summary_recommendations(ctx["detections"])
     story.append(KeepTogether([
-        _section_header(5, "Endpoint Details"),
+        _section_header(5, "Attack Chain Reconstruction &amp; Recommended Actions"),
+        Paragraph(
+            "Techniques grouped in MITRE ATT&amp;CK tactic order — an ordered "
+            "hypothesis of how the incident may have unfolded, not a confirmed "
+            "timeline. Recommended actions are heuristic triage/containment "
+            "steps mapped from the techniques that fired.",
+            styles["Normal"],
+        ),
+        Spacer(1, 0.1 * inch),
+    ]))
+    if chain["tactics"]:
+        chain_rows = [["#", "Tactic", "Technique", "Name", "Severity", "Count", "Host(s)"]]
+        idx = 0
+        for phase in chain["tactics"]:
+            for t in phase["techniques"]:
+                idx += 1
+                chain_rows.append(
+                    [
+                        _p(str(idx), cell),
+                        _p(phase["label"], cell),
+                        _p(t["technique_id"], cell),
+                        _p(t["name"], cell),
+                        _severity_p(t["severity"]),
+                        _p(str(t["count"]), cell),
+                        _p(", ".join(t["hosts"]) if t["hosts"] else "-", cell),
+                    ]
+                )
+        story.append(
+            _styled_table(
+                chain_rows,
+                col_widths=[0.3 * inch, 1.0 * inch, 0.7 * inch, 1.4 * inch, 0.6 * inch, 0.4 * inch, 0.8 * inch],
+            )
+        )
+    else:
+        story.append(Paragraph("No techniques to reconstruct an attack chain from.", styles["Normal"]))
+    if recommendations:
+        story.append(Spacer(1, 0.15 * inch))
+        rec_items = [
+            [Paragraph(
+                f"<b>{escape(r['technique_id'])}"
+                + (f" — {escape(str(r['technique_name']))}" if r["technique_name"] else "")
+                + "</b>: " + escape(r["action"]),
+                ParagraphStyle("rec", fontSize=7.5, leading=9.5),
+            )]
+            for r in recommendations[:10]
+        ]
+        story.append(_styled_table(rec_items, col_widths=[6.0 * inch]))
+    story.append(PageBreak())
+
+    # --------------------------------------------------- 6. endpoint details
+    story.append(KeepTogether([
+        _section_header(6, "Endpoint Details"),
         Paragraph(
             "Registered endpoints in scope. Artifact/detection records use the collector "
             "hostname; keep it aligned with the endpoint name so filtering stays consistent.",
@@ -315,9 +370,9 @@ def _generate_pdf(ctx: dict) -> str:
         )
     story.append(PageBreak())
 
-    # -------------------------------------------------- 6. detection detail
+    # -------------------------------------------------- 7. detection detail
     story.append(KeepTogether([
-        _section_header(6, "Detection Detail"),
+        _section_header(7, "Detection Detail"),
         Paragraph(
             "Every finding in this report, with the specific matched data that triggered it.",
             styles["Normal"],

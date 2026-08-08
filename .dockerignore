@@ -1,0 +1,24 @@
+# Root .dockerignore — applies to builds whose context is the repo root
+# (the endpoint-linux image). Keeps secrets, dev caches and VMs out of the build.
+
+.git/
+.gitignore
+.gitattributes
+**/__pycache__/
+**/*.pyc
+**/.ruff_cache/
+**/venv/
+backend/venv/
+backend/.env
+backend/.env.txt
+backend/ssh_keys/
+backend/db/
+backend/reports/
+backend/dfir.db
+detection/
+sample_data/
+collector/output/
+collector/venv/
+docs/
+prompt.txt
+*.md

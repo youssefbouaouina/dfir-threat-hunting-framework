@@ -18,8 +18,9 @@ import json
 import logging
 from collections import Counter
 from contextlib import asynccontextmanager
+from datetime import UTC, datetime
 
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from sqlalchemy import inspect, text
 from sqlalchemy.orm import Session
 
@@ -47,10 +48,29 @@ def ensure_schema() -> None:
     insp = inspect(engine)
     if "endpoints" in insp.get_table_names():
         cols = {c["name"] for c in insp.get_columns("endpoints")}
-        if "last_error" not in cols:
+        _ensure_endpoint_columns(engine, cols)
+
+
+ENDPOINT_ADDITIVE_COLUMNS = {
+    # name: (sqlite type, sqlalchemy default handled at insert site)
+    "last_error": "TEXT",
+    "backend_type": "VARCHAR(255)",
+    "container_name": "VARCHAR(255)",
+    "image": "VARCHAR(255)",
+    "registration_status": "VARCHAR(255)",
+    "agent_version": "VARCHAR(255)",
+    "last_heartbeat": "DATETIME",
+    "last_ip_address": "VARCHAR(255)",
+}
+
+
+def _ensure_endpoint_columns(engine, existing_cols: set) -> None:
+    logger = logging.getLogger("dfir.schema")
+    for col, coltype in ENDPOINT_ADDITIVE_COLUMNS.items():
+        if col not in existing_cols:
             with engine.begin() as conn:
-                conn.execute(text("ALTER TABLE endpoints ADD COLUMN last_error TEXT"))
-            logging.getLogger("dfir.schema").info("endpoints.last_error column added (startup schema fix)")
+                conn.execute(text(f"ALTER TABLE endpoints ADD COLUMN {col} {coltype}"))
+            logger.info("endpoints.%s column added (startup schema fix)", col)
 
 
 ensure_schema()
@@ -81,7 +101,11 @@ def health():
 
 
 @app.post("/ingest", response_model=schemas.IngestResponse)
-def ingest_artifacts(artifacts: list[schemas.ArtifactIn], db: Session = Depends(get_db)):
+def ingest_artifacts(
+    artifacts: list[schemas.ArtifactIn],
+    request: Request,
+    db: Session = Depends(get_db),
+):
     if not artifacts:
         raise HTTPException(status_code=400, detail="Empty artifact list")
 
@@ -109,11 +133,40 @@ def ingest_artifacts(artifacts: list[schemas.ArtifactIn], db: Session = Depends(
 
     db.commit()
 
+    _update_endpoint_heartbeat(db, hostname, request.client.host if request.client else None, artifacts)
+
     return schemas.IngestResponse(
         ingested=len(artifacts),
         host=hostname,
         artifact_types=list(type_counter.keys()),
     )
+
+
+def _update_endpoint_heartbeat(
+    db: Session,
+    hostname: str,
+    client_ip: str | None,
+    artifacts: list[schemas.ArtifactIn],
+) -> None:
+    """Refreshes the matching registered endpoint's heartbeat/status whenever an
+    endpoint pushes data. Matches by endpoint name first (the collector's
+    hostname == the container name / VM name), then by last-known IP."""
+    ep = db.query(models.Endpoint).filter(models.Endpoint.name == hostname).first()
+    if ep is None and client_ip:
+        ep = db.query(models.Endpoint).filter(models.Endpoint.last_ip_address == client_ip).first()
+    if ep is None:
+        return
+
+    ep.last_heartbeat = datetime.now(UTC)
+    ep.status = "online"
+    ep.last_error = None
+    if client_ip:
+        ep.last_ip_address = client_ip
+    for a in artifacts:
+        if a.artifact_type == "heartbeat" and a.data.get("agent_version"):
+            ep.agent_version = str(a.data["agent_version"])
+            break
+    db.commit()
 
 
 @app.get("/artifacts", response_model=list[schemas.ArtifactOut])

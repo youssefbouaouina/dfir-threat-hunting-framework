@@ -1,6 +1,6 @@
 # PROJECT_STATE.md — DFIR Threat Hunting Framework
 
-**Last updated:** 2026-08-07 (Phases 1-6 + report enhancement + Docker runtime fix; all verified)
+**Last updated:** 2026-08-08 (Phases 1-6 + report enhancement + Docker fix + post-audit improvement pass; all verified)
 
 ## Architecture understanding
 
@@ -8,7 +8,7 @@
 |---|---|---|---|---|
 | Backend | FastAPI + SQLAlchemy(SQLite) + APScheduler + reportlab + paramiko | `backend/` | `docker compose up --build -d` (or `uvicorn main:app`) | WORKING (all audit bugs fixed) |
 | Collector agent | Python (psutil, requests) | `collector/` | `python collector_agent.py [--push-url ...]` | WORKING (deps fixed, no hangs/crashes) |
-| Detection engine | sigma_rules (YAML) + yara_rules + IOC files + attck_mapper | `backend/` | inside backend | WORKING; ATT&CK enrichment soft-fails w/o STIX dataset (by design) |
+| Detection engine | sigma_rules (YAML) + yara_rules + IOC files + attck_mapper + attack_chain | `backend/` | inside backend | WORKING; ATT&CK enrichment LIVE via dfir-refs STIX mount (2026-08-08) |
 | Dashboard | Jinja2 server-rendered | `backend/dashboard.py` + templates | served by backend | WORKING (schema fix applied) |
 | Legacy `detection/` | duplicate old engine | `detection/` | NOT used by compose/CI | Secrets removed from git; folder left in place |
 
@@ -70,11 +70,23 @@ Collector (native on endpoint) → POST /ingest → SQLite (hosts/artifacts) →
 - Note: `PROJECT_STATE.md`'s old "stop v4 `dfir-backend` container" warning is obsolete — V5 now uses `container_name: dfir_backend_V5`, no name collision.
 
 ## Remaining issues (accepted, not code bugs)
-- No real STIX dataset in repo → ATT&CK name/tactic enrichment returns Nones (soft-fail, by design).
-- Agent-side YARA off by default on live endpoints (yara-python not shipped; hash/result embedding still works).
+- ~~No real STIX dataset in repo → ATT&CK name/tactic enrichment returns Nones (soft-fail, by design).~~ **RESOLVED 2026-08-08:** `dfir-refs/` (MITRE CTI clone) mounted into the backend image; enrichment is now live in the container.
+- ~~Agent-side YARA off by default on live endpoints (yara-python not shipped; hash/result embedding still works).~~ **RESOLVED 2026-08-08:** orchestrated scans now pass `--yara-rules`; collector path extraction widened to cron/scheduled-task entries.
 - `endpoint.name` vs collector hostname coupling for report scoping (sample win10 folder hostname is `DESKTOP-A5E108P`) — keep names aligned.
 - Rotation of previously exposed API keys is a human action outside this repo.
 - v4 legacy Docker container `dfir-backend` still running from sibling dir; V5 now uses `container_name: dfir_backend_V5` so there is no name collision.
+
+## Post-audit improvement pass (2026-08-08) — intern PDF §4.3/§4.4 compliance
+Applied after the compliance audit, targeting the internship PDF's §4.3 (MITRE ATT&CK mapping, attack-chain reconstruction/visualization) and §4.4 (summary view with recommended actions):
+
+- **ATT&CK enrichment live in the container.** `backend/attck_mapper.py` rewritten: `DFIR_STIX_PATH` env override + robust candidate-path resolution (repo `dfir-refs/`, sibling-tree layout, container mount `/dfir/stix/enterprise-attack.json`). `docker-compose.yml` mounts `./dfir-refs/cti/enterprise-attack:/dfir/stix:ro` and sets `DFIR_STIX_PATH`. Verified in-container: `T1059.001 → PowerShell / execution`, `T1566.001 → Spearphishing Attachment / initial-access`.
+- **Attack-chain reconstruction + visualization.** New `backend/attack_chain.py`: groups detected techniques by ATT&CK tactic in canonical kill-chain order (reconnaissance → … → impact), ties broken by first-seen; plus curated technique→recommended-action mapping. Exposed via `GET /detections/chain` (detection_routes.py) and rendered on the dashboard as an ordered phase-flow panel.
+- **Recommended actions.** Dashboard "Recommended Actions" panel + new PDF report **section 5 "Attack Chain Reconstruction & Recommended Actions"** (report is now 7 sections; detail moved to 7).
+- **YARA enabled in automated orchestration (R9).** `endpoint-manager/manager.py` exec command now passes `--yara-rules /opt/collector/yara_rules`; `backend/endpoint_orchestrator.py` SSH command passes the collector's local `yara_rules` dir; `collector/collector_agent.py` `_extract_exe_paths()` widened to also pull executable paths from crontab/rc.local `entry` lines and scheduled-task `task_to_run`/`raw` fields (and `run_collection` now keeps scheduled_task records in memory for file_scan reuse). Verified end-to-end: cron entry referencing an EICAR-marked script → file_scan found `/opt/dfir_eicar_marker.sh` → 2 YARA matches → detections persisted.
+
+**Modified files (improvement pass):** `backend/attck_mapper.py`, `backend/attack_chain.py` (new), `backend/detection_routes.py`, `backend/dashboard.py`, `backend/reports.py`, `backend/endpoint_orchestrator.py`, `backend/templates/dashboard.html`, `docker-compose.yml`, `endpoint-manager/manager.py`, `collector/collector_agent.py`, `backend/tests/test_attck_mapper.py` (new), `backend/tests/test_attack_chain.py` (new).
+
+**Verified:** `pytest backend/tests` → 22 passed; `ruff check backend endpoint-manager` → clean; live container run-now over an EICAR cron artifact → YARA detection; `/dashboard` renders attack-chain + recommendations; PDF report includes section 5 with enriched technique names.
 
 ## Test results
 All tests passed (see Phase 5 list).

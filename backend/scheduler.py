@@ -56,18 +56,28 @@ def _scheduled_detection_run():
 
 
 def _liveness_sweep():
-    """Fast, frequent check — just 'is the SSH port reachable', updates
-    each endpoint's status so the dashboard's online/offline badges stay
-    current without the page load itself doing any blocking network calls."""
+    """Fast, frequent check — container endpoints query Docker state via the
+    endpoint-manager; VM endpoints check 'is the SSH port reachable'. Updates
+    each endpoint's status so the dashboard's online/offline badges stay current
+    without the page load itself doing any blocking network calls."""
     import models
+    from container_manager_client import EndpointManagerError, container_status
     from endpoint_orchestrator import check_liveness
 
     db = SessionLocal()
     try:
         endpoints = db.query(models.Endpoint).filter(models.Endpoint.enabled == 1).all()
         for ep in endpoints:
-            online, _latency = check_liveness(ep.ip_address, ep.ssh_port)
-            ep.status = "online" if online else "offline"
+            if ep.backend_type == "container":
+                try:
+                    state = container_status(ep.container_name)
+                    online = state.get("running", False)
+                except EndpointManagerError:
+                    online = False
+                ep.status = "online" if online else "offline"
+            else:
+                online, _latency = check_liveness(ep.ip_address, ep.ssh_port)
+                ep.status = "online" if online else "offline"
             ep.last_checked_at = datetime.now(UTC)
         db.commit()
         if endpoints:
@@ -79,10 +89,11 @@ def _liveness_sweep():
 
 
 def _hourly_orchestration_cycle():
-    """The big automatic cycle: for every enabled, currently-online
-    endpoint, SSH in, run the collector (which pushes its own results),
-    then detect and report — fully unattended, once per interval."""
+    """The big automatic cycle: for every enabled, currently-online endpoint,
+    run the collector (which pushes its own results) — container endpoints via
+    docker exec, VM endpoints via SSH — then detect and report."""
     import models
+    from container_manager_client import EndpointManagerError, exec_collector
     from endpoint_orchestrator import run_remote_scan
     from reports import generate_report
 
@@ -94,15 +105,25 @@ def _hourly_orchestration_cycle():
         logger.info("Orchestration cycle starting for %s online endpoint(s)", len(endpoints))
 
         for ep in endpoints:
-            result = run_remote_scan(
-                ip_address=ep.ip_address,
-                port=ep.ssh_port,
-                username=ep.ssh_username,
-                key_path=ep.ssh_key_path,
-                remote_collector_path=ep.remote_collector_path,
-                push_url=BACKEND_PUSH_URL,
-                os_type=ep.os,
-            )
+            if ep.backend_type == "container":
+                try:
+                    result = exec_collector(
+                        ep.container_name,
+                        push_url=os.getenv("ENDPOINT_PUSH_URL", "http://backend:8000"),
+                    )
+                    result["success"] = bool(result.get("success", True))
+                except EndpointManagerError as e:
+                    result = {"success": False, "error": str(e)}
+            else:
+                result = run_remote_scan(
+                    ip_address=ep.ip_address,
+                    port=ep.ssh_port,
+                    username=ep.ssh_username,
+                    key_path=ep.ssh_key_path,
+                    remote_collector_path=ep.remote_collector_path,
+                    push_url=BACKEND_PUSH_URL,
+                    os_type=ep.os,
+                )
             if result["success"]:
                 ep.last_scan_at = datetime.now(UTC)
                 db.commit()

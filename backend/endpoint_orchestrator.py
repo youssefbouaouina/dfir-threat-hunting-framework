@@ -84,14 +84,20 @@ def run_remote_scan(
         # missing every package installed inside the venv), not the
         # venv's interpreter.
         python_bin = f'{remote_collector_path}\\venv\\Scripts\\python.exe'
-        command = f'cd /d "{remote_collector_path}" && "{python_bin}" collector_agent.py --push-url {push_url}'
+        command = (
+            f'cd /d "{remote_collector_path}" && "{python_bin}" collector_agent.py '
+            f'--push-url {push_url} --yara-rules "{remote_collector_path}\\yara_rules"'
+        )
     else:
         # Same reasoning on Linux: a non-interactive SSH command
         # does NOT source .bashrc/.profile, so "source venv/bin/activate"
         # never runs and bare `python3` resolves to the system
         # interpreter, not the venv's — call the venv's binary directly.
         python_bin = f'{remote_collector_path}/venv/bin/python3'
-        command = f"cd {remote_collector_path} && {python_bin} collector_agent.py --push-url {push_url}"
+        command = (
+            f"cd {remote_collector_path} && {python_bin} collector_agent.py "
+            f"--push-url {push_url} --yara-rules {remote_collector_path}/yara_rules"
+        )
 
     try:
         _stdin, stdout, stderr = client.exec_command(command, timeout=SCAN_TIMEOUT_SECONDS)

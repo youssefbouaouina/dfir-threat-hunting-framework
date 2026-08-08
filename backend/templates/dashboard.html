@@ -221,6 +221,50 @@
     color: var(--text-primary);
   }
   .download-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  .chain-flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
+  .chain-phase {
+    flex: 1 1 150px;
+    background: var(--bg-panel-raised);
+    border: 1px solid var(--border-hairline);
+    border-radius: 6px;
+    overflow: hidden;
+    min-width: 150px;
+  }
+  .chain-phase-head {
+    padding: 7px 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  .chain-phase-body { padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .chain-node {
+    background: var(--bg-void);
+    border: 1px solid var(--border-hairline);
+    border-left: 3px solid var(--sev-medium);
+    border-radius: 5px;
+    padding: 7px 9px;
+  }
+  .chain-node-id { font-size: 11px; color: var(--accent); }
+  .chain-node-name { font-size: 12px; font-weight: 600; margin-top: 1px; }
+  .chain-node-meta { font-size: 10.5px; color: var(--text-muted); margin-top: 4px; display: flex; align-items: center; gap: 5px; }
+  .chain-arrow {
+    align-self: center;
+    color: var(--accent);
+    font-size: 16px;
+    padding: 0 2px;
+  }
+  .chain-note { font-size: 11.5px; color: var(--text-muted); margin: -6px 0 12px; }
+
+  .rec-list { margin: 0; padding-left: 18px; }
+  .rec-list li { margin-bottom: 12px; }
+  .rec-title { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--accent); }
+  .rec-action { font-size: 12.5px; color: var(--text-primary); margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -311,15 +355,120 @@
       </div>
 
       <div class="panel">
+        <h2>Attack Chain Reconstruction</h2>
+        {% if attack_chain and attack_chain.tactics %}
+          <p class="chain-note">Ordered hypothesis by ATT&amp;CK tactic — not a confirmed timeline.</p>
+          <div class="chain-flow">
+            {% for phase in attack_chain.tactics %}
+            <div class="chain-phase">
+              <div class="chain-phase-head" style="border-left:3px solid var(--sev-high);">
+                {{ phase.label }}
+              </div>
+              <div class="chain-phase-body">
+                {% for t in phase.techniques %}
+                <div class="chain-node" style="border-left-color: var(--sev-{{ t.severity }});">
+                  <div class="chain-node-id mono">{{ t.technique_id }}</div>
+                  <div class="chain-node-name">{{ t.name }}</div>
+                  <div class="chain-node-meta mono">
+                    <span class="sev-pill" style="background: var(--sev-{{ t.severity }}); color:#14171F;">{{ t.severity }}</span>
+                    &times;{{ t.count }}
+                    {% if t.hosts %} &middot; {{ t.hosts|join(', ') }}{% endif %}
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            {% if not loop.last %}<div class="chain-arrow">&#10132;</div>{% endif %}
+            {% endfor %}
+          </div>
+        {% else %}
+        <div class="empty-state">No detections to reconstruct a chain from yet.</div>
+        {% endif %}
+      </div>
+
+      <div class="panel">
+        <h2>Recommended Actions</h2>
+        {% if recommendations %}
+        <ol class="rec-list">
+          {% for r in recommendations %}
+          <li>
+            <div class="rec-title">
+              {{ r.technique_id }} {% if r.technique_name %}— {{ r.technique_name }}{% endif %}
+            </div>
+            <div class="rec-action">{{ r.action }}</div>
+          </li>
+          {% endfor %}
+        </ol>
+        {% else %}
+        <div class="empty-state">No recommended actions for the current findings.</div>
+        {% endif %}
+      </div>
+
+      <div class="panel">
         <h2>Registered Endpoints</h2>
+
+        {% if endpoint_error %}
+        <div class="empty-state" style="color: var(--sev-critical); border:1px solid var(--sev-critical); margin-bottom:14px;">
+          &#9888; {{ endpoint_error }}
+        </div>
+        {% elif endpoint_created %}
+        <div class="empty-state" style="color: var(--sev-low); border:1px solid var(--sev-low); margin-bottom:14px;">
+          {{ endpoint_created }}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="/dashboard/endpoints" style="display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end; padding:14px; background:var(--bg-panel-raised); border-radius:8px; margin-bottom:16px;">
+          <label style="font-size:11px; color:var(--text-muted);">
+            Name
+            <input name="name" required placeholder="linux-test-01" style="display:block; margin-top:4px; background:var(--bg-void); border:1px solid var(--border-hairline); color:var(--text-primary); padding:7px 9px; border-radius:5px; font-family:monospace;">
+          </label>
+          <label style="font-size:11px; color:var(--text-muted);">
+            Type
+            <select name="backend_type" id="epType" onchange="toggleEpFields()" style="display:block; margin-top:4px; background:var(--bg-void); border:1px solid var(--border-hairline); color:var(--text-primary); padding:7px 9px; border-radius:5px;">
+              <option value="container">container</option>
+              <option value="vm">vm</option>
+            </select>
+          </label>
+          <label style="font-size:11px; color:var(--text-muted);">
+            OS
+            <select name="os" style="display:block; margin-top:4px; background:var(--bg-void); border:1px solid var(--border-hairline); color:var(--text-primary); padding:7px 9px; border-radius:5px;">
+              <option value="linux">linux</option>
+              <option value="windows">windows</option>
+            </select>
+          </label>
+          <label id="epImageField" style="font-size:11px; color:var(--text-muted);">
+            Image
+            <input name="image" placeholder="framework-endpoint-linux:latest" style="display:block; margin-top:4px; background:var(--bg-void); border:1px solid var(--border-hairline); color:var(--text-primary); padding:7px 9px; border-radius:5px; font-family:monospace;">
+          </label>
+          <div id="epVmFields" style="display:none; flex-wrap:wrap; gap:10px; align-items:flex-end;">
+            <label style="font-size:11px; color:var(--text-muted);">
+              IP
+              <input name="ip_address" placeholder="192.168.50.129" style="display:block; margin-top:4px; background:var(--bg-void); border:1px solid var(--border-hairline); color:var(--text-primary); padding:7px 9px; border-radius:5px; font-family:monospace;">
+            </label>
+            <label style="font-size:11px; color:var(--text-muted);">
+              SSH user
+              <input name="ssh_username" placeholder="youssef" style="display:block; margin-top:4px; background:var(--bg-void); border:1px solid var(--border-hairline); color:var(--text-primary); padding:7px 9px; border-radius:5px;">
+            </label>
+            <label style="font-size:11px; color:var(--text-muted);">
+              SSH key path (in backend)
+              <input name="ssh_key_path" value="/app/ssh_keys/dfir_orchestrator_key" style="display:block; margin-top:4px; background:var(--bg-void); border:1px solid var(--border-hairline); color:var(--text-primary); padding:7px 9px; border-radius:5px; font-family:monospace;">
+            </label>
+            <label style="font-size:11px; color:var(--text-muted);">
+              Collector path
+              <input name="remote_collector_path" placeholder="/home/youssef/collector" style="display:block; margin-top:4px; background:var(--bg-void); border:1px solid var(--border-hairline); color:var(--text-primary); padding:7px 9px; border-radius:5px; font-family:monospace;">
+            </label>
+          </div>
+          <button class="run-now-btn" type="submit">Create Endpoint</button>
+        </form>
+
         {% if endpoints %}
         <table>
-          <thead><tr><th>Name</th><th>IP</th><th>OS</th><th>Status</th><th>Last Scan</th><th></th></tr></thead>
+          <thead><tr><th>Name</th><th>Type</th><th>OS</th><th>Status</th><th>Last Seen</th><th></th></tr></thead>
           <tbody>
           {% for ep in endpoints %}
             <tr>
               <td class="mono">{{ ep.name }}</td>
-              <td class="mono">{{ ep.ip_address }}</td>
+              <td>{{ ep.backend_type or 'vm' }}</td>
               <td>{{ ep.os }}</td>
               <td>
                 {% if ep.status == 'online' %}
@@ -330,8 +479,18 @@
                 <span class="sev-pill" style="background: var(--sev-medium); color:#14171F;">unknown</span>
                 {% endif %}
               </td>
-              <td class="mono">{{ ep.last_scan_at or 'never' }}</td>
-              <td><button class="run-now-btn" style="padding:5px 10px; font-size:11px;" onclick="runEndpointNow({{ ep.id }}, this)">Run Now</button></td>
+              <td class="mono">{{ ep.last_heartbeat or 'never' }}</td>
+              <td>
+                <button class="run-now-btn" style="padding:5px 10px; font-size:11px;" onclick="runEndpointNow({{ ep.id }}, this)">Scan</button>
+                {% if ep.backend_type == 'container' %}
+                <button class="run-now-btn" style="padding:5px 10px; font-size:11px;" onclick="endpointAction({{ ep.id }}, 'start', this)">Start</button>
+                <button class="run-now-btn" style="padding:5px 10px; font-size:11px;" onclick="endpointAction({{ ep.id }}, 'stop', this)">Stop</button>
+                <button class="run-now-btn" style="padding:5px 10px; font-size:11px;" onclick="endpointAction({{ ep.id }}, 'restart', this)">Restart</button>
+                {% else %}
+                <button class="run-now-btn" style="padding:5px 10px; font-size:11px;" onclick="endpointAction({{ ep.id }}, 'check', this)">Check</button>
+                {% endif %}
+                <button class="run-now-btn" style="padding:5px 10px; font-size:11px; background:#3A4151; color:#fff;" onclick="deleteEndpoint({{ ep.id }})">Delete</button>
+              </td>
             </tr>
             {% if ep.status == 'offline' and ep.last_error %}
             <tr>
@@ -344,7 +503,7 @@
           </tbody>
         </table>
         {% else %}
-        <div class="empty-state">No endpoints registered yet — see setup guide for POST /endpoints.</div>
+        <div class="empty-state">No endpoints registered yet — use the form above to create a container endpoint or register a VM.</div>
         {% endif %}
       </div>
     </div>
@@ -421,6 +580,40 @@ async function runEndpointNow(endpointId, btn) {
     btn.disabled = false;
     setTimeout(() => { btn.textContent = originalText; }, 2500);
   }
+}
+async function endpointAction(endpointId, action, btn) {
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '...';
+  try {
+    const resp = await fetch(`/endpoints/${endpointId}/${action}`, { method: 'POST' });
+    if (!resp.ok) {
+      const body = await resp.json().catch(() => ({}));
+      throw new Error(body.detail || 'Request failed');
+    }
+    location.reload();
+  } catch (e) {
+    alert(e.message);
+    btn.textContent = 'Failed';
+    btn.disabled = false;
+    setTimeout(() => { btn.textContent = originalText; }, 2500);
+  }
+}
+async function deleteEndpoint(endpointId) {
+  if (!confirm('Delete this endpoint? Its Docker container (if any) will also be removed.')) return;
+  const resp = await fetch(`/endpoints/${endpointId}?remove_container=true`, { method: 'DELETE' });
+  if (resp.ok) {
+    location.reload();
+  } else {
+    const body = await resp.json().catch(() => ({}));
+    alert(body.detail || 'Delete failed');
+  }
+}
+function toggleEpFields() {
+  const type = document.getElementById('epType').value;
+  document.getElementById('epImageField').style.display = type === 'container' ? '' : 'none';
+  const vm = document.getElementById('epVmFields');
+  vm.style.display = type === 'vm' ? 'flex' : 'none';
 }
 </script>
 

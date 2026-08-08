@@ -1,81 +1,141 @@
-name: DFIR Backend CI/CD
+name: DFIR CI/CD
 
-# Runs on every push/PR touching backend code, plus manually via the
-# Actions tab (useful to trigger a rebuild without a code change, e.g.
-# after updating a Docker Hub secret).
+# Runs on every push/PR to the primary dev branch (youssef_V2) and main, plus
+# manually. Uses ghcr.io for images (free) — GitHub Actions minutes are free on
+# a public repository.
 on:
   push:
-    branches: [main]
-    paths:
-      - "backend/**"
-      - ".github/workflows/**"
+    branches: [main, youssef_V2]
   pull_request:
-    branches: [main]
-    paths:
-      - "backend/**"
+    branches: [main, youssef_V2]
   workflow_dispatch:
 
+env:
+  REGISTRY: ghcr.io
+  # Exact SHA tags — CI builds and tests exactly these, never "latest".
+  BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/framework-backend:${{ github.sha }}
+  ENDPOINT_MANAGER_IMAGE: ghcr.io/${{ github.repository_owner }}/framework-endpoint-manager:${{ github.sha }}
+  ENDPOINT_IMAGE: ghcr.io/${{ github.repository_owner }}/framework-endpoint-linux:${{ github.sha }}
+  ENDPOINT_MANAGER_TOKEN: ${{ secrets.ENDPOINT_MANAGER_TOKEN }}
+
 jobs:
-  lint-and-test:
+  lint-and-unit:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: "pip"
           cache-dependency-path: backend/requirements.txt
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Lint (ruff)
         run: |
-          pip install ruff
-          ruff check . --output-format=github
+          pip install -r backend/requirements.txt
+          pip install pytest ruff httpx2
+
+      - name: Lint (ruff) — backend + endpoint-manager
+        run: ruff check backend endpoint-manager
 
       - name: Import sanity check
-        # Cheap but real: if any module has a syntax/import error, this
-        # catches it before it ever reaches a Docker build. Full pytest
-        # suite is a documented next step — see repo TODO.
-        run: |
-          python -c "import main"
+        working-directory: backend
+        run: python -c "import main"
 
-      - name: Validate detection rules load without error
+      - name: Validate detection rules load
+        working-directory: backend
         run: |
           python -c "from sigma_matcher import load_rules; rules = load_rules('sigma_rules'); assert len(rules) > 0, 'no rules loaded'; print(f'{len(rules)} sigma rules OK')"
           python -c "import yara; yara.compile(filepath='yara_rules/curated_ruleset.yar'); print('yara rules compile OK')"
 
-  build-and-push:
-    needs: lint-and-test
+      - name: Backend unit tests (pytest)
+        working-directory: backend
+        run: python -m pytest tests/ -q
+
+      - name: Collector compile + smoke
+        run: |
+          pip install -r collector/requirements.txt
+          python -m py_compile collector/collector_agent.py
+          python collector/collector_agent.py --only processes --output "$RUNNER_TEMP/dfir_smoke"
+          test -d "$RUNNER_TEMP/dfir_smoke" && echo "collector smoke OK"
+
+  build-integration:
+    needs: lint-and-unit
     runs-on: ubuntu-latest
-    # Only push an image on an actual merge to main — PRs get linted
-    # and tested, not published, avoiding half-finished images on Docker Hub.
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to Docker Hub
+      - name: Prepare compose inputs (no secrets required to boot)
+        run: |
+          mkdir -p backend/ssh_keys
+          printf 'DETECTION_INTERVAL_SECONDS=30\n' > backend/.env
+
+      - name: Build + start the stack (backend, endpoint-manager, endpoint image)
+        run: docker compose up -d --build
+
+      - name: Wait for backend health
+        run: |
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:8000/health >/dev/null 2>&1; then echo "backend healthy"; exit 0; fi
+            sleep 2
+          done
+          echo "backend never became healthy"; docker compose logs backend; exit 1
+
+      - name: Endpoint lifecycle integration test
+        run: bash tests/integration/run_integration.sh
+
+      - name: Security scan (trivy) — backend image
+        continue-on-error: true
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ${{ env.BACKEND_IMAGE }}
+          format: table
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+
+      - name: Security scan (trivy) — endpoint image
+        continue-on-error: true
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ${{ env.ENDPOINT_IMAGE }}
+          format: table
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+
+      - name: Teardown test environment
+        if: always()
+        run: docker compose down -v
+
+      - name: Upload logs on failure
+        if: failure()
+        run: docker compose logs backend endpoint-manager || true
+
+      # --- Publish to ghcr.io (only on a merge to main) ---
+      - name: Log in to GitHub Container Registry
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: ./backend
-          push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/dfir-backend:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/dfir-backend:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: Publish images to ghcr.io (main)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          set -e
+          for img in backend endpoint-manager endpoint-linux; do
+            : # images are tagged by compose build with the SHA refs above
+          done
+          docker push "$BACKEND_IMAGE"
+          docker push "$ENDPOINT_MANAGER_IMAGE"
+          docker push "$ENDPOINT_IMAGE"
+          # convenience latest tags (never used as a CI test target)
+          docker tag "$BACKEND_IMAGE" "ghcr.io/${{ github.repository_owner }}/framework-backend:latest"
+          docker push "ghcr.io/${{ github.repository_owner }}/framework-backend:latest"
+          docker tag "$ENDPOINT_IMAGE" "ghcr.io/${{ github.repository_owner }}/framework-endpoint-linux:latest"
+          docker push "ghcr.io/${{ github.repository_owner }}/framework-endpoint-linux:latest"
+          docker tag "$ENDPOINT_MANAGER_IMAGE" "ghcr.io/${{ github.repository_owner }}/framework-endpoint-manager:latest"
+          docker push "ghcr.io/${{ github.repository_owner }}/framework-endpoint-manager:latest"

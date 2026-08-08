@@ -226,3 +226,13 @@ detection/.env.txt
 backend/reports/
 detection/.env.txt
 detection/.env.txt
+
+# Local MITRE ATT&CK STIX reference clone (dfir-refs) — 442MB / 43k files,
+# needed only at runtime; fetch separately and mount into the backend container.
+dfir-refs/
+eicar-test.com
+prompt.txt
+dfir.db
+backend/dfir.db
+Internship_Subject_DFIR.pdf
+backend/reports (1).py

@@ -559,9 +559,19 @@ From an empty state, in order:
 
 | # | Issue | Impact | Recommendation |
 |---|---|---|---|
-| 1 | BUG-1..6 unapplied | Pipeline incomplete / hangs / 500s | Apply the documented minimal fixes (each is 1-15 lines) |
+| 1 | ~~BUG-1..6 unapplied~~ | ~~Pipeline incomplete / hangs / 500s~~ | **Fixed in §4; all applied and verified.** |
 | 2 | No migrations | Future model changes break existing DBs | Add the startup schema check; adopt a tiny migration pattern |
-| 3 | Non-root collector | Missing persistence/scheduled_task data; ausearch hangs | Run collector as root/sudo, or apply BUG-1/BUG-3 guards |
+| 3 | ~~Non-root collector~~ | ~~Missing persistence/scheduled_task data; ausearch hangs~~ | **BUG-1/BUG-3 guards applied** — run collector as root/sudo only if full coverage is wanted |
 | 4 | Committed secrets | Key exposure | Remove `detection/.env.txt` from git + rotate keys |
-| 5 | Agent YARA off | file_scan detects hashes only on live endpoints | If desired, add `yara-python` to collector deps and ship rules |
+| 5 | ~~Agent YARA off~~ | ~~file_scan detects hashes only on live endpoints~~ | **RESOLVED 2026-08-08:** orchestrated scans pass `--yara-rules`; collector extracts exe paths from cron/scheduled-task entries; rules shipped in the endpoint image |
 | 6 | Endpoint name vs hostname coupling | Report scoping fragile | Keep `endpoint.name` == collector hostname, or filter reports by hostname explicitly |
+
+**Post-audit improvement note (2026-08-08):** the MITRE ATT&CK STIX dataset is now
+provided via `dfir-refs/` (cloned `github.com/mitre/cti`) and mounted into the backend
+container (`/dfir/stix/enterprise-attack.json`, read-only; `DFIR_STIX_PATH` env var).
+`attck_mapper.py` resolves the bundle via env override or known candidate paths, so
+detections are enriched with real ATT&CK names/tactics in the container. The dashboard
+and PDF report additionally expose an **attack-chain reconstruction** (techniques ordered
+by ATT&CK tactic) and **recommended actions** per detected technique — see
+`backend/attack_chain.py`, `GET /detections/chain`, dashboard "Attack Chain Reconstruction"
+/ "Recommended Actions" panels, and PDF report section 5.

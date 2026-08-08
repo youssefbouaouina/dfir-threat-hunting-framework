@@ -61,10 +61,26 @@ def _push_records(push_url: str, records: list, artifact_type: str) -> None:
         print(f"[!] Push failed for {artifact_type}: {e}")
 
 
-def _extract_exe_paths(process_records: list, persistence_records: list) -> set:
+def _extract_exe_paths(process_records: list, persistence_records: list, scheduled_task_records: list = None) -> set:
     """Pulls every plausible executable path out of already-collected
-    process and persistence artifacts, so file_scan knows what to hash/scan."""
+    process, persistence and scheduled-task artifacts, so file_scan knows
+    what to hash/scan.
+
+    Sources, in priority order:
+      - process records: their exe path
+      - persistence value_data: registry Run-key style values
+      - persistence entry lines: crontab/rc.local lines, where the first
+        absolute path token after the schedule columns is the target
+      - scheduled_task records: task_to_run / raw command fields
+    """
     paths = set()
+
+    def _add_if_absolute(candidate: str):
+        candidate = candidate.strip('"')
+        if not candidate:
+            return
+        if os.path.isabs(candidate) or (len(candidate) > 2 and candidate[1] == ":"):
+            paths.add(candidate)
 
     for record in process_records:
         exe = record.get("data", {}).get("exe")
@@ -77,9 +93,26 @@ def _extract_exe_paths(process_records: list, persistence_records: list) -> set:
         # Take a naive best-effort first token if it looks like a real path.
         value_data = data.get("value_data")
         if isinstance(value_data, str) and value_data:
-            candidate = value_data.strip('"').split(" ")[0].strip('"')
-            if os.path.isabs(candidate) or (len(candidate) > 2 and candidate[1] == ":"):
-                paths.add(candidate)
+            _add_if_absolute(value_data.split(" ")[0])
+        # crontab / rc.local lines: the schedule is the leading columns
+        # (m h dom mon dow [user]), everything after is the command.
+        entry = data.get("entry")
+        if isinstance(entry, str) and entry.strip():
+            tokens = entry.split()
+            # cron: >=6 tokens with the 6th being a user or command
+            if len(tokens) >= 6:
+                command_tokens = tokens[5:] if not data.get("type") == "rc.local" else tokens
+                for tok in command_tokens:
+                    if tok.startswith("/") or (len(tok) > 2 and tok[1] == ":"):
+                        _add_if_absolute(tok.split("(")[0].strip())
+                        break
+
+    for record in (scheduled_task_records or []):
+        data = record.get("data", {})
+        for field in ("task_to_run", "raw", "command"):
+            val = data.get(field)
+            if isinstance(val, str) and val:
+                _add_if_absolute(val.split(" ")[0])
 
     return paths
 
@@ -118,6 +151,9 @@ def run_collection(output_dir: str = "output", only: list = None, yara_rules_dir
             print(f"[*] Running: {key}")
             try:
                 records = func()
+                if key == "scheduled_tasks":
+                    # file_scan reuses scheduled-task paths, so keep them in memory.
+                    collected[key] = records
                 write_json(os.path.join(run_dir, filename), records)
                 if push_url:
                     _push_records(push_url, records, key)
@@ -128,7 +164,9 @@ def run_collection(output_dir: str = "output", only: list = None, yara_rules_dir
         print("[*] Running: file_scan")
         try:
             exe_paths = _extract_exe_paths(
-                collected.get("processes", []), collected.get("persistence", [])
+                collected.get("processes", []),
+                collected.get("persistence", []),
+                collected.get("scheduled_tasks", []),
             )
             print(f"[*] {len(exe_paths)} unique executable path(s) to hash/scan")
             records = collect_file_scans(exe_paths, yara_rules_dir=yara_rules_dir)

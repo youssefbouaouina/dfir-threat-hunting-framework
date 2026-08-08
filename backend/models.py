@@ -72,12 +72,19 @@ class Endpoint(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True, nullable=False)   # friendly label, e.g. "win10-vm01"
-    ip_address = Column(String, nullable=False)
+    ip_address = Column(String, nullable=True)                        # required for "vm", auto-set for "container"
     os = Column(String, nullable=False)                                # "windows" | "linux"
+    backend_type = Column(String, default="vm")                        # "vm" (SSH) | "container" (docker-managed)
+    container_name = Column(String, nullable=True, unique=True)        # docker container name for container endpoints
+    image = Column(String, nullable=True)                              # image reference for container endpoints
+    registration_status = Column(String, default="registered")        # "registered" | "pending" | "failed"
+    agent_version = Column(String, nullable=True)                     # collector version last reported via ingest
+    last_heartbeat = Column(DateTime(timezone=True), nullable=True)   # last successful ingest for this endpoint
+    last_ip_address = Column(String, nullable=True)                    # IP the collector reported from last time
     ssh_port = Column(Integer, default=22)
-    ssh_username = Column(String, nullable=False)
-    ssh_key_path = Column(String, nullable=False)                       # path inside the container, mounted read-only volume
-    remote_collector_path = Column(String, nullable=False)              # where the collector lives on the endpoint
+    ssh_username = Column(String, nullable=True)
+    ssh_key_path = Column(String, nullable=True)                       # path inside the container, mounted read-only volume
+    remote_collector_path = Column(String, nullable=True)              # where the collector lives on the endpoint
     enabled = Column(Integer, default=1)                                 # 0 = registered but excluded from auto cycles
     status = Column(String, default="unknown")                          # "online" | "offline" | "unknown"
     last_error = Column(Text, nullable=True)                             # last scan failure reason, shown on the dashboard so failures aren't silent

@@ -23,6 +23,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 import models
+from attack_chain import build_attack_chain, summary_recommendations
 from attck_mapper import enrich_technique
 from database import get_db
 from hash_checker import check_file_scan_artifacts
@@ -176,4 +177,18 @@ def detections_summary(db: Session = Depends(get_db)):
         "by_technique": by_technique,
         "by_severity": by_severity,
         "by_host": by_host,
+    }
+
+
+@router.get("/detections/chain")
+def detection_chain(host: str | None = None, db: Session = Depends(get_db)):
+    """Reconstructed attack chain from currently stored detections, ordered by
+    ATT&CK tactic. Optional `host` filter scopes the chain to one endpoint."""
+    query = db.query(models.Detection)
+    if host:
+        query = query.filter(models.Detection.host == host)
+    rows = query.order_by(models.Detection.detected_at).all()
+    return {
+        "chain": build_attack_chain(rows),
+        "recommended_actions": summary_recommendations(rows),
     }

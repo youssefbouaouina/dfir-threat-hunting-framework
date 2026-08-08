@@ -1,9 +1,20 @@
-version: "3.9"
+x-endpoint-config: &endpoint-config
+  ENDPOINT_MANAGER_TOKEN: ${ENDPOINT_MANAGER_TOKEN:-change-me-local-dev-token}
+  ENDPOINT_IMAGE: ${ENDPOINT_IMAGE:-ghcr.io/dfir-threat-hunting-framework/framework-endpoint-linux:latest}
+  ENDPOINT_PUSH_URL: ${ENDPOINT_PUSH_URL:-http://backend:8000}
+
+networks:
+  dfir-internal:
+    driver: bridge
+    # Pinned (no project prefix) so the endpoint-manager can place endpoint
+    # containers on the same network using the service name "dfir-internal".
+    name: dfir-internal
 
 services:
   backend:
     build:
       context: ./backend
+    image: ${BACKEND_IMAGE:-dfir-backend:local}
     container_name: dfir_backend_V5
     ports:
       - "8000:8000"
@@ -13,13 +24,27 @@ services:
       # every restart would wipe your detection history.
       - dfir-data:/app/data
       - dfir-reports:/app/reports
-      # SSH private keys for reaching out to registered endpoints.
+      # MITRE ATT&CK STIX bundle (dfir-refs, cloned from github.com/mitre/cti)
+      # mounted read-only so ATT&CK name/tactic enrichment works offline in
+      # the container. Mount only the bundle we need, not the whole repo.
+      - ./dfir-refs/cti/enterprise-attack:/dfir/stix:ro
+      # SSH private keys for reaching out to registered VM endpoints.
       # Bind-mounted read-only from the host, NOT a named volume — these
       # are real secrets, keep them on disk under your control, never
       # baked into the image or committed to git.
       - ./backend/ssh_keys:/app/ssh_keys:ro
     env_file:
       - ./backend/.env   # ABUSEIPDB_API_KEY, DETECTION_INTERVAL_SECONDS, etc. — not committed to git
+    environment:
+      <<: *endpoint-config
+      ENDPOINT_MANAGER_URL: ${ENDPOINT_MANAGER_URL:-http://endpoint-manager:8001}
+      ENDPOINT_MANAGER_NETWORK: ${ENDPOINT_MANAGER_NETWORK:-dfir-internal}
+      # VMs reach the backend via the host IP; containers use the service name
+      BACKEND_PUSH_URL: ${BACKEND_PUSH_URL:-http://192.168.50.1:8000}
+      # Point the ATT&CK mapper at the volume-mounted bundle.
+      DFIR_STIX_PATH: /dfir/stix/enterprise-attack.json
+    networks:
+      - dfir-internal
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
@@ -27,6 +52,42 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+
+  # The ONLY service with Docker socket access. The backend never mounts the
+  # socket; it talks to this service over the private network with a token.
+  endpoint-manager:
+    build:
+      context: ./endpoint-manager
+    image: ${ENDPOINT_MANAGER_IMAGE:-dfir-endpoint-manager:local}
+    container_name: dfir_endpoint_manager
+    environment:
+      ENDPOINT_MANAGER_TOKEN: ${ENDPOINT_MANAGER_TOKEN:-change-me-local-dev-token}
+      ALLOWED_IMAGES: ${ALLOWED_IMAGES:-}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - dfir-internal
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # Build-only service that produces the Linux endpoint simulation image.
+  # It starts, runs `true`, and exits immediately (restart: "no"); its only
+  # job is to make `docker compose up --build -d` build the image so the
+  # endpoint-manager can create endpoint containers from it.
+  endpoint-linux:
+    build:
+      context: .
+      dockerfile: endpoint-images/linux/Dockerfile
+    image: ${ENDPOINT_IMAGE:-ghcr.io/dfir-threat-hunting-framework/framework-endpoint-linux:latest}
+    command: ["true"]
+    restart: "no"
+    networks:
+      - dfir-internal
 
 volumes:
   dfir-data:
