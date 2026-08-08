@@ -13,9 +13,9 @@ Stage project — Youssef Bouaouina & Amen Ben Salah, Esprit (NEXTSTEP).
 - **Backend** ingests artifacts, runs the detection pipeline (Sigma-style rules, YARA
   results, known-bad hash matching, network IOC correlation, ATT&CK enrichment), generates
   PDF investigation reports, and serves a dashboard.
-- **Endpoint management** (this phase): Linux test endpoints can be simulated as
-  unprivileged containers and managed from the dashboard (create/start/stop/restart/scan/
-  delete), while Linux and Windows VMs remain supported via SSH orchestration.
+- **Endpoint management**: Linux test endpoints can be simulated as unprivileged containers
+  and managed from the dashboard (create/start/stop/restart/scan/delete), while Linux and
+  Windows VMs remain supported via SSH orchestration.
 
 ## Architecture
 
@@ -35,39 +35,38 @@ Linux endpoint containers (backend_type="container")   (backend_type="vm")
 ```
 
 Design documents live in `docs/`:
-- `ARCHITECTURE_ANALYSIS.md`
-- `LINUX_CONTAINER_FEASIBILITY.md`
-- `WINDOWS_CONTAINER_FEASIBILITY.md`
-- `ARCHITECTURE_DECISION.md`
-- `ENDPOINT_MANAGEMENT_DESIGN.md`
-- `CICD_ARCHITECTURE.md`
+- `ARCHITECTURE_ANALYSIS.md`, `ARCHITECTURE_DECISION.md`
+- `LINUX_CONTAINER_FEASIBILITY.md`, `WINDOWS_CONTAINER_FEASIBILITY.md`
+- `ENDPOINT_MANAGEMENT_DESIGN.md`, `CICD_ARCHITECTURE.md`
+- `TECHNICAL_REPORT.md` (internship §7 deliverable)
+- `DEMO_PRESENTATION.md` (defense outline), `demo_scenario.md` (run-through),
+  `RULESET_DOCUMENTATION.md` (YARA + Sigma rules)
 
-## Requirements
+## Prerequisites
 
-- Docker with Compose
-- Python 3.12+ (only for local tooling like `push_samples.py`)
+- Docker with Compose v2 (`docker compose version`)
+- Bash (macOS/Linux; Git Bash or WSL on Windows) — needed for `scripts/fetch-stix.sh`
+- Python 3.12+ (only for local tooling like `backend/push_samples.py` and unit tests)
 
-## Quick start
+## Quick start (fresh clone)
 
 ```bash
-# 1. Clone and configure
+# 1. Clone
 git clone <repo-url>
 cd dfir-threat-hunting-framework
 
-# 2. Create backend/.env (optional keys; ABUSEIPDB is optional)
-cp backend/.env.example backend/.env   # if provided, otherwise create:
-# ABUSEIPDB_API_KEY=...
-# DETECTION_INTERVAL_SECONDS=30
+# 2. Environment configuration
+cp backend/.env.example backend/.env
 
-# 3. (Optional, VM endpoints only) place SSH keys
-#    backend/ssh_keys/dfir_orchestrator_key  (+ .pub)
+# 3. ATT&CK/STIX data (needed for ATT&CK enrichment + attack-chain visualization)
+bash scripts/fetch-stix.sh
 
 # 4. Build and start
 docker compose up --build -d
 
 # 5. Verify
-curl http://127.0.0.1:8000/health          # {"status":"ok"}
-curl http://127.0.0.1:8000/scheduler/status
+curl http://127.0.0.1:8000/health          # -> {"status":"ok"}
+curl http://127.0.0.1:8000/scheduler/status # -> 3 scheduler jobs
 open  http://127.0.0.1:8000/dashboard
 ```
 
@@ -88,8 +87,10 @@ curl -X POST http://127.0.0.1:8000/endpoints \
       }'
 ```
 
-The backend asks the `endpoint-manager` service to create the container, then registers
-it. You can then Start / Stop / Restart / Scan / Delete it from the dashboard.
+The image can be omitted — the endpoint image built by this repo (the `endpoint-linux`
+compose service) is used by default. The backend asks the `endpoint-manager` service to
+create the container, then registers it. Start / Stop / Restart / Scan / Delete it from
+the dashboard afterwards.
 
 ### VM endpoint (Linux or Windows, SSH-managed)
 
@@ -108,8 +109,14 @@ curl -X POST http://127.0.0.1:8000/endpoints \
       }'
 ```
 
-The collector runs natively on the VM (see `AUDIT_AND_SETUP_GUIDE.md` for full VM setup).
-Windows VMs use `os_type="windows"` and the same SSH transport.
+The collector runs natively on the VM. Windows VMs use `os_type="windows"` and the same SSH
+transport. Full VM setup in `AUDIT_AND_SETUP_GUIDE.md`.
+
+## Demo / evidence
+
+A full, reproducible end-to-end run (fresh clone → endpoint → detection → report) is in
+`docs/demo_scenario.md`. An attack simulation using the EICAR test file is documented there
+too.
 
 ## Testing
 
@@ -118,11 +125,17 @@ Windows VMs use `os_type="windows"` and the same SSH transport.
 cd backend && python -m pytest tests/ -q
 
 # lint
-ruff check backend collector
+ruff check backend endpoint-manager backend/tests
 
-# integration lifecycle test (needs docker compose)
+# compose validation
+docker compose config -q
+
+# integration lifecycle test (needs a running compose stack — see note below)
 bash tests/integration/run_integration.sh
 ```
+
+The integration test needs the compose stack up first (`docker compose up -d --build`).
+CI builds and runs it on every push.
 
 ## CI/CD
 
@@ -132,8 +145,16 @@ bash tests/integration/run_integration.sh
 2. Backend unit tests (pytest)
 3. Build backend + endpoint images (tagged with the git SHA)
 4. Trivy security scan
-5. Integration test: backend + endpoint-manager + a real Linux endpoint container —
-   create endpoint → heartbeat → scan → ingest → detect → report → stop → start → recovery
-6. Publish to ghcr.io on `main` (SHA + convenience tag)
+5. Integration test: backend + endpoint-manager + a real Linux endpoint container
+6. Publish to ghcr.io on main
 
 Cost: **$0/month** (GitHub Actions on a public repo + ghcr.io + open-source tools).
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| `docker compose up` fails with `env file .../.env not found` | run `cp backend/.env.example backend/.env` |
+| Dashboard shows raw ATT&CK names everywhere / enrichment Nones | run `bash scripts/fetch-stix.sh` and restart the backend |
+| Endpoint container won't start | ensure the `endpoint-linux` image is built (`docker compose build endpoint-linux`) |
+| Port 8000 busy | set another host port in a `docker-compose.override.yml`, or stop the conflicting service |
